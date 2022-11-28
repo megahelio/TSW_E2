@@ -1,0 +1,132 @@
+body{
+    margin: 0;
+    padding: 0;
+    font-family: 'Montserrat', sans-serif;
+    background-image: url("../Imgs/login3.jpeg");
+}
+
+.formularioAddEdit{
+    position:absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 400px;
+    background: white;
+    border-radius: 10px;
+}
+
+.usuarioactual{
+    display: block;
+    position: absolute;
+    top: 90px;
+    flex-direction: row;
+    justify-content: left;
+    list-style: none;
+    text-align: left;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
+    font-size: 16px;
+    color: #CE7D35;
+}
+#botonAjuste {
+    border: none;
+    background-color:#FFFFFF;
+}
+
+.dropdown {
+    position: relative;
+    display: inline-block;
+    text-align: center;
+    
+}
+
+  
+  .dropdown .dropbtn {
+    font-size: 14px;  
+    border: none;
+    outline: none;
+    color: rgb(0, 0, 0);
+    padding: 14px 16px;
+    background-color: inherit;
+    font-family: inherit;
+    margin: 0;
+}
+  
+.languagechooser a:hover, .dropdown:hover .dropbtn {
+    background-color: #ffffff;
+    color: black;
+}
+  
+.dropdown-content {
+    display: none;
+    position: absolute;
+    min-width: 5px;
+    max-width: 80px;
+    background-color: #f9f9f9;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+    overflow: auto;
+}
+  
+.dropdown-content a {
+    float: none;
+    color: #CE7D35;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    text-align: left;
+}
+  
+.dropdown-content a:hover {
+    background-color: #ddd;
+}
+  
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+
+.formularioAddEdit h1{
+    text-align: center;
+    padding: 0 0 20px 0;
+    border-bottom: 1px solid silver;
+}
+
+.formularioAddEdit form{
+    padding: 0 40px;
+    box-sizing: border-box;
+}
+
+form .campoformulario{
+    position: relative;
+    border-bottom: 2px solid #adadad;
+    margin: 23px 0;
+}
+
+.campoformulario input{
+    width: 100%;
+    padding: 0 5px;
+    height: 40px;
+    font-size: 16px;
+    border: none;
+    background: none;
+    outline: none;
+}
+
+input[type="submit"] {
+    width: 100%;
+    height: 45px;
+    border: 1px solid;
+    background: #ff8000;
+    border-radius: 25px;
+    font-size: 18px;
+    color: white;
+    cursor: pointer;
+    outline: none;
+    margin-bottom: 10px;
+}
+
+input[type="submit"]:hover {
+    border-color: purple;
+    transition: .5s;
+}

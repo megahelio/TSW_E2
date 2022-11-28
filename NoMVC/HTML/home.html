@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="../CSS/home.css">
+    
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+
+</head>
+
+<body>
+    
+    <div class="mainDiv">
+
+        <div class="charts">
+            <div class="chart1" id="chart1">
+
+            </div>
+            <div class="chart2" id="chart2">
+
+            </div>
+        </div>
+
+    </div>
+
+    <!-- scripts para las graficas -->
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const chart = Highcharts.chart('chart1', {
+                chart: {
+                    type: 'bar'
+                },
+                title: {
+                    text: 'Fruit Consumption'
+                },
+                xAxis: {
+                    categories: ['Apples', 'Bananas', 'Oranges']
+                },
+                yAxis: {
+                    title: {
+                        text:  'Fruit eaten'
+                    }
+                },
+                series: [{
+                    name: 'Jane',
+                    data: [1, 0, 4]
+                }, {
+                    name: 'John',
+                    data: [5, 7, 3]
+                }]
+            });
+        });
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const chart = Highcharts.chart('chart2', {
+                chart: {
+                    type: 'pie'
+                },
+                title: {
+                    text: 'Fruit Consumption'
+                },
+                xAxis: {
+                    categories: ['Apples', 'Bananas', 'Oranges']
+                },
+                yAxis: {
+                    title: {
+                        text: 'Fruit eaten'
+                    }
+                },
+                series: [{
+                    name: 'Jane',
+                    data: [1, 0, 4]
+                }, {
+                    name: 'John',
+                    data: [5, 7, 3]
+                }]
+            });
+        });
+    </script>
+
+</body>
+
+</html>

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <script src="todocontroller.js"></script>
+    <style>
+        #todos {
+            list-style-type: none;
+        }
+        
+        .todo-item {
+            padding-top: 10px;
+            padding-bottom: 10px;
+            vertical-align: middle;
+        }
+        
+        .todo-item span {
+            cursor: pointer;
+        }
+        
+        .todo-item input {
+            float: right;
+        }
+        
+        .todo-item.done {
+            background-color: lightgrey;
+        }
+        
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+
+<body onload="todocontroller.init()">
+    <h1>Todo List</h1>
+    <ul id="todos">
+    </ul>
+    <form>
+        Name: <input type="text" id="todo-name"><br> Description:
+        <br>
+        <textarea id="todo-description"></textarea><br>
+
+        <input type="button" id="add-button" value="Add"></input>
+
+    </form>
+</body>
+
+</html>

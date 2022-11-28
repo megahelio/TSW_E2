@@ -1,0 +1,352 @@
+h2, h3, p {
+    font-family: 'Montserrat', sans-serif;
+}
+
+h2 {
+    font-size: 25px;
+}
+
+h3 {
+    font-size: 15px;
+}
+
+p {
+    font-size: 15px;
+}
+
+
+
+body {
+    width: 100%;
+    margin: 0%;
+    align-items: center;
+    display: grid;
+    grid-template-areas:
+        "header"
+        "presentacion"
+        "registro"
+        "TituloAboutUs"
+        "AboutUs"
+        "footer"
+    ;
+}
+
+
+
+#presentacion {
+    grid-area: presentacion;
+    min-height: 100vh;
+    width: 100%;
+    margin-bottom: 5%;
+    background-repeat: no-repeat;
+    background-color: bisque;
+    background-size: cover;
+    background-image: url("../Imgs/backIndex.jpg");
+}
+
+#presentacion>h1 {
+    text-shadow: 5px 5px 5px black;
+    color: #ffffff;
+    margin-top: 5%;
+    margin-right: 25%;
+    padding: 2%;
+    padding-left: 7%;
+    font-family: 'PT', sans-serif;
+    font-size: 35px;
+}
+
+#presentacion>p {
+    text-shadow: 3px 3px 3px black;
+    color: #ffffff;
+    margin-top: 5%;
+    margin-right: 20%;
+    padding: 1%;
+    padding-left: 7%;
+    font-family: 'PT', sans-serif;
+    font-size: 10px;
+}
+
+#registrateya {
+    display: block;
+    background-color: #4c4c4c;
+    border-radius: 20px;
+    margin-left: 5%;
+    margin-right: 5%;
+    margin-bottom: 6%;
+    padding-bottom: 10%;
+    grid-area: registro;
+}
+
+#registrateya>h2 {
+    margin-bottom: 10%;
+    flex-wrap: nowrap;
+    padding-left: 10%;
+
+
+}
+
+#registrateya>a {
+
+    border-radius: 40px;
+    background-color: #CE7D35;
+    margin-left: 35%;
+    padding: 5%;
+    font-family: 'Montserrat', sans-serif;
+    font-size: large;
+    text-decoration: none;
+
+}
+
+
+
+#AboutUs {
+
+    margin-bottom: 5%;
+    width: 100%;
+    grid-area: TituloAboutUs;
+}
+
+#AboutUs>h2 {
+    background-color: #999999;
+    border-radius: 20px;
+    margin-left: 20%;
+    margin-right: 20%;
+    padding-left: 20%;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 30px;
+
+}
+
+.miembroDelEquipo {
+
+    margin: 5%;
+    align-items: center;
+    justify-content: space-between;
+    max-width: 33%;
+
+}
+
+
+#miembros {
+    border-radius: 10px;
+    background-color: #999999;
+    grid-area: AboutUs;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    flex-wrap: nowrap;
+    align-items: center;
+
+
+}
+
+.fotoMiembro {
+    width: 5cm;
+    height: 10cm;
+}
+
+.boton {
+    width: 100%;
+    height: 50px;
+    border: 1px solid;
+    background: #ff8000;
+    border-radius: 12px;
+    font-size: 18px;
+    color: white;
+    cursor: pointer;
+    outline: none;
+}
+
+.boton:hover {
+    border-color: orangered;
+    transition: .3s;
+}
+
+
+/* Small devices (tablets, 768px and up) */
+/* container width: 750 */
+@media (min-width: 768px) {
+
+    #miembros {
+
+        display: flex;
+        flex-direction: row;
+
+
+    }
+
+    .fotoMiembro {
+        width: 100%;
+        height: 10cm;
+    }
+
+
+    #presentacion {
+        grid-area: presentacion;
+        min-height: 100vh;
+        width: 100%;
+        margin-bottom: 5%;
+        background-repeat: no-repeat;
+        background-color: bisque;
+        background-size: cover;
+        background-image: url("../Imgs/backIndex.jpg");
+    }
+
+    #presentacion>h1 {
+        flex-wrap: nowrap;
+        display: flex;
+
+        text-shadow: 5px 5px 5px black;
+        color: hsl(0, 0%, 100%);
+        margin-top: 25%;
+        margin-right: 25%;
+        padding: 2%;
+        padding-left: 7%;
+        font-family: 'PT', sans-serif;
+        font-size: 45px;
+    }
+
+    #presentacion>p {
+        text-shadow: 3px 3px 3px black;
+        color: #ffffff;
+        margin-top: 14%;
+        margin-right: 20%;
+        padding: 1%;
+        padding-left: 7%;
+        font-family: 'PT', sans-serif;
+        font-size: 20px;
+    }
+
+}
+
+
+/* Medium devices (desktops, 992px and up) */
+/* container width: 970 */
+@media (min-width: 992px) {
+    body {
+
+        /* background-color: yellow; */
+        grid-template-columns: 2fr 2fr 2fr;
+        grid-template-areas:
+            "header header header"
+            "presentacion presentacion presentacion"
+            "TituloAboutUs TituloAboutUs TituloAboutUs"
+            "AboutUs AboutUs AboutUs"
+            "registro registro registro"
+            "footer footer footer";
+    }
+
+    #miembros {
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+    }
+
+    .linkocultable {
+        display: block;
+    }
+
+    .fotoMiembro {
+        width: 100%;
+        height: 10cm;
+    }
+
+    #presentacion {
+        grid-area: presentacion;
+        min-height: 100vh;
+        width: 100%;
+        margin-bottom: 5%;
+        background-repeat: no-repeat;
+        background-color: bisque;
+        background-size: cover;
+        background-image: url("../Imgs/backIndex.jpg");
+    }
+
+    #presentacion>h1 {
+        text-shadow: 5px 5px 5px black;
+        color: #ffffff;
+        margin-top: 5%;
+        margin-right: 25%;
+        padding: 2%;
+        padding-left: 7%;
+        font-family: 'PT', sans-serif;
+        font-size: 30px;
+    }
+
+    #presentacion>p {
+        text-shadow: 3px 3px 3px black;
+        color: #ffffff;
+        margin-top: 5%;
+        margin-right: 20%;
+        padding: 1%;
+        padding-left: 7%;
+        font-family: 'PT', sans-serif;
+        font-size: 10px;
+    }
+
+
+
+}
+
+/* Large devices (large desktops, 1200px and up) */
+/* container width: 1170px */
+@media (min-width: 1200px) {
+    body {
+
+        /* background-color: green; */
+        grid-template-columns: 2fr 2fr 2fr;
+        grid-template-areas:
+            "header header header"
+            "presentacion presentacion presentacion"
+            "TituloAboutUs TituloAboutUs TituloAboutUs"
+            "AboutUs AboutUs AboutUs"
+            "registro registro registro"
+            "footer footer footer";
+    }
+
+    #miembros {
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+    }
+
+
+
+    .fotoMiembro {
+        width: 100%;
+        height: 15cm;
+    }
+
+    #presentacion {
+        grid-area: presentacion;
+        min-height: 100vh;
+        width: 100%;
+        margin-bottom: 5%;
+        background-repeat: no-repeat;
+        background-color: bisque;
+        background-size: cover;
+        background-image: url("../Imgs/backIndex.jpg");
+    }
+
+    #presentacion>h1 {
+        text-shadow: 5px 5px 5px black;
+        color: #ffffff;
+        margin-top: 5%;
+        margin-right: 25%;
+        padding: 2%;
+        padding-left: 7%;
+        font-family: 'PT', sans-serif;
+        font-size: 70px;
+    }
+
+    #presentacion>p {
+        text-shadow: 3px 3px 3px black;
+        color: #ffffff;
+        margin-top: 5%;
+        margin-right: 20%;
+        padding: 1%;
+        padding-left: 7%;
+        font-family: 'PT', sans-serif;
+        font-size: 30px;
+    }
+}

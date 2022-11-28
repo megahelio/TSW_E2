@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <script src="todocontroller.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.6/handlebars.min.js"></script>
+    <style>
+        #todos {
+            list-style-type: none;
+        }
+        
+        .todo-item {
+            padding-top: 10px;
+            padding-bottom: 10px;
+            vertical-align: middle;
+        }
+        
+        .todo-item span {
+            cursor: pointer;
+        }
+        
+        .todo-item input {
+            float: right;
+        }
+        
+        .todo-item.done {
+            background-color: lightgrey;
+        }
+        
+        .hidden {
+            display: none;
+        }
+    </style>
+    
+    <script id="todo-list-template" type="text/x-handlebars-template">
+      {{#each this}}
+      <li id="todo-item-{{@index}}" class="todo-item {{#if done}}done{{/if}}">
+        <span class="name">{{name}}</span>
+        <input value="{{#if done}}Reopen{{else}}Close{{/if}}" id="done-item-{{@index}}" type="button">
+        <div class="description hidden">{{description}}</div>
+      </li>
+      {{/each}}
+    </script>
+</head>
+
+<body onload="todocontroller.init()">
+    <h1>Todo List</h1>
+    <ul id="todos">
+    </ul>
+    <form>
+        Name: <input type="text" id="todo-name"><br> Description:
+        <br>
+        <textarea id="todo-description"></textarea><br>
+
+        <input type="button" id="add-button" value="Add"></input>
+
+    </form>
+</body>
+
+</html>

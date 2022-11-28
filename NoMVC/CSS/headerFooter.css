@@ -1,0 +1,107 @@
+@font-face {
+    font-family: PT;
+    src: url('../fuentes/PT/PTSerif-Bold.ttf');
+    src: url('../fuentes/PT/PTSerif-BoldItalic.ttf');
+    src: url('../fuentes/PT/PTSerif-Italic.ttf');
+    src: url('../fuentes/PT/PTSerif-Regular.ttf');
+}
+
+.header {
+    background-color: white;
+    margin: 0%;
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 14px;
+
+    grid-area: header;
+}
+
+.iconoGH>img {
+    width: 60px;
+    height: 60px;
+}
+
+.linkocultable {
+    display: none;
+}
+
+
+#logoIMG {
+    height: 50px;
+    width: auto;
+}
+
+
+.links {
+    display: flex;
+    justify-content: flex-end;
+    list-style: none;
+}
+
+/* Asigna color y anula el subrayado tipico de los links */
+.link {
+    margin-right: 10px;
+    color: #4c4c4c;
+    text-decoration: none;
+}
+
+/* Transiciona el color del link al dado cuando pasas el cursor por encima */
+.link:hover {
+    color: #CE7D35;
+    transition: all .3s;
+    cursor: pointer;
+}
+
+
+
+#footer {
+    background-color: bisque;
+    margin: 0%;
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 14px;
+    grid-area: footer;
+
+
+}
+
+
+/* Small devices (tablets, 768px and up) */
+/* container width: 750 */
+@media (min-width: 768px) {
+
+    .linkocultable {
+        display: block;
+    }
+
+}
+
+/* Medium devices (desktops, 992px and up) */
+/* container width: 970 */
+@media (min-width: 992px) {
+
+    /* .linkocultable {
+        display: block;
+    } */
+}
+
+/* Large devices (large desktops, 1200px and up) */
+/* container width: 1170px */
+@media (min-width: 1200px) {
+
+    /* .linkocultable {
+        display: block;
+    } */
+}
