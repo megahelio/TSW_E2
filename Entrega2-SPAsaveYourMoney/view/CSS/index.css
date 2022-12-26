@@ -1,0 +1,185 @@
+h2, h3, p {
+    font-family: 'Montserrat', sans-serif;
+}
+
+h2 {
+    font-size: 25px;
+}
+
+h3 {
+    font-size: 15px;
+}
+
+p {
+    font-size: 15px;
+}
+
+
+
+body {
+    width: 100%;
+    height: 100vh;
+    margin: 0%;
+    align-items: center;
+}
+
+
+
+#presentacion {
+    
+    min-height: 100vh;
+    width: 100%;
+    margin-bottom: 0%;
+    background-repeat: no-repeat;
+    background-color: bisque;
+    background-size: cover;
+    background-image: url("../Imgs/backIndex.jpg");
+}
+
+#presentacion>h1 {
+    text-shadow: 5px 5px 5px black;
+    color: #ffffff;
+    margin-top: 0%;
+    margin-right: 25%;
+    padding: 2%;
+    padding-left: 7%;
+    font-family: 'PT', sans-serif;
+    font-size: 35px;
+}
+
+#presentacion>p {
+    text-shadow: 3px 3px 3px black;
+    color: #ffffff;
+    margin-top: 5%;
+    margin-right: 20%;
+    padding: 1%;
+    padding-left: 7%;
+    font-family: 'PT', sans-serif;
+    font-size: 10px;
+}
+
+
+
+/* Small devices (tablets, 768px and up) */
+/* container width: 750 */
+@media (min-width: 768px) {
+
+
+    #presentacion {
+        min-height: 100vh;
+        width: 100%;
+        
+        background-repeat: no-repeat;
+        background-color: bisque;
+        background-size: cover;
+        background-image: url("../Imgs/backIndex.jpg");
+    }
+
+    #presentacion>h1 {
+        flex-wrap: nowrap;
+        display: flex;
+
+        text-shadow: 5px 5px 5px black;
+        color: hsl(0, 0%, 100%);
+       
+        margin-right: 25%;
+        padding: 2%;
+        padding-left: 7%;
+        font-family: 'PT', sans-serif;
+        font-size: 45px;
+    }
+
+    #presentacion>p {
+        text-shadow: 3px 3px 3px black;
+        color: #ffffff;
+        margin-top: 14%;
+        margin-right: 20%;
+        padding: 1%;
+        padding-left: 7%;
+        font-family: 'PT', sans-serif;
+        font-size: 20px;
+    }
+
+}
+
+
+/* Medium devices (desktops, 992px and up) */
+/* container width: 970 */
+@media (min-width: 992px) {
+  
+
+    #presentacion {
+        grid-area: presentacion;
+        min-height: 100vh;
+        width: 100%;
+       
+        background-repeat: no-repeat;
+        background-color: bisque;
+        background-size: cover;
+        background-image: url("../Imgs/backIndex.jpg");
+    }
+
+    #presentacion>h1 {
+        text-shadow: 5px 5px 5px black;
+        color: #ffffff;
+        
+        margin-right: 25%;
+        padding: 2%;
+        padding-left: 7%;
+        font-family: 'PT', sans-serif;
+        font-size: 30px;
+    }
+
+    #presentacion>p {
+        text-shadow: 3px 3px 3px black;
+        color: #ffffff;
+        margin-top: 5%;
+        margin-right: 20%;
+        padding: 1%;
+        padding-left: 7%;
+        font-family: 'PT', sans-serif;
+        font-size: 10px;
+    }
+
+
+
+}
+
+/* Large devices (large desktops, 1200px and up) */
+/* container width: 1170px */
+@media (min-width: 1200px) {
+    
+
+
+    #presentacion {
+        min-height: 100vh;
+        width: 100%;
+       
+        background-repeat: no-repeat;
+        background-color: bisque;
+        background-size: cover;
+        background-image: url("../Imgs/backIndex.jpg");
+    }
+
+    #presentacion>h1 {
+        text-shadow: 5px 5px 5px black;
+        color: #ffffff;
+        
+        margin-right: 25%;
+        padding: 2%;
+        padding-left: 7%;
+        font-family: 'PT', sans-serif;
+        font-size: 70px;
+    }
+
+    #presentacion>p {
+        text-shadow: 3px 3px 3px black;
+        color: #ffffff;
+        margin-top: 5%;
+        margin-right: 20%;
+        padding: 1%;
+        padding-left: 7%;
+        font-family: 'PT', sans-serif;
+        font-size: 30px;
+    }
+}

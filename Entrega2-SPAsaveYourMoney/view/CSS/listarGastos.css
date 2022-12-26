@@ -1,0 +1,87 @@
+.header {
+    color: Black;
+    background-color: white;
+    margin: 0%;
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 14px;
+    grid-area: header;
+}
+
+#logoIMG {
+    height: 50px;
+    width: auto;
+}
+
+.tabla{
+    height: 550px;
+    width: 90%;
+    padding-left: 10%;
+    overflow-y: scroll;
+    font-family: 'Montserrat', sans-serif;
+}
+
+.tabla::-webkit-scrollbar {
+    width: 10px;
+
+    /* width of the entire scrollbar */
+}
+  
+.tabla::-webkit-scrollbar-track {
+    background: none;
+    /* color of the tracking area */
+  
+}
+  
+.tabla::-webkit-scrollbar-thumb {
+    background-color: #CE7D35;
+    /* color of the scroll thumb */
+    border-radius: 20px;
+    /* roundness of the scroll thumb */
+    border: none;
+    /* creates padding around scroll thumb */
+}
+
+.w3-container{
+    background-image: url("../Imgs/login2.jpeg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: 90vh;
+    text-align: center;
+}
+
+.colorLetraTabla :hover{
+    color: #CE7D35;
+    cursor: pointer;
+}
+
+.headerTabla{
+    color: #CE7D35;
+    table-layout: fixed;
+}
+
+th{
+    text-align: center;
+
+}
+
+thead{
+    position: sticky;
+    top:0;
+}
+
+.w3-table-all{
+    height: 10em;
+    line-height: 3em;
+}
+
+img{
+    height: 34px;
+    width: 35px;
+}
