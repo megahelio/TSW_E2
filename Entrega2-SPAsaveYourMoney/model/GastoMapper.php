@@ -1,14 +1,14 @@
 <?php
-// file: model/GastosMapper.php
+// file: model/GastoMapper.php
 
 require_once(__DIR__ . "/../core/PDOConnection.php");
 
 /**
- * Class GastosMapper
+ * Class GastoMapper
  *
  * Database interface for User entities
  */
-class GastosMapper
+class GastoMapper
 {
 
     /**

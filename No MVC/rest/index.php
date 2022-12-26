@@ -1,37 +1,35 @@
 <?php
 // Simple REST router
 
-try{
-	require_once(dirname(__FILE__)."/URIDispatcher.php");
+try {
+	require_once(dirname(__FILE__) . "/URIDispatcher.php");
 
 	// dinamically include Rest files (*Rest.php) in this directory
 	$files_in_script_dir = scandir(__DIR__);
-	foreach($files_in_script_dir as $filename) {
+	foreach ($files_in_script_dir as $filename) {
 		// if filename ends with *Rest.php
 		if (preg_match('/.*REST\\.PHP/', strtoupper($filename))) {
-			include_once(__DIR__."/".$filename);
+			include_once(__DIR__ . "/" . $filename);
 		}
 	}
 
 	//	error_reporting(E_ERROR);
-	print(isset($dispatcher));
 	$dispatcher = URIDispatcher::getInstance();
-	print(isset($dispatcher));
-	// enable CORS (allow other sites to use your API)
-	$dispatcher->enableCORS('*','origin, content-type, accept, authorization');
-	
-	$dispatched = $dispatcher->dispatchRequest();
 
+	// enable CORS (allow other sites to use your API)
+	$dispatcher->enableCORS('*', 'origin, content-type, accept, authorization');
+
+	$dispatched = $dispatcher->dispatchRequest();
+	print(isset($dispatcher));
 	if (!$dispatched) {
-		header($_SERVER['SERVER_PROTOCOL'].' 400 Bad request');
+		header($_SERVER['SERVER_PROTOCOL'] . ' 400 Bad request');
+		print_r($_SERVER);
+		print_r($_GET);
 		die("no dispatcher found for this request");
 	}
-
-} catch(Throwable $ex) {
-	header($_SERVER['SERVER_PROTOCOL'].' 500 Internal server error');
+} catch (Throwable $ex) {
+	header($_SERVER['SERVER_PROTOCOL'] . ' 500 Internal server error');
 	header("Content-Type: application/json");
 	die(json_encode(array("error" => $ex->getMessage())));
 }
 // debug
-//print_r($_SERVER);
-//print_r($_GET);

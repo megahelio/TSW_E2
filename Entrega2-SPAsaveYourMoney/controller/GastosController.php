@@ -5,7 +5,7 @@ require_once(__DIR__ . "/../core/I18n.php");
 
 require_once(__DIR__ . "/../model/User.php");
 require_once(__DIR__ . "/../model/Gasto.php");
-require_once(__DIR__ . "/../model/GastosMapper.php");
+require_once(__DIR__ . "/../model/GastoMapper.php");
 
 require_once(__DIR__ . "/../controller/BaseController.php");
 
@@ -27,13 +27,13 @@ class GastosController extends BaseController
      *
      * @var GastoMapper
      */
-    private $gastosMapper;
+    private $GastoMapper;
 
     public function __construct()
     {
         parent::__construct();
 
-        $this->gastosMapper = new GastosMapper();
+        $this->GastoMapper = new GastoMapper();
     }
 
 
@@ -215,7 +215,7 @@ class GastosController extends BaseController
 
         $tipos = (new Tipos)->tipos;
         $gastosData = array();
-        $gastos = $this->gastosMapper->findGastosByUsernameByDateRange($this->currentUser->getUsername(), $firstMonth, $lastMonth);;
+        $gastos = $this->GastoMapper->findGastosByUsernameByDateRange($this->currentUser->getUsername(), $firstMonth, $lastMonth);;
 
 
 
@@ -241,7 +241,7 @@ class GastosController extends BaseController
     public function listarGastos()
     {
 
-        $gastos = $this->gastosMapper->findGastosByUsername($this->currentUser->getUsername());
+        $gastos = $this->GastoMapper->findGastosByUsername($this->currentUser->getUsername());
 
         $this->view->setVariable("gastos", $gastos);
         $this->view->render("gastos", "listarGastos");
@@ -286,7 +286,7 @@ class GastosController extends BaseController
 
                 // save the Post object into the database
 
-                $this->gastosMapper->save($gasto);
+                $this->GastoMapper->save($gasto);
 
                 // POST-REDIRECT-GET
                 // Everything OK, we will redirect the user to the list of posts
@@ -313,10 +313,10 @@ class GastosController extends BaseController
     {
         $gasto = new Gasto();
         $gasto->setId($_REQUEST["id"]);
-        $gasto = $this->gastosMapper->findGastosById($gasto);
+        $gasto = $this->GastoMapper->findGastosById($gasto);
         //unlink("uploads/" . $gasto->getUuidFichero());
         $gasto->setUuidFichero(null);
-        $this->gastosMapper->update($gasto);
+        $this->GastoMapper->update($gasto);
 
         $this->view->setFlash(sprintf(i18n("Expending file \"%s\" successfully removed."), $gasto->getDescription()));
         $this->view->redirect("gastos", "listarGastos");
@@ -325,7 +325,7 @@ class GastosController extends BaseController
     {
         $gasto = new Gasto();
         $gasto->setId($_REQUEST["id"]);
-        $gasto = $this->gastosMapper->findGastosById($gasto);
+        $gasto = $this->GastoMapper->findGastosById($gasto);
 
         if (isset($_POST["tipo"])) {
             if ($gasto->getUsuario() != $this->currentUser) {
@@ -350,7 +350,7 @@ class GastosController extends BaseController
                 $gasto->setUuidFichero($RandomFileId);
             }
 
-            $this->gastosMapper->update($gasto);
+            $this->GastoMapper->update($gasto);
             $this->view->setFlash(sprintf(i18n("Expending \"%s\" successfully edited."), $gasto->getDescription()));
 
 
@@ -363,7 +363,7 @@ class GastosController extends BaseController
     {
         $gasto = new Gasto();
         $gasto->setId($_REQUEST["id"]);
-        $gasto = $this->gastosMapper->findGastosById($gasto);
+        $gasto = $this->GastoMapper->findGastosById($gasto);
 
         if ($gasto->getUsuario() != $this->currentUser) {
             //no puedo por lo que sea
@@ -371,7 +371,7 @@ class GastosController extends BaseController
             $this->view->redirect("gastos", "listarGastos");
         }
        
-        $this->gastosMapper->delete($gasto);
+        $this->GastoMapper->delete($gasto);
         unlink("uploads/" . $gasto->getUuidFichero());
         $this->view->setFlash(sprintf(i18n("Expending \"%s\" successfully deleted."), $gasto->getDescription()));
 
@@ -381,7 +381,7 @@ class GastosController extends BaseController
 
     public function DownloadCSV()
     {
-        $gastos = $this->gastosMapper->findGastosByUsername($this->currentUser->getUsername());
+        $gastos = $this->GastoMapper->findGastosByUsername($this->currentUser->getUsername());
         $data = "";
 
         foreach ($gastos as $gasto) :
