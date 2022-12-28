@@ -33,9 +33,9 @@ class GastoRest extends BaseRest
 
     public function getGastos()
     {
-        echo "funciona";
         $user="oscar";
         $gastos = $this->gastoMapper->findGastosByUsername($user);
+        //print_r($gastos);
 
         // json_encode Gasto objects.
         // since Gasto objects have private fields, the PHP json_encode will not
@@ -43,14 +43,15 @@ class GastoRest extends BaseRest
         // encode it finally
         $gastos_array = array();
         foreach ($gastos as $gasto) {
+            
             array_push($gastos_array, array(
-                "id" => $gasto->getId(),
-                "usuario" => $gasto->getUsuario(),
-                "tipo" => $gasto->getTipo(),
-                "cantidad" => $gasto->getCantidad(),
-                "fecha" => $gasto->getFecha(),
-                "description"=> $gasto->getDescription(),
-                "uuidFichero"=> $gasto->getUuidFichero()
+                "id" => $gasto["id"],
+                "usuario" => $gasto["usuario"],
+                "tipo" => $gasto["tipo"] ,
+                "cantidad" => $gasto["cantidad"] ,
+                "fecha" =>$gasto["fecha"] ,
+                "description"=> $gasto["descripcion"],
+                "uuidFichero"=>$gasto["fichero"]  
             ));
         }
 
@@ -58,6 +59,35 @@ class GastoRest extends BaseRest
         header('Content-Type: application/json');
         echo (json_encode($gastos_array));
     }
+
+    public function getGasto($data)
+    {
+        // find the Gasto object in the database
+        $gasto = $this->gastoMapper->findGastoById($data);
+
+        if ($gasto == NULL) {
+            header($_SERVER['SERVER_PROTOCOL'] . ' 400 Bad request');
+            echo ("Gasto with id " . $data . " not found");
+            return;
+        }
+
+        $gasto_array = array(
+            "id" => $gasto->getId(),
+            "usuario" => $gasto->getUsuario(),
+            "tipo" => $gasto->getTipo() ,
+            "cantidad" => $gasto->getCantidad() ,
+            "fecha" =>$gasto->getFecha() ,
+            "description"=> $gasto->getDescription(),
+            "uuidFichero"=>$gasto->getUuidFichero()  
+
+        );
+
+
+        header($_SERVER['SERVER_PROTOCOL'] . ' 200 Ok');
+        header('Content-Type: application/json');
+        echo (json_encode($gasto_array));
+    }
+
 /*
     public function createGasto($data)
     {
@@ -189,6 +219,7 @@ class GastoRest extends BaseRest
 $gastoRest = new GastoRest();
 URIDispatcher::getInstance()
     ->map("GET",    "/gasto", array($gastoRest, "getGastos"))
+    ->map("GET",    "/gasto/$1", array($gastoRest, "getGasto"))
     ->map("POST", "/gasto", array($gastoRest, "createGasto"))
     ->map("PUT",    "/gasto/$1", array($gastoRest, "updateGasto"))
     ->map("DELETE", "/gasto/$1", array($gastoRest, "deleteGasto"));

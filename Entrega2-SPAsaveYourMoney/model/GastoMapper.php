@@ -38,13 +38,16 @@ class GastoMapper
         $stmt->execute(array($gasto->getTipo(), $gasto->getCantidad(), $gasto->getFecha(), $gasto->getDescription(), $gasto->getUuidFichero(), $gasto->getId()));
     }
 
-    public function findGastosById($gasto)
+    public function findGastoById($id)
     {
+       
         $stmt = $this->db->prepare("SELECT * FROM gastos where id=?");
-        $stmt->execute(array($gasto->getId()));
+        $stmt->execute(array($id));
 
         $gasto = $stmt->fetch(PDO::FETCH_ASSOC);
+
         if ($gasto != null) {
+            
             return new Gasto(
                 $gasto["id"],
                 new User($gasto["usuario"]),
