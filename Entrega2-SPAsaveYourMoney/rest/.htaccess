@@ -5,7 +5,7 @@ RewriteEngine On
 # in http://host/mvcblog. If you are serving in, for example:
 # http://host/dir/subdir, change the RewriteBase to:
 # RewriteBase /dir/subdir/rest
-RewriteBase /mvcblog/rest
+RewriteBase /Entrega2-SPAsaveYourMoney/rest
 
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteCond %{REQUEST_FILENAME} !-f

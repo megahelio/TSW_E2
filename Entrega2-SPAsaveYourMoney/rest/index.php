@@ -20,7 +20,7 @@ try{
 	print(isset($dispatcher));
 	// enable CORS (allow other sites to use your API)
 	$dispatcher->enableCORS('*','origin, content-type, accept, authorization');
-	
+	 
 	$dispatched = $dispatcher->dispatchRequest();
 
 	if (!$dispatched) {
