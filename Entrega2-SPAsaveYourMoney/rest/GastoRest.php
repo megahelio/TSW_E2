@@ -33,29 +33,30 @@ class GastoRest extends BaseRest
 
     public function getGastos()
     {
-        $user="oscar";
-        $gastos = $this->gastoMapper->findGastosByUsername($user);
+        echo "funciona";
+        // $user="oscar";
+        // $gastos = $this->gastoMapper->findGastosByUsername($user);
 
-        // json_encode Gasto objects.
-        // since Gasto objects have private fields, the PHP json_encode will not
-        // encode them, so we will create an intermediate array using getters and
-        // encode it finally
-        $gastos_array = array();
-        foreach ($gastos as $gasto) {
-            array_push($gastos_array, array(
-                "id" => $gasto->getId(),
-                "usuario" => $gasto->getUsuario(),
-                "tipo" => $gasto->getTipo(),
-                "cantidad" => $gasto->getCantidad(),
-                "fecha" => $gasto->getFecha(),
-                "description"=> $gasto->getDescription(),
-                "uuidFichero"=> $gasto->getUuidFichero()
-            ));
-        }
+        // // json_encode Gasto objects.
+        // // since Gasto objects have private fields, the PHP json_encode will not
+        // // encode them, so we will create an intermediate array using getters and
+        // // encode it finally
+        // $gastos_array = array();
+        // foreach ($gastos as $gasto) {
+        //     array_push($gastos_array, array(
+        //         "id" => $gasto->getId(),
+        //         "usuario" => $gasto->getUsuario(),
+        //         "tipo" => $gasto->getTipo(),
+        //         "cantidad" => $gasto->getCantidad(),
+        //         "fecha" => $gasto->getFecha(),
+        //         "description"=> $gasto->getDescription(),
+        //         "uuidFichero"=> $gasto->getUuidFichero()
+        //     ));
+        // }
 
-        header($_SERVER['SERVER_PROTOCOL'] . ' 200 Ok');
-        header('Content-Type: application/json');
-        echo (json_encode($gastos_array));
+        // header($_SERVER['SERVER_PROTOCOL'] . ' 200 Ok');
+        // header('Content-Type: application/json');
+        // echo (json_encode($gastos_array));
     }
 /*
     public function createGasto($data)
