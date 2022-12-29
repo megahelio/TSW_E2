@@ -34,6 +34,7 @@ class GastoMapper
     }
     public function update($gasto)
     {
+       
         $stmt = $this->db->prepare("UPDATE gastos SET tipo= ?,cantidad = ?,fecha = ?,descripcion = ?,fichero = ? WHERE id = ?");
         $stmt->execute(array($gasto->getTipo(), $gasto->getCantidad(), $gasto->getFecha(), $gasto->getDescription(), $gasto->getUuidFichero(), $gasto->getId()));
     }

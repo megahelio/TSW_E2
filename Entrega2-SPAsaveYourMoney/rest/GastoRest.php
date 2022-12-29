@@ -88,22 +88,27 @@ class GastoRest extends BaseRest
         echo (json_encode($gasto_array));
     }
 
-/*
+
     public function createGasto($data)
     {
-        $currentUser = parent::authenticateUser();
+           
+        //$currentUser = parent::authenticateUser();
         $gasto = new Gasto();
 
-        if (isset($data->title) && isset($data->content)) {
-            $gasto->setTitle($data->title);
-            $gasto->setContent($data->content);
+        $gasto->setUsuario($data->usuario);
+        $gasto->setTipo($data->tipo);
+        $gasto->setCantidad($data->cantidad);
+        $gasto->setFecha($data->fecha);
+        $gasto->setDescription($data->descripcion);
+        $gasto->setUuidFichero($data->UuidFichero);
 
-            $gasto->setAuthor($currentUser);
-        }
+        //print_r($gasto);
+
+        
 
         try {
             // validate Gasto object
-            $gasto->checkIsValidForCreate(); // if it fails, ValidationException
+            $gasto->checkIsValidForAdd(); // if it fails, ValidationException
 
             // save the Gasto object into the database
             $gastoId = $this->gastoMapper->save($gasto);
@@ -113,9 +118,14 @@ class GastoRest extends BaseRest
             header('Location: ' . $_SERVER['REQUEST_URI'] . "/" . $gastoId);
             header('Content-Type: application/json');
             echo (json_encode(array(
-                "id" => $gastoId,
-                "title" => $gasto->getTitle(),
-                "content" => $gasto->getContent()
+                "id" => $gasto->getId(),
+                "usuario" => $gasto->getUsuario(),
+                "tipo" => $gasto->getTipo() ,
+                "cantidad" => $gasto->getCantidad() ,
+                "fecha" =>$gasto->getFecha() ,
+                "description"=> $gasto->getDescription(),
+                "uuidFichero"=>$gasto->getUuidFichero()  
+    
             )));
         } catch (ValidationException $e) {
             header($_SERVER['SERVER_PROTOCOL'] . ' 400 Bad request');
@@ -124,63 +134,38 @@ class GastoRest extends BaseRest
         }
     }
 
-    public function readGasto($gastoId)
+
+    public function updateGasto($gastoId, $data )
     {
-        // find the Gasto object in the database
-        $gasto = $this->gastoMapper->findByIdWithComments($gastoId);
+        //$currentUser = parent::authenticateUser();
+
+        $gasto = $this->gastoMapper->findGastoById($gastoId);
         if ($gasto == NULL) {
             header($_SERVER['SERVER_PROTOCOL'] . ' 400 Bad request');
             echo ("Gasto with id " . $gastoId . " not found");
             return;
         }
 
-        $gasto_array = array(
-            "id" => $gasto->getId(),
-            "title" => $gasto->getTitle(),
-            "content" => $gasto->getContent(),
-            "author_id" => $gasto->getAuthor()->getusername()
+        // // Check if the Gasto author is the currentUser (in Session)
+        // if ($gasto->getAuthor() != $currentUser) {
+        //     header($_SERVER['SERVER_PROTOCOL'] . ' 403 Forbidden');
+        //     echo ("you are not the author of this gasto");
+        //     return;
+        // }
 
-        );
+        $gastoUpdate = new Gasto();
 
-        //add comments
-        $gasto_array["comments"] = array();
-        foreach ($gasto->getComments() as $comment) {
-            array_push($gasto_array["comments"], array(
-                "id" => $comment->getId(),
-                "content" => $comment->getContent(),
-                "author" => $comment->getAuthor()->getusername()
-            ));
-        }
-
-        header($_SERVER['SERVER_PROTOCOL'] . ' 200 Ok');
-        header('Content-Type: application/json');
-        echo (json_encode($gasto_array));
-    }
-
-    public function updateGasto($gastoId, $data)
-    {
-        $currentUser = parent::authenticateUser();
-
-        $gasto = $this->gastoMapper->findById($gastoId);
-        if ($gasto == NULL) {
-            header($_SERVER['SERVER_PROTOCOL'] . ' 400 Bad request');
-            echo ("Gasto with id " . $gastoId . " not found");
-            return;
-        }
-
-        // Check if the Gasto author is the currentUser (in Session)
-        if ($gasto->getAuthor() != $currentUser) {
-            header($_SERVER['SERVER_PROTOCOL'] . ' 403 Forbidden');
-            echo ("you are not the author of this gasto");
-            return;
-        }
-        $gasto->setTitle($data->title);
-        $gasto->setContent($data->content);
+        $gastoUpdate->setId($gastoId);
+        $gastoUpdate->setTipo($data->tipo);
+        $gastoUpdate->setCantidad($data->cantidad);
+        $gastoUpdate->setFecha($data->fecha);
+        $gastoUpdate->setDescription($data->descripcion);
+        $gastoUpdate->setUuidFichero($data->UuidFichero);
 
         try {
             // validate Gasto object
-            $gasto->checkIsValidForUpdate(); // if it fails, ValidationException
-            $this->gastoMapper->update($gasto);
+            //$gasto->checkIsValidForAdd(); // if it fails, ValidationException
+            $this->gastoMapper->update($gastoUpdate);
             header($_SERVER['SERVER_PROTOCOL'] . ' 200 Ok');
         } catch (ValidationException $e) {
             header($_SERVER['SERVER_PROTOCOL'] . ' 400 Bad request');
@@ -191,27 +176,26 @@ class GastoRest extends BaseRest
 
     public function deleteGasto($gastoId)
     {
-        $currentUser = parent::authenticateUser();
-        $gasto = $this->gastoMapper->findById($gastoId);
+        //$currentUser = parent::authenticateUser();
+        $gasto = $this->gastoMapper->findGastoById($gastoId);
 
         if ($gasto == NULL) {
             header($_SERVER['SERVER_PROTOCOL'] . ' 400 Bad request');
             echo ("Gasto with id " . $gastoId . " not found");
             return;
         }
-        // Check if the Gasto author is the currentUser (in Session)
-        if ($gasto->getAuthor() != $currentUser) {
-            header($_SERVER['SERVER_PROTOCOL'] . ' 403 Forbidden');
-            echo ("you are not the author of this gasto");
-            return;
-        }
 
-        $this->gastoMapper->delete($gasto);
+        // Check if the Gasto author is the currentUser (in Session)
+        // if ($gasto->getAuthor() != $currentUser) {
+        //     header($_SERVER['SERVER_PROTOCOL'] . ' 403 Forbidden');
+        //     echo ("you are not the author of this gasto");
+        //     return;
+        // }
+
+        $this->gastoMapper->delete($gasto); 
 
         header($_SERVER['SERVER_PROTOCOL'] . ' 204 No Content');
     }
-
- */
 
 }
 
