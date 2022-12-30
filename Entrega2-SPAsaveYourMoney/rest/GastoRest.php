@@ -31,6 +31,7 @@ class GastoRest extends BaseRest
     }
     /**
      * Emite los gastos del usuario logeado o Forbiden
+     * @return json gastos del usuario logeado
      */
     public function getGastos()
     {
@@ -62,20 +63,40 @@ class GastoRest extends BaseRest
         echo (json_encode($gastos_array));
     }
 
+    /**
+     * Devuelve el gasto con el id que se pase como parámetro
+     * 
+     * @throws  400 Bad request -> no existe el id
+     * @throws  401 Unauthorized -> no hay usuario logeado
+     * @throws  403 Forbidden -> existe el id pero el usuario logeado es distinto al propietario del gasto
+     * 
+     * @param string $data id
+     * 
+     * @return 200 OK + json información del gasto -> existe el id y el usuario logeado es el propietario del gasto
+     */
     public function getGasto($data)
     {
+        //CurrentUser String
+        $currentUser = parent::authenticateUser()->getUsername();
         // find the Gasto object in the database
         $gasto = $this->gastoMapper->findGastoById($data);
+        //print_r($gasto);
 
+        //verificamos que el gasto existe
         if ($gasto == NULL) {
             header($_SERVER['SERVER_PROTOCOL'] . ' 400 Bad request');
-            echo ("Gasto with id " . $data . " not found");
-            return;
+            die("Gasto with id " . $data . " not found");
+        }
+
+        //verificamos que el gasto pertenece al usuario que lo solicita
+        if ($gasto->getUsuario()->getUsername() != $currentUser) {
+            header($_SERVER['SERVER_PROTOCOL'] . ' 401 Unauthorized');
+            die("Gasto with id " . $data . " not own by you: " . $currentUser);
         }
 
         $gasto_array = array(
             "id" => $gasto->getId(),
-            "usuario" => $gasto->getUsuario(),
+            "usuario" => $gasto->getUsuario()->getUsername(),
             "tipo" => $gasto->getTipo(),
             "cantidad" => $gasto->getCantidad(),
             "fecha" => $gasto->getFecha(),
@@ -175,24 +196,32 @@ class GastoRest extends BaseRest
             echo (json_encode($e->getErrors()));
         }
     }
+    /**
+     * Elimina el gasto con el id que se pasa como parámetro
+     * @throws  400 Bad request -> no existe el id
+     * @throws  401 Unauthorized -> no hay usuario logeado
+     * @throws  403 Forbidden -> existe el id pero el usuario logeado es distinto al propietario del gasto
+     * @param string $data id
+     * 
+     * @return 204 No Content -> existe el id y el usuario logeado es el propietario del gasto
+     */
 
     public function deleteGasto($gastoId)
     {
-        //$currentUser = parent::authenticateUser();
+        $currentUser = parent::authenticateUser()->getUsername();
         $gasto = $this->gastoMapper->findGastoById($gastoId);
 
+        //Si el id no existe
         if ($gasto == NULL) {
             header($_SERVER['SERVER_PROTOCOL'] . ' 400 Bad request');
-            echo ("Gasto with id " . $gastoId . " not found");
-            return;
+            die("Gasto with id " . $gastoId . " not found");
         }
 
-        // Check if the Gasto author is the currentUser (in Session)
-        // if ($gasto->getAuthor() != $currentUser) {
-        //     header($_SERVER['SERVER_PROTOCOL'] . ' 403 Forbidden');
-        //     echo ("you are not the author of this gasto");
-        //     return;
-        // }
+        //Check if the Gasto author is the currentUser (in Session)
+        if ($gasto->getUsuario()->getUsername() != $currentUser) {
+            header($_SERVER['SERVER_PROTOCOL'] . ' 403 Forbidden');
+            die("You (" . $currentUser . ") are not the author of this gasto.");
+        }
 
         $this->gastoMapper->delete($gasto);
 
