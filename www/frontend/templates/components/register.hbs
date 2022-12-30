@@ -1,0 +1,14 @@
+<div id="contenedor-registro">
+	<form id="formulario-registro">       
+		<h2 id="titulo-registro">{{i18n "Registrarse"}}</h2>
+		<input type="text" class="form-control" name="username" placeholder="Username">
+        <div class = 'texto-error'>{{#i18n}}{{registerErrors.username}}{{/i18n}}</div>
+		<input type="text" class="form-control" name="email" placeholder="Email" >
+        <div class = 'texto-error'>{{#i18n}}{{registerErrors.email}}{{/i18n}}</div>
+		<input type="password" class="form-control" name="password" placeholder="Password">      
+        <div class = 'texto-error'>{{#i18n}}{{registerErrors.passwd}}{{/i18n}}</div>
+		
+		<button id="boton-registro" type="submit">{{i18n "Registrarse"}}</button>   
+	</form>
+
+</div>

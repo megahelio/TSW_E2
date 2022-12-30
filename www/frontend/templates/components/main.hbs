@@ -1,0 +1,66 @@
+<div>
+<header>
+<div id="menu">
+    <div id="logoCompleto" class="imagenLogo"><img src="img/LogoNombreAzul.png" alt="LogoCompleto"></div>
+    <div id="logoReducido" class="imagenLogo"><img src="img/LogoAzul.png" alt="LogoCompleto"></div>
+    {{#if isLogged}}
+        <div class="seccion-usuario">
+            <span><img src="img/cuenta.png" alt="imgUser"></span>
+            <p>{{currentUser}}</p>
+        </div>
+        <div id="hamburguesa">
+            <nav>
+                <input type="checkbox" id="check">
+                <label for="check"> ☰ </label>
+                <ul>
+                    <a href="#analisis" id="analisisLink">
+                        <li>{{i18n "Análisis"}}</li>    
+                    </a>
+                    <a href="#crud" id="crudLink">
+                        <li>{{i18n "Tabla de Gastos"}}</li>
+                    </a>
+                    <a href="#logout" id="logoutLink">
+                        <li class="opcion-salida">{{i18n "Cerrar Sesión"}}</li>
+                    </a> 
+                    <a id="eliminarPerfilLink">
+                        <li class="opcion-salida"><{{i18n "Eliminar Perfil"}}</li>
+                    </a>
+                </ul>
+            </nav>
+        </div>
+        {{else}}
+        <div id="sesionMenu">
+            <a href="#login"><button id="iniciarSesion"><h3>{{i18n "Iniciar Sesión"}}</h3></button></a>
+
+            <a href="#register"><button id="registrarse"><h3>{{i18n "Registrarse"}}</h3></button></a>
+        </div>
+
+    {{/if}}
+</div>
+
+<div class="separador"></div>
+</header>
+
+<!-- router contents -->
+<main id="maincontent">Loading...</main>
+
+<footer>
+		
+    <div id="footerLogo">
+        <img src="img/LogoNombreBlanco.png" alt="LogoFooter">
+        <p>Edificio Politécnico s/n, 32004 Ourense</p>
+    </div>
+
+    <div id="footer-idioma">
+        <h5>TSW_2 2022/2023</h5>
+        <div id="languagecontrol">Loading...</div>
+    </div>
+
+    <div id="footerNombres">
+        <p>
+            Antón Canzobre Martínez <br> Cibrán Cores Cabaleiro <br> Noel Fabello Quintana <br>
+        </p>
+    </div>
+</footer>
+
+</div>

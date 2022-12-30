@@ -1,0 +1,148 @@
+/*******Content*******/
+
+#contentEstructura {
+    justify-content: space-around;
+    text-align: center;
+    margin: 2%;
+    background: white;
+    border-radius: 2%;
+    box-shadow: 0px 6px 8px 1px rgba(0, 0, 0, 0.6);
+    display: grid;
+    grid-template-areas: "tituloContent" "graficaTexto" "imagenGrafica" "tablaTexto" "imagenTabla";
+    padding-bottom: 10px;
+}
+
+#contentEstructura h3 {
+    color: grey;
+}
+
+#contentEstructura h5 {
+    font-weight: lighter;
+    text-align: center;
+    margin: 10px;
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 95%;
+}
+
+#textoContent {
+    grid-area: tituloContent;
+    align-self: center;
+    margin: 0 5px;
+}
+
+#textoContent h1 {
+    font-size: 25px;
+    color: #078DF2;
+}
+
+#graficaTexto {
+    grid-area: graficaTexto;
+}
+
+#tablaTexto {
+    grid-area: tablaTexto;
+}
+
+#contentEstructura img {
+    margin-right: auto;
+    margin-left: auto;
+    width: 400px;
+    height: 300px;
+    align-self: center;
+}
+
+#imagenGrafica {
+    grid-area: imagenGrafica;
+}
+
+#imagenTabla {
+    grid-area: imagenTabla;
+}
+
+
+/* Small devices (tablets, 768px and up) */
+
+
+/* container width: 750 */
+
+@media (min-width: 768px) {
+
+    #textoContent h1 {
+        font-size: 35px;
+        color: #078DF2;
+    }
+    #logoCompleto {
+        display: block;
+    }
+    #logoReducido {
+        display: none;
+    }
+    .imagenLogo img {
+        height: 43px;
+    }
+
+    footer h5{
+        display: block;
+        font-size: 15px;
+    }
+
+    #contentEstructura img {
+        width: 450px;
+        height: 300px;
+    }
+}
+
+
+/* Medium devices (desktops, 992px and up) */
+
+
+/* container width: 970 */
+
+@media (min-width: 992px) {
+   
+    #contentEstructura {
+        display: grid;
+        justify-items: center;
+        align-items: center;
+        grid-template-columns: 1fr 3fr 3fr 3fr 1fr;
+        grid-template-areas: "tituloContent tituloContent tituloContent tituloContent tituloContent" 
+                            ". graficaTexto imagenGrafica imagenGrafica ."
+                            ". imagenTabla imagenTabla tablaTexto .";
+        row-gap: 20px;
+        margin: 2% 10%;
+    }
+    #contentEstructura h5 {
+        max-width: 80%;
+        font-size: 20px;
+    }
+}
+
+
+/* Large devices (large desktops, 1200px and up) */
+
+
+/* container width: 1170px */
+
+@media (min-width: 1200px) {
+
+    #textoContent h1 {
+        font-size: 45px;
+    }
+
+    #contentEstructura {
+        margin: 2% 15%;
+        display: grid;
+        justify-items: center;
+        align-items: center;
+        grid-template-columns: 1.5fr 3fr 3fr 3fr 1.5fr;
+        grid-template-areas: "tituloContent tituloContent tituloContent tituloContent tituloContent"
+                            ". graficaTexto imagenGrafica imagenGrafica ." 
+                            ". imagenTabla imagenTabla tablaTexto .";
+    }
+
+    #contentEstructura h5 {
+        max-width: 80%;
+        font-size: 25px;
+    }
+}
