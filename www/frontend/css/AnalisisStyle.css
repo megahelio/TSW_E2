@@ -1,0 +1,365 @@
+/****** Graficas********/
+/****** Lineas********/
+.highcharts-root {
+    font-family: 'Montserrat', sans-serif !important; /* Montserrat is a Google font */
+}
+
+.highcharts-figure,
+.highcharts-data-table table {
+    min-width: 360px;
+    max-width: 800px;
+    margin: 1em auto;
+}
+
+.highcharts-data-table table {
+    font-family: 'Montserrat', Verdana, sans-serif;
+    border-collapse: collapse;
+    border: 1px solid #ebebeb;
+    margin: 10px auto;
+    text-align: center;
+    width: 100%;
+    max-width: 500px;
+}
+
+.highcharts-data-table caption {
+    padding: 1em 0;
+    font-size: 1.2em;
+    color: #555;
+}
+
+.highcharts-data-table th {
+    font-weight: 600;
+    padding: 0.5em;
+}
+
+.highcharts-data-table td,
+.highcharts-data-table th,
+.highcharts-data-table caption {
+    padding: 0.5em;
+}
+
+.highcharts-data-table thead tr,
+.highcharts-data-table tr:nth-child(even) {
+    background: #f8f8f8;
+}
+
+.highcharts-data-table tr:hover {
+    background: #f1f7ff;
+}
+
+/****** Tarta********/
+.highcharts-figure,
+.highcharts-data-table table {
+    min-width: 320px;
+    max-width: 660px;
+    margin: 1em auto;
+}
+
+.highcharts-data-table table {
+    font-family: Verdana, sans-serif;
+    border-collapse: collapse;
+    border: 1px solid #ebebeb;
+    margin: 10px auto;
+    text-align: center;
+    width: 100%;
+    max-width: 500px;
+}
+
+.highcharts-data-table caption {
+    padding: 1em 0;
+    font-size: 1.2em;
+    color: #555;
+}
+
+.highcharts-data-table th {
+    font-weight: 600;
+    padding: 0.5em;
+}
+
+.highcharts-data-table td,
+.highcharts-data-table th,
+.highcharts-data-table caption {
+    padding: 0.5em;
+}
+
+.highcharts-data-table thead tr,
+.highcharts-data-table tr:nth-child(even) {
+    background: #f8f8f8;
+}
+
+.highcharts-data-table tr:hover {
+    background: #f1f7ff;
+}
+
+
+/*******************************/
+
+#opciones p{
+    font-size: 20px;
+
+}
+
+
+#opciones {
+    width: 90%;
+    margin-top: 4%;
+    margin-left: auto;
+    margin-right: auto;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0px 6px 8px 1px rgba(0, 0, 0, 0.6);
+    display: grid;
+    grid-template-columns: 1fr 1fr;  
+    grid-template-areas: 
+            "tituloIntervalo tituloIntervalo"
+            "contenedorTiempo contenedorTiempo"
+            "tituloCategoria contenedorCategoria"
+            "actualizarCategoria actualizarCategoria";   
+    align-items: center;
+    text-align: center;
+    padding-bottom: 15px;
+}
+
+#separadorTiempo{
+    width: 15px;
+    height: 10px;
+    margin-top: auto;
+    margin-bottom: auto;
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
+#tituloIntervalo{
+    grid-area: tituloIntervalo;
+
+}
+
+#tituloIntervalo h3{
+    font-size: 20px;
+}
+
+#tituloCategoria{
+    grid-area: tituloCategoria;
+}
+
+#contenedorCategoria{
+    grid-area: contenedorCategoria;
+}
+
+#contenedorTiempo {
+    display: flex;
+    flex-direction: row;
+    grid-area: contenedorTiempo;
+    margin: auto;
+}
+
+#actualizar-graficas{
+    grid-area: actualizarCategoria;
+    justify-self: center;
+}
+
+#categoria{
+    width: 200px;
+
+    text-align: center;
+    background-color: whitesmoke; 
+    
+    border: 2px solid lightblue;
+    border-radius: 3px;
+    font-size: 14px;
+    font-weight: 200;
+    padding: 6px 0;
+    transition: border .5s;
+}
+
+#categoria:focus{
+    outline: none;
+    border: 2px solid #078DF2;
+    box-shadow: none;
+}
+
+.inputFecha{
+    width: 150px;
+
+    text-align: center;
+    background-color: whitesmoke; 
+    
+    border: 2px solid lightblue;
+    border-radius: 3px;
+    font-size: 14px;
+    font-weight: 200;
+    padding: 6px 0;
+    transition: border .5s;
+}
+
+/*******************/
+
+
+#filtro{
+    display: none;
+    
+}
+
+.filtrar, #actualizar-graficas{
+    color: white;
+    border-radius: 5px;
+    background-color: #078DF2;
+    font-size: 16px;
+    padding: 5px;
+    max-width: 8em;
+    
+}
+
+.filtrar:hover, #filtro:checked ~ .filtrar{
+    background-color: #1671b8;
+    
+}
+
+#filtro:checked ~ ul{
+    display: block;
+    
+}
+
+#contenedorCategoria ul{
+    text-align: left;
+    position: absolute;
+    list-style: none;
+    display: none;
+    width: 150px;
+    padding: 0;
+    margin: 10px;
+    background-color: whitesmoke;
+    border: 1px solid #078DF2;
+    border-radius: 5px;
+    z-index: 100;
+}
+
+
+#contenedorCategoria input[type="checkbox"], label{
+    cursor: pointer;
+
+}
+
+#contenedorCategoria li{
+    margin: 2px;
+}
+
+
+/****Contenedores graficas******/
+
+#contentEstructuraAnalisis{
+    margin-top: 1%;
+    margin-bottom: 2%;
+    display: flex;
+    flex-direction: column;
+    
+    justify-content: center;
+
+    margin-left: auto;
+    margin-right: auto;
+    
+}
+
+#contenedorGraficaLineas{
+    order: 2;
+}
+
+#contenedorGraficaTarta{
+    order: 3;
+}
+
+.grafica {
+    text-align: center;
+    margin: 2% 0;
+    background: white;
+    border-radius: 2%;
+    box-shadow: 0px 6px 8px 1px rgba(0, 0, 0, 0.6);
+    width: 100%;
+}
+
+/*******************************/
+
+
+/* Small devices (tablets, 768px and up) */
+
+
+/* container width: 750 */
+
+@media (min-width: 768px) {
+  
+    #opciones {
+        width: 70%;
+        margin-top: 2%;
+
+        grid-template-columns: 1fr 1fr 1fr 1fr;  
+        grid-template-areas: 
+                "tituloIntervalo tituloIntervalo tituloCategoria actualizarCategoria"
+                "contenedorTiempo contenedorTiempo contenedorCategoria actualizarCategoria";   
+        align-items: center;
+        justify-self: center;
+        text-align: center;
+    }
+
+    #contentEstructuraAnalisis{
+        margin-top: 1%;
+        margin-bottom: 5%;
+        display: flex;
+        flex-direction: column;
+        
+        justify-content: center;
+    
+        margin-left: 5%;
+        margin-right: 5%;
+        
+    }
+    
+    #actualizar-graficas{
+        align-self: center;
+        margin-top: 15px;
+    }
+    
+    
+}
+
+
+/* Medium devices (desktops, 992px and up) */
+
+
+/* container width: 970 */
+
+@media (min-width: 992px) {
+
+    #opciones {
+        width: 40%;
+
+    }
+
+    #contentEstructuraAnalisis{
+        margin-top: 1%;
+        margin-bottom: 1%;
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .grafica {
+        justify-content: space-around;  
+        margin: 2%;
+        margin-bottom: 2%;
+        width: 40%;
+    }
+}
+
+
+/* Large devices (large desktops, 1200px and up) */
+
+
+/* container width: 1170px */
+
+@media (min-width: 1200px) {
+
+    #opciones p {
+        font-size: 25px;
+    }
+}

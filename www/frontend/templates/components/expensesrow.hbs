@@ -1,0 +1,27 @@
+<tr>
+  <td class="priority-2">
+    <a>**tipo**</a>
+  </td>
+  <td class="priority-3">
+    **fecha**
+  </td>
+  <td class="priority-1">
+    **cantidad**
+  </td>
+  <td class="priority-4">
+    **descripcion
+  </td>
+  <td class="priority-5">
+    <a> **fichero** </a>
+  </td>
+
+  <td class="td-boton">
+    <button class="boton-edit"
+      onclick="mostrarBloque('contenedor-ventana-editar');
+                        cargarEdit(<?= $expense->getId(); ?>, '<?= $expense->getTipo() ?>', '<?= $expense->getDate() ?>', <?= $expense->getAmount() ?>, '<?= $expense->getDescription() ?>', '<?= $expense->getFile() ?>');">{{i18n
+      "Editar"}}</button>
+    <button type="button" href="#" class="boton-eliminar">
+      {{i18n "Delete" }}
+    </button>
+  </td>
+</tr>

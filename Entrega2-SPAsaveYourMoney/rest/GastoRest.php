@@ -22,7 +22,6 @@ require_once(__DIR__ . "/BaseRest.php");
 class GastoRest extends BaseRest
 {
     private $gastoMapper;
-    private $commentMapper;
 
     public function __construct()
     {
@@ -30,11 +29,14 @@ class GastoRest extends BaseRest
 
         $this->gastoMapper = new GastoMapper();
     }
-
+    /**
+     * Emite los gastos del usuario logeado o Forbiden
+     */
     public function getGastos()
     {
-        $user="oscar";
-        $gastos = $this->gastoMapper->findGastosByUsername($user);
+
+        $currentUser = parent::authenticateUser()->getUsername();
+        $gastos = $this->gastoMapper->findGastosByUsername($currentUser);
         //print_r($gastos);
 
         // json_encode Gasto objects.
@@ -43,15 +45,15 @@ class GastoRest extends BaseRest
         // encode it finally
         $gastos_array = array();
         foreach ($gastos as $gasto) {
-            
+
             array_push($gastos_array, array(
                 "id" => $gasto["id"],
                 "usuario" => $gasto["usuario"],
-                "tipo" => $gasto["tipo"] ,
-                "cantidad" => $gasto["cantidad"] ,
-                "fecha" =>$gasto["fecha"] ,
-                "description"=> $gasto["descripcion"],
-                "uuidFichero"=>$gasto["fichero"]  
+                "tipo" => $gasto["tipo"],
+                "cantidad" => $gasto["cantidad"],
+                "fecha" => $gasto["fecha"],
+                "description" => $gasto["descripcion"],
+                "uuidFichero" => $gasto["fichero"]
             ));
         }
 
@@ -74,11 +76,11 @@ class GastoRest extends BaseRest
         $gasto_array = array(
             "id" => $gasto->getId(),
             "usuario" => $gasto->getUsuario(),
-            "tipo" => $gasto->getTipo() ,
-            "cantidad" => $gasto->getCantidad() ,
-            "fecha" =>$gasto->getFecha() ,
-            "description"=> $gasto->getDescription(),
-            "uuidFichero"=>$gasto->getUuidFichero()  
+            "tipo" => $gasto->getTipo(),
+            "cantidad" => $gasto->getCantidad(),
+            "fecha" => $gasto->getFecha(),
+            "description" => $gasto->getDescription(),
+            "uuidFichero" => $gasto->getUuidFichero()
 
         );
 
@@ -91,7 +93,7 @@ class GastoRest extends BaseRest
 
     public function createGasto($data)
     {
-           
+
         //$currentUser = parent::authenticateUser();
         $gasto = new Gasto();
 
@@ -104,7 +106,7 @@ class GastoRest extends BaseRest
 
         //print_r($gasto);
 
-        
+
 
         try {
             // validate Gasto object
@@ -120,12 +122,12 @@ class GastoRest extends BaseRest
             echo (json_encode(array(
                 "id" => $gasto->getId(),
                 "usuario" => $gasto->getUsuario(),
-                "tipo" => $gasto->getTipo() ,
-                "cantidad" => $gasto->getCantidad() ,
-                "fecha" =>$gasto->getFecha() ,
-                "description"=> $gasto->getDescription(),
-                "uuidFichero"=>$gasto->getUuidFichero()  
-    
+                "tipo" => $gasto->getTipo(),
+                "cantidad" => $gasto->getCantidad(),
+                "fecha" => $gasto->getFecha(),
+                "description" => $gasto->getDescription(),
+                "uuidFichero" => $gasto->getUuidFichero()
+
             )));
         } catch (ValidationException $e) {
             header($_SERVER['SERVER_PROTOCOL'] . ' 400 Bad request');
@@ -135,7 +137,7 @@ class GastoRest extends BaseRest
     }
 
 
-    public function updateGasto($gastoId, $data )
+    public function updateGasto($gastoId, $data)
     {
         //$currentUser = parent::authenticateUser();
 
@@ -192,11 +194,10 @@ class GastoRest extends BaseRest
         //     return;
         // }
 
-        $this->gastoMapper->delete($gasto); 
+        $this->gastoMapper->delete($gasto);
 
         header($_SERVER['SERVER_PROTOCOL'] . ' 204 No Content');
     }
-
 }
 
 // URI-MAPPING for this Rest endpoint

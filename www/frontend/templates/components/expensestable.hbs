@@ -1,0 +1,23 @@
+<div id="crudExpenses">
+    <div class="contenedor" id="controlador-tabla">
+        <button id="añadir-gasto" class="boton-controlador" onclick="mostrarBloque('contenedor-ventana-añadir')">{{i18n
+            "Añadir"}}</button>
+        <form action="#expenses" id="downloadCRUD">
+            <button type="submit" id="descargar" class="boton-controlador">{{i18n "Descargar"}}</button>
+        </form>
+    </div>
+
+    <div id="contenedor-tabla" class="contenedor">
+        <table id="tabla">
+            <tr>
+                <th class="priority-2">{{i18n "Tipo"}}</th>
+                <th class="priority-3"> {{i18n "Fecha"}}</th>
+                <th class="priority-1"> {{i18n "Cantidad"}}</th>
+                <th class="priority-4"> {{i18n "Descripción"}}</th>
+                <th class="priority-5">{{i18n "Fichero"}}</th>
+                <th></th>
+            </tr>
+
+        </table>
+    </div>
+</div>

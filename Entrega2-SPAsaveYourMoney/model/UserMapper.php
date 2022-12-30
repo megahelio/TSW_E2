@@ -57,7 +57,7 @@ class UserMapper
 	 * Checks if a given pair of username/password exists in the database
 	 *
 	 * @param string $username the username
-	 * @param string $passwd the password md5 hash
+	 * @param string $passwd the password as is saved in the data base
 	 * @return boolean true the username/passwrod exists, false otherwise.
 	 */
 	public function isValidUser($username, $passwd)

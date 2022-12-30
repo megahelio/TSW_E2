@@ -1,0 +1,93 @@
+#contenedor-login {
+    margin: 10% 0;
+}
+
+#titulo-login{
+    font-size: 28px;
+    color: #078DF2;
+}
+
+#formulario-inicio{
+    max-width: 260px;
+    padding: 15px 35px 45px;
+    margin: 0 auto;
+
+    
+    display: flex;
+    flex-direction: column;
+    
+    align-items: center;
+    
+    background: white;
+    border-radius: 2%;
+    box-shadow: 0px 6px 8px 1px rgba(0, 0, 0, 0.6);
+}
+
+.form-control {
+    margin-bottom: 10px;
+}
+
+input {
+    text-align: center;
+    background-color: whitesmoke;
+    
+    border: 2px solid lightblue;
+    border-radius: 3px;
+    font-size: 16px;
+    font-weight: 200;
+    padding: 10px 0;
+    width: 250px;
+    transition: border .5s;
+}
+
+input:focus {
+    outline: none;
+    border: 2px solid #078DF2;
+    box-shadow: none;
+}
+
+#boton-inicio{
+    background-color: #078DF2;
+    color: white;
+
+    font-size: 16px;
+    height: auto;
+    padding: 10px;
+    border: none;
+
+    border-radius: 68.75px;
+
+    width: 190px;
+    
+}
+
+#boton-inicio:hover{
+    background-color: #1671b8;
+    cursor: pointer;
+}
+
+#mantener{
+    display: flex;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+#mantener-sesion{
+    width: 20px;
+    height: 20px;
+    margin-right: 10px;
+    
+}
+
+/* Small devices (tablets, 768px and up) */
+
+
+/* container width: 750 */
+
+@media (min-width: 768px) {
+
+    #formulario-inicio{
+        max-width: 360px;
+    }
+
+}

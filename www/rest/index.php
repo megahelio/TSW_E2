@@ -8,7 +8,6 @@ try{
 	$files_in_script_dir = scandir(__DIR__);
 	foreach($files_in_script_dir as $filename) {
 		// if filename ends with *Rest.php
-		
 		if (preg_match('/.*REST\\.PHP/', strtoupper($filename))) {
 			include_once(__DIR__."/".$filename);
 		}
@@ -16,9 +15,10 @@ try{
 
 	//	error_reporting(E_ERROR);
 	$dispatcher = URIDispatcher::getInstance();
+	
 	// enable CORS (allow other sites to use your API)
 	$dispatcher->enableCORS('*','origin, content-type, accept, authorization');
-	 
+	
 	$dispatched = $dispatcher->dispatchRequest();
 
 	if (!$dispatched) {
