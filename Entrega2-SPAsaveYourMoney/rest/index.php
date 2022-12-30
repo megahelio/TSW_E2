@@ -15,9 +15,7 @@ try{
 	}
 
 	//	error_reporting(E_ERROR);
-	print(isset($dispatcher));
 	$dispatcher = URIDispatcher::getInstance();
-	print(isset($dispatcher));
 	// enable CORS (allow other sites to use your API)
 	$dispatcher->enableCORS('*','origin, content-type, accept, authorization');
 	 

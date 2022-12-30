@@ -43,7 +43,8 @@ class BaseRest
 			$userMapper = new UserMapper();
 			if ($userMapper->isValidUser(
 				$_SERVER['PHP_AUTH_USER'],
-				$_SERVER['PHP_AUTH_PW']
+				//en el mysql tenemos el hash md5
+				md5($_SERVER['PHP_AUTH_PW'])
 			)) {
 
 				return new User($_SERVER['PHP_AUTH_USER']);
