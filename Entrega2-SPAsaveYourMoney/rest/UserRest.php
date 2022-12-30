@@ -32,8 +32,8 @@ class UserRest extends BaseRest
 		$user->setPasswordbis($data->passwdbis);
 
 
-		print_r($data);
-		print_r($user);
+		//print_r($data);
+		//print_r($user);
 
 		try {
 			$user->checkIsValidForRegister(); // if it fails, ValidationException
