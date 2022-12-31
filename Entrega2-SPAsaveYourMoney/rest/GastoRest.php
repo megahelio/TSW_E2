@@ -198,7 +198,7 @@ class GastoRest extends BaseRest
                 header('Content-Type: application/json');
                 echo (json_encode(array(
                     "id" => $gastoSaved->getId(),
-                    "usuario" => $gastoSaved->getUsuario(),
+                    "usuario" => $gastoSaved->getUsuario()->getUsername(),
                     "tipo" => $gastoSaved->getTipo(),
                     "cantidad" => $gastoSaved->getCantidad(),
                     "fecha" => $gastoSaved->getFecha(),
@@ -323,7 +323,7 @@ class GastoRest extends BaseRest
                 header($_SERVER['SERVER_PROTOCOL'] . ' 500 Internal Server Error');
                 die("Gasto might be not updated by a server error.");
             }
-            
+
         } catch (ValidationException $e) {
             header($_SERVER['SERVER_PROTOCOL'] . ' 400 Bad request');
             header('Content-Type: application/json');
