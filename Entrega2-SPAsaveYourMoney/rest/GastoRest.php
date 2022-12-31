@@ -38,7 +38,6 @@ class GastoRest extends BaseRest
 
         $currentUser = parent::authenticateUser()->getUsername();
         $gastos = $this->gastoMapper->findGastosByUsername($currentUser);
-        //print_r($gastos);
 
         // json_encode Gasto objects.
         // since Gasto objects have private fields, the PHP json_encode will not
@@ -80,7 +79,6 @@ class GastoRest extends BaseRest
         $currentUser = parent::authenticateUser()->getUsername();
         // find the Gasto object in the database
         $gasto = $this->gastoMapper->findGastoById($data);
-        //print_r($gasto);
 
         //verificamos que el gasto existe
         if ($gasto == NULL) {
@@ -110,46 +108,107 @@ class GastoRest extends BaseRest
         header('Content-Type: application/json');
         echo (json_encode($gasto_array));
     }
-
+    /**
+     * Guarda el gasto que se pasa como parametro y lo devuelve como confirmación
+     * 
+     * @throws  400 Bad request -> Error en la validación del gasto
+     * @throws  400 Bad request -> No incluye algún campo obligatorio
+     * @throws  401 Unauthorized -> No hay usuario logeado
+     * @throws  500 Internal Server Error -> GastoMapper no devuelve el gasto creado
+     * 
+     * @param Gasto $data gasto a guardar
+     * 
+     * @return 200 OK + json información del gasto -> se crea el gasto correctamente
+     */
 
     public function createGasto($data)
     {
+        $currentUser = parent::authenticateUser()->getUsername();
 
-        //$currentUser = parent::authenticateUser();
+        //parseamos Parametro a objeto
         $gasto = new Gasto();
 
-        $gasto->setUsuario($data->usuario);
-        $gasto->setTipo($data->tipo);
-        $gasto->setCantidad($data->cantidad);
-        $gasto->setFecha($data->fecha);
-        $gasto->setDescription($data->descripcion);
-        $gasto->setUuidFichero($data->UuidFichero);
+        /*En caso de que no se incluya algún elemento obligatorio lo registraremos
+        y enviaremos una bad request con el feedback*/
+        $incluyeCamposObligatorios = true;
+        $incluyeCamposObligatoriosErrorLog = "[";
 
-        //print_r($gasto);
+        /*El  usuario será el que está logueado, (un usuario no puede crear gastos para otro usuario)*/
+        $gasto->setUsuario($currentUser);
 
+        //Campo obligatorio
+        if (isset($data->tipo)) {
+            $gasto->setTipo($data->tipo);
+        } else {
+            //Activamos flag de que un elemento obligatorio no existe
+            $incluyeCamposObligatorios = false;
+            //Incluimos el aviso en el log
+            $incluyeCamposObligatoriosErrorLog = $incluyeCamposObligatoriosErrorLog . "tipo ";
+        }
+
+        if (isset($data->cantidad)) {
+            $gasto->setCantidad($data->cantidad);
+        } else {
+            $incluyeCamposObligatorios = false;
+            $incluyeCamposObligatoriosErrorLog = $incluyeCamposObligatoriosErrorLog . "cantidad ";
+        }
+
+        //El formato de la fecha 1999-12-31 funciona
+        if (isset($data->fecha)) {
+            $gasto->setFecha($data->fecha);
+        } else {
+            $incluyeCamposObligatorios = false;
+            $incluyeCamposObligatoriosErrorLog = $incluyeCamposObligatoriosErrorLog . "fecha ";
+        }
+
+        if (isset($data->descripcion)) {
+            $gasto->setDescription($data->descripcion);
+        } else {
+            $incluyeCamposObligatorios = false;
+            $incluyeCamposObligatoriosErrorLog = $incluyeCamposObligatoriosErrorLog . "descripcion ";
+        }
+
+        //Campo no obligatorio.
+        if (isset($data->uuidfichero)) {
+            $gasto->setUuidFichero($data->uuidfichero);
+        }
+
+        //Respondemos Bad request al no encontrar elemntos obligatorios
+        if (!$incluyeCamposObligatorios) {
+            header($_SERVER['SERVER_PROTOCOL'] . ' 400 Bad request');
+            die($incluyeCamposObligatoriosErrorLog . "] not found");
+        }
 
 
         try {
             // validate Gasto object
             $gasto->checkIsValidForAdd(); // if it fails, ValidationException
 
+
             // save the Gasto object into the database
-            $gastoId = $this->gastoMapper->save($gasto);
+            $gastoSaved = $this->gastoMapper->save($gasto);
 
-            // response OK. Also send gasto in content
-            header($_SERVER['SERVER_PROTOCOL'] . ' 201 Created');
-            header('Location: ' . $_SERVER['REQUEST_URI'] . "/" . $gastoId);
-            header('Content-Type: application/json');
-            echo (json_encode(array(
-                "id" => $gasto->getId(),
-                "usuario" => $gasto->getUsuario(),
-                "tipo" => $gasto->getTipo(),
-                "cantidad" => $gasto->getCantidad(),
-                "fecha" => $gasto->getFecha(),
-                "description" => $gasto->getDescription(),
-                "uuidFichero" => $gasto->getUuidFichero()
+            //si se guarda correctamente
+            if (isset($gastoSaved)) {
+                // response OK. Also send gasto in content
+                header($_SERVER['SERVER_PROTOCOL'] . ' 201 Created');
+                header('Location: ' . $_SERVER['REQUEST_URI'] . "/" . $gastoSaved->getId());
+                header('Content-Type: application/json');
+                echo (json_encode(array(
+                    "id" => $gastoSaved->getId(),
+                    "usuario" => $gastoSaved->getUsuario(),
+                    "tipo" => $gastoSaved->getTipo(),
+                    "cantidad" => $gastoSaved->getCantidad(),
+                    "fecha" => $gastoSaved->getFecha(),
+                    "description" => $gastoSaved->getDescription(),
+                    "uuidFichero" => $gastoSaved->getUuidFichero()
 
-            )));
+                )));
+            //el gasto no se crea correctamente
+            } else {
+                header($_SERVER['SERVER_PROTOCOL'] . ' 500 Internal Server Error');
+                die("Gasto was not created by a server error.");
+            }
         } catch (ValidationException $e) {
             header($_SERVER['SERVER_PROTOCOL'] . ' 400 Bad request');
             header('Content-Type: application/json');

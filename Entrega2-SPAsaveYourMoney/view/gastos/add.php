@@ -1,7 +1,7 @@
 <?php
 
 require_once(__DIR__ . "/../../core/ViewManager.php");
-require_once(__DIR__ . "/../../model/tipos.php");
+require_once(__DIR__ . "/../../model/Tipos.php");
 $view = ViewManager::getInstance();
 $errors = $view->getVariable("errors");
 $gastos = $view->getVariable("gastos");

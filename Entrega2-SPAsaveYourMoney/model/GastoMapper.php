@@ -22,10 +22,49 @@ class GastoMapper
         $this->db = PDOConnection::getInstance();
     }
 
+/**
+ * Guarda $gasto en la base de datos
+ * 
+ * 
+ * 
+ * @return null -> El dato no se guardó correctamente
+ * @return Gasto -> El dato se guardó correctamente
+ * 
+ * 
+ * Disclaimer:
+ * Si el volumen de peticiones a la base de datos es muy alto es posible que el dato se guarde pero la función devuelva null o incluso un id incorrecto.
+ */
     public function save($gasto)
     {
+        //Guardamos el gasto en la bd
         $stmt = $this->db->prepare("INSERT INTO gastos(usuario, tipo, cantidad, fecha, descripcion, fichero) values (?,?,?,?,?,?)");
         $stmt->execute(array($gasto->getUsuario(), $gasto->getTipo(), $gasto->getCantidad(), $gasto->getFecha(), $gasto->getDescription(), $gasto->getUuidFichero()));
+
+        //Recuperamos el Clave Primaria generada por la bd
+        $rs = $this->db->query("SELECT @@identity AS id");
+        $id=$rs->fetch(PDO::FETCH_ASSOC);
+        
+        //Usamos la clave primaria recuperada para recuperar el gasto creado
+        $stmt = $this->db->prepare("SELECT * FROM gastos where id=?");
+        $stmt->execute(array($id["id"]));
+
+        $gasto = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        //Enviamos el gasto recién creado como retroalimentación
+        if ($gasto != null) {
+
+            return new Gasto(
+                $gasto["id"],
+                new User($gasto["usuario"]),
+                $gasto["tipo"],
+                $gasto["cantidad"],
+                $gasto["fecha"],
+                $gasto["descripcion"],
+                $gasto["fichero"]
+            );
+        }
+
+        return NULL;
     }
     public function delete($gasto)
     {
@@ -34,21 +73,21 @@ class GastoMapper
     }
     public function update($gasto)
     {
-       
+
         $stmt = $this->db->prepare("UPDATE gastos SET tipo= ?,cantidad = ?,fecha = ?,descripcion = ?,fichero = ? WHERE id = ?");
         $stmt->execute(array($gasto->getTipo(), $gasto->getCantidad(), $gasto->getFecha(), $gasto->getDescription(), $gasto->getUuidFichero(), $gasto->getId()));
     }
 
     public function findGastoById($id)
     {
-       
+
         $stmt = $this->db->prepare("SELECT * FROM gastos where id=?");
         $stmt->execute(array($id));
 
         $gasto = $stmt->fetch(PDO::FETCH_ASSOC);
 
         if ($gasto != null) {
-            
+
             return new Gasto(
                 $gasto["id"],
                 new User($gasto["usuario"]),

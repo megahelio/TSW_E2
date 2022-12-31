@@ -9,7 +9,7 @@ require_once(__DIR__ . "/../model/GastoMapper.php");
 
 require_once(__DIR__ . "/../controller/BaseController.php");
 
-require_once(__DIR__ . "/../model/tipos.php");
+require_once(__DIR__ . "/../model/Tipos.php");
 
 /**
  * Class GastosController
@@ -313,7 +313,7 @@ class GastosController extends BaseController
     {
         $gasto = new Gasto();
         $gasto->setId($_REQUEST["id"]);
-        $gasto = $this->GastoMapper->findGastosById($gasto);
+        $gasto = $this->GastoMapper->findGastoById($gasto);
         //unlink("uploads/" . $gasto->getUuidFichero());
         $gasto->setUuidFichero(null);
         $this->GastoMapper->update($gasto);
@@ -325,7 +325,7 @@ class GastosController extends BaseController
     {
         $gasto = new Gasto();
         $gasto->setId($_REQUEST["id"]);
-        $gasto = $this->GastoMapper->findGastosById($gasto);
+        $gasto = $this->GastoMapper->findGastoById($gasto);
 
         if (isset($_POST["tipo"])) {
             if ($gasto->getUsuario() != $this->currentUser) {
@@ -363,7 +363,7 @@ class GastosController extends BaseController
     {
         $gasto = new Gasto();
         $gasto->setId($_REQUEST["id"]);
-        $gasto = $this->GastoMapper->findGastosById($gasto);
+        $gasto = $this->GastoMapper->findGastoById($gasto);
 
         if ($gasto->getUsuario() != $this->currentUser) {
             //no puedo por lo que sea

@@ -1,6 +1,7 @@
 <?php
 
 require_once(__DIR__ . "/../core/ValidationException.php");
+require_once(__DIR__."/Tipos.php");
 
 class Gasto
 {
@@ -12,24 +13,22 @@ class Gasto
     private $description;
     private $uuidFichero;
 
-    public function __construct($id=NULL, $usuario = NULL, $tipo = NULL, $cantidad = NULL, $fecha = NULL, $description=NULL, $uuidFichero=NULL)
+    public function __construct($id = NULL, $usuario = NULL, $tipo = NULL, $cantidad = NULL, $fecha = NULL, $description = NULL, $uuidFichero = NULL)
     {
         $this->id = $id;
-        $this->usuario=$usuario;
+        $this->usuario = $usuario;
         $this->tipo = $tipo;
         $this->cantidad = $cantidad;
         $this->fecha = $fecha;
         $this->description = $description;
         $this->uuidFichero = $uuidFichero;
-        
-    
     }
 
     public function setId($id)
     {
         $this->id = $id;
     }
-    
+
     public function getId()
     {
         return $this->id;
@@ -37,7 +36,7 @@ class Gasto
 
     public function setUsuario($usuario)
     {
-       $this->usuario=$usuario;
+        $this->usuario = $usuario;
     }
     public function getUsuario()
     {
@@ -92,20 +91,22 @@ class Gasto
     public function checkIsValidForAdd()
     {
         $errors = array();
-        /*Validacion gasto
-        if (strlen($this->username) < 5) {
-            $errors["username"] = "Username must be at least 5 characters length";
-        }*/
+        //Validacion gasto
+        if (strlen($this->usuario) < 5) {
+            $errors["usuario"] = "Username must be at least 5 characters length";
+        }
 
         $tipos = (new Tipos)->tipos;
 
 
+        $errors["tipo"] = "Tipo invalido";
         //comprobación tipos
         foreach ($tipos as $tipo) :
-            $errors["tipo"] = "Tipo invalido";
-            if($tipo == $this->tipo){
+            //degug tipos
+            //print($tipo . " " . $this->tipo." ");
+            if ($tipo == $this->tipo) {
                 unset($errors["tipo"]);
-                break;
+                break; //rompe el bucle for
             }
         endforeach;
 
@@ -113,30 +114,30 @@ class Gasto
 
         $cantidad = $this->cantidad;
 
-        if(!is_numeric($cantidad) ){
+        if (!is_numeric($cantidad)) {
             $errors["cantidad"] = "La cantidad no es un numero";
         }
 
         $cantidad = round($cantidad, 2);
 
-        if($cantidad < 0){
+        if ($cantidad < 0) {
             $errors["cantidad"] = "cantidad Negativa";
         }
 
         $date = strtotime($this->fecha);
-        $date = getDate($date); 
-        
-        if(checkdate(($date["mday"]),$date["mon"],$date["year"])){
+        $date = getDate($date);
+
+        if (checkdate(($date["mday"]), $date["mon"], $date["year"])) {
             $errors["fecha"] = "fecha invalida";
         }
 
         $descripcion = $this->description;
-        if(str_contains($descripcion,'<') || str_contains($descripcion,'>') || str_contains($descripcion,'\\')){
+        if (str_contains($descripcion, '<') || str_contains($descripcion, '>') || str_contains($descripcion, '\\')) {
             $errors["descripcion"] = "descripcion invalida";
         }
-        
+
         if (sizeof($errors) > 0) {
-            throw new ValidationException($errors, "user is not valid");
+            throw new ValidationException($errors, "gasto is not valid");
         }
     }
 }
