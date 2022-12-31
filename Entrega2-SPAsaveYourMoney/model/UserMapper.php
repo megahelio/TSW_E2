@@ -69,6 +69,33 @@ class UserMapper
 			return true;
 		}
 	}
+
+	public function getUserByUsername($username)
+	{
+		$stmt = $this->db->prepare("SELECT * FROM users where username=?");
+		$stmt->execute(array($username));
+
+		$user = $stmt->fetch(PDO::FETCH_ASSOC);
+
+		if ($user != null) {
+
+			return new User(
+				$user["username"],
+				$user["email"],
+				$user["passwd"],
+				"",
+				$user["lastLoginDate"]
+			);
+		}
+
+		return NULL;
+	}
+
+	public function update($user){
+		$stmt = $this->db->prepare("UPDATE users SET email = ?,passwd = ?,lastLoginDate = ? WHERE username = ?");
+		$stmt->execute(array($user->getEmail(), $user->getPassword(), $user->getLastLogging(), $user->getUsername()));
+	}
+
 	public function readLastLoginDate($username)
 	{
 		$stmt = $this->db->prepare("SELECT lastLoginDate FROM users where username=?");
@@ -88,7 +115,6 @@ class UserMapper
 		$stmt = $this->db->prepare("UPDATE users SET lastLoginDate = ?  WHERE username = ?");
 		$stmt->execute(array($lastLoginDate, $username));
 	}
-
 
 	public function delete($username)
 	{

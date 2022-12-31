@@ -225,7 +225,7 @@ class GastoRest extends BaseRest
      * @param Gasto data -> Información del nuevo gasto
      * 
      * @throws 400 Bad request -> No existe ningún gasto con esa id
-     * @throws 400 Bad request -> La solicitud no contiene campos obligatorios
+     * @throws 400 Bad request -> La solicitud no contiene campos obligatorios o son invalidos
      * @throws  401 Unauthorized -> No hay usuario logeado
      * @throws 403 Forbidden -> El gasto no pertenece al usuario logueado
      * @throws  500 Internal Server Error -> GastoMapper no devuelve el gasto actualizado
