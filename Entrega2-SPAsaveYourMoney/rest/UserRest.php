@@ -221,6 +221,7 @@ class UserRest extends BaseRest
 	 */
 	public function login()
 	{
+		print("Inicio Login");
 		$currentUser = parent::authenticateUser();
 		header($_SERVER['SERVER_PROTOCOL'] . ' 200 OK');
 		die("Hello " . $currentUser);
@@ -229,8 +230,8 @@ class UserRest extends BaseRest
 
 // URI-MAPPING for this Rest endpoint
 $userRest = new UserRest();
-+URIDispatcher::getInstance()
-	->map("POST",	"/user/login",		array($userRest, "login"))
+URIDispatcher::getInstance()
+	->map("GET",	"/user/login",		array($userRest, "login"))
 	->map("POST",	"/user",		array($userRest, "createUser"))
 	->map("PUT",	"/user",		array($userRest, "updateUser"))
 	->map("DELETE",	"/user",		array($userRest, "deleteUser"));
