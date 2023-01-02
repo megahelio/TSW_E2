@@ -211,23 +211,26 @@ class UserRest extends BaseRest
 		}
 	}
 
-	public function login($data)
+	/**
+	 * Verifica un par de credenciales (WWW-Authenticate: Basic) dado
+	 * 
+	 * @throws 401 Unauthorized -> Validación Incorrecta
+	 * 
+	 * @return 200 OK -> Validación Correcta
+	 * 
+	 */
+	public function login()
 	{
-		$currentLogged = parent::authenticateUser();
-		if ($currentLogged->getUsername() != $data) {
-			header($_SERVER['SERVER_PROTOCOL'] . ' 403 Forbidden');
-			echo ("You are not authorized to login as anyone but you");
-		} else {
-			header($_SERVER['SERVER_PROTOCOL'] . ' 200 Ok');
-			echo ("Hello " . $data);
-		}
+		$currentUser = parent::authenticateUser();
+		header($_SERVER['SERVER_PROTOCOL'] . ' 200 OK');
+		die("Hello " . $currentUser);
 	}
 }
 
 // URI-MAPPING for this Rest endpoint
 $userRest = new UserRest();
 URIDispatcher::getInstance()
-	->map("GET",	"/user",		array($userRest, "login"))
+	->map("GET",	"/user/login",		array($userRest, "login"))
 	->map("POST",	"/user",		array($userRest, "createUser"))
 	->map("PUT",	"/user",		array($userRest, "updateUser"))
 	->map("DELETE",	"/user",		array($userRest, "deleteUser"));
