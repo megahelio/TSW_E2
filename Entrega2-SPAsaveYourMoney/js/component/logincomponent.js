@@ -27,9 +27,13 @@ class LoginComponent extends Fronty.ModelComponent {
 
     this.addEventListener('click', '#registerbutton', () => {
       this.userService.register({
-          username: $('#registerusername').val(),
-          password: $('#registerpassword').val()
-        })
+        // username: $('#registerusername').val(),
+        // password: $('#registerpassword').val()
+        username: $('#registerusername').val(),
+        passwd: $('#registerpassword').val(),
+        passwdbis: $('#registerpasswdbis').val(),
+        email: $('#registeremail').val()
+      })
         .then(() => {
           alert(I18n.translate('User registered! Please login'));
           this.userModel.set((model) => {

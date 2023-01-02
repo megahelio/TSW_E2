@@ -8,7 +8,21 @@ class MainComponent extends Fronty.RouterComponent {
     this.postsModel = new PostsModel();
     this.userService = new UserService();
 
+    this.gastosModel = new GastosModel();
+
     super.setRouterConfig({
+      gastos: {
+        component: new PostsComponent(this.postsModel, this.userModel, this),
+        title: 'Gastos'
+      },
+      'edit-gasto': {
+        component: new PostEditComponent(this.postsModel, this.userModel, this),
+        title: 'Edit Gasto'
+      },
+      'add-gasto': {
+        component: new PostAddComponent(this.postsModel, this.userModel, this),
+        title: 'Add Gasto'
+      },
       posts: {
         component: new PostsComponent(this.postsModel, this.userModel, this),
         title: 'Posts'
