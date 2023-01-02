@@ -221,8 +221,7 @@ class UserRest extends BaseRest
 	 */
 	public function login()
 	{
-		print("Inicio Login");
-		$currentUser = parent::authenticateUser();
+		$currentUser = parent::authenticateUser()->getUsername();
 		header($_SERVER['SERVER_PROTOCOL'] . ' 200 OK');
 		die("Hello " . $currentUser);
 	}
