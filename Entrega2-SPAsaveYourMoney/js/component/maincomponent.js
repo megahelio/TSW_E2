@@ -13,14 +13,14 @@ class MainComponent extends Fronty.RouterComponent {
     super.setRouterConfig({
       gastos: {
         component: new GastosComponent(this.gastosModel, this.userModel, this),
-        title: 'Gastos'
+        title: 'Gastos' 
       },
-      // 'edit-gasto': {
-      //   component: new GastoEditComponent(this.gastosModel, this.userModel, this),
-      //   title: 'Edit Gasto'
-      // },
+      'edit-gasto': {
+        component: new GastoEditComponent(this.gastosModel, this.userModel, this),
+        title: 'Edit Gasto'
+      },
       'add-gasto': {
-        component: new PostAddComponent(this.postsModel, this.userModel, this),
+        component: new GastoAddComponent(this.gastosModel, this.userModel, this),
         title: 'Add Gasto'
       },
       posts: {
@@ -43,7 +43,7 @@ class MainComponent extends Fronty.RouterComponent {
         component: new LoginComponent(this.userModel, this),
         title: 'Login'
       },
-      defaultRoute: 'posts'
+      defaultRoute: 'login'
     });
 
     Handlebars.registerHelper('currentPage', () => {

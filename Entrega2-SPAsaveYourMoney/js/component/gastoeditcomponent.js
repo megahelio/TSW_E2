@@ -9,8 +9,11 @@ class GastoEditComponent extends Fronty.ModelComponent {
         this.gastosService = new GastosService();
 
         this.addEventListener('click', '#savebutton', () => {
-            this.gastosModel.selectedGasto.title = $('#title').val();
-            this.gastosModel.selectedGasto.content = $('#content').val();
+            this.gastosModel.selectedGasto.tipo = $('#tipo').val();
+            this.gastosModel.selectedGasto.cantidad = $('#cantidad').val();
+            this.gastosModel.selectedGasto.fecha = $('#fecha').val();
+            this.gastosModel.selectedGasto.descripcion = $('#descripcion').val();
+            this.gastosModel.selectedGasto.uuidfichero = $('#uuidFichero').val();
             this.gastosService.saveGasto(this.gastosModel.selectedGasto)
                 .then(() => {
                     this.gastosModel.set((model) => {

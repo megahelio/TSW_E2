@@ -16,12 +16,14 @@ class GastosComponent extends Fronty.ModelComponent {
 
     updateGastos() {
         this.gastosService.findAllGastos().then((data) => {
-            console(data)
+            console.log(this.gastosModel);
+            console.log(data)
             this.gastosModel.setGastos(
                 // create a Fronty.Model for each item retrieved from the backend
                 data.map(
-                    (item) => new GastoModel(item.id, item.usuario, item.tipo, item.cantidad, item.fecha, item.description, item.uuidFichero)
-                ));
+                    (item) => new GastoModel(item.id, item.usuario, item.tipo, item.cantidad, item.fecha, item.descripcion, item.uuidFichero)
+                ))
+            console.log(this.gastosModel);
         });
     }
 
@@ -57,7 +59,7 @@ class GastoRowComponent extends Fronty.ModelComponent {
 
         this.addEventListener('click', '.edit-button', (event) => {
             var gastoId = event.target.getAttribute('item');
-            this.router.goToPage('editar-gasto?id=' + gastoId);
+            this.router.goToPage('edit-gasto?id=' + gastoId);
         });
     }
 }

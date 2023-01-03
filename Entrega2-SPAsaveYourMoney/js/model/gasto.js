@@ -1,5 +1,5 @@
 class GastoModel extends Fronty.Model {
-    constructor(id, usuario, tipo, cantidad, fecha, description, uuidFichero) {
+    constructor(id, usuario, tipo, cantidad, fecha, descripcion, uuidFichero) {
         super('GastoModel');//call super
 
         if (id) {
@@ -17,8 +17,8 @@ class GastoModel extends Fronty.Model {
         if (fecha) {
             this.fecha = fecha;
         }
-        if (description) {
-            this.description = description;
+        if (descripcion) {
+            this.descripcion = descripcion;
         }
         if (uuidFichero) {
             this.uuidFichero = uuidFichero;
@@ -49,9 +49,9 @@ class GastoModel extends Fronty.Model {
         });
     }
 
-    setDescription(description) {
+    setDescription(descripcion) {
         this.set((self) => {
-            self.description = description;
+            self.descripcion = descripcion;
         });
     }
 

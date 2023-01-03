@@ -20,7 +20,7 @@ class GastosService {
 
     saveGasto(gasto) {
         return $.ajax({
-            url: AppConfig.backendServer + '/rest/gasto/' + gasto,
+            url: AppConfig.backendServer + '/rest/gasto/' + gasto.id,
             method: 'PUT',
             data: JSON.stringify(gasto),
             contentType: 'application/json'

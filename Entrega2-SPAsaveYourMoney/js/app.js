@@ -41,6 +41,8 @@ Promise.all([
     Handlebars.templates.postview = Handlebars.compile(source)),
   loadTextFile('templates/components/post-row.hbs').then((source) =>
     Handlebars.templates.postrow = Handlebars.compile(source)),
+  loadTextFile('templates/components/gasto-edit.hbs').then((source) =>
+    Handlebars.templates.gastoedit = Handlebars.compile(source)),
   loadTextFile('templates/components/gasto-row.hbs').then((source) =>
     Handlebars.templates.gastorow = Handlebars.compile(source)),
   loadTextFile('templates/components/gastos-table.hbs').then((source) =>

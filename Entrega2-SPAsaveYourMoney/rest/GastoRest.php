@@ -53,7 +53,7 @@ class GastoRest extends BaseRest
                 "tipo" => $gasto["tipo"],
                 "cantidad" => $gasto["cantidad"],
                 "fecha" => $gasto["fecha"],
-                "description" => $gasto["descripcion"],
+                "descripcion" => $gasto["descripcion"],
                 "uuidFichero" => $gasto["fichero"]
             ));
         }
@@ -99,7 +99,7 @@ class GastoRest extends BaseRest
             "tipo" => $gasto->getTipo(),
             "cantidad" => $gasto->getCantidad(),
             "fecha" => $gasto->getFecha(),
-            "description" => $gasto->getDescription(),
+            "descripcion" => $gasto->getDescription(),
             "uuidFichero" => $gasto->getUuidFichero()
 
         );
@@ -202,7 +202,7 @@ class GastoRest extends BaseRest
                     "tipo" => $gastoSaved->getTipo(),
                     "cantidad" => $gastoSaved->getCantidad(),
                     "fecha" => $gastoSaved->getFecha(),
-                    "description" => $gastoSaved->getDescription(),
+                    "descripcion" => $gastoSaved->getDescription(),
                     "uuidFichero" => $gastoSaved->getUuidFichero()
 
                 )));
@@ -290,7 +290,7 @@ class GastoRest extends BaseRest
 
         //Campo no obligatorio.
         if (isset($data->uuidfichero)) {
-            if ($data->uuidfichero == "REMOVE") {
+            if ($data->uuidfichero == "") {
                 $gastoUpdate->setUuidFichero(null);
             } else {
                 $gastoUpdate->setUuidFichero($data->uuidfichero);
@@ -314,7 +314,7 @@ class GastoRest extends BaseRest
                     "tipo" => $gastoSaved->getTipo(),
                     "cantidad" => $gastoSaved->getCantidad(),
                     "fecha" => $gastoSaved->getFecha(),
-                    "description" => $gastoSaved->getDescription(),
+                    "descripcion" => $gastoSaved->getDescription(),
                     "uuidFichero" => $gastoSaved->getUuidFichero()
 
                 )));
