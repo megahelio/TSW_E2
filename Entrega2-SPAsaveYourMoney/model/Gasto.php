@@ -1,6 +1,6 @@
 <?php
 
-require_once(__DIR__ . "/../core/ValidationException.php");
+require_once(__DIR__ . "/ValidationException.php");
 require_once(__DIR__."/Tipos.php");
 
 class Gasto
