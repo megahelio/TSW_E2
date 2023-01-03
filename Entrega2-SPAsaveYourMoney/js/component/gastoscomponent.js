@@ -16,7 +16,7 @@ class GastosComponent extends Fronty.ModelComponent {
 
     updateGastos() {
         this.gastosService.findAllGastos().then((data) => {
-            console(data.id)
+            console(data)
             this.gastosModel.setGastos(
                 // create a Fronty.Model for each item retrieved from the backend
                 data.map(

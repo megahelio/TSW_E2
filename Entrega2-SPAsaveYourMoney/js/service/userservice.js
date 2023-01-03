@@ -22,7 +22,6 @@ class UserService {
   }
 
   login(login, pass) {
-    alert("Llega Login");
     return new Promise((resolve, reject) => {
 
       $.get({
