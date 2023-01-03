@@ -1,7 +1,8 @@
 <div>
     <h1>{{i18n 'Gastos'}}</h1>
     <div id="gastos-table">
-        {{#if gastos.length}}
+        <a href='#add-gasto'>{{i18n 'Añadir gasto'}}</a>
+        {{!-- {{#if gastos.length}} --}}
         <table border="1">
             <thead>
                 <tr>
@@ -20,9 +21,6 @@
                 {{/each}}
             </tbody>
         </table>
-        {{/if}}
+        {{!-- {{/if}} --}}
     </div>
-    {{#if usuario.isLogged}}
-    <a href='#add-gasto'>{{i18n 'Añadir gasto'}}</a>
-    {{/if}}
 </div>
