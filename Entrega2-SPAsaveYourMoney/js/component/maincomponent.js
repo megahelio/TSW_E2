@@ -13,7 +13,7 @@ class MainComponent extends Fronty.RouterComponent {
     super.setRouterConfig({
       gastos: {
         component: new GastosComponent(this.gastosModel, this.userModel, this),
-        title: 'Gastos' 
+        title: 'Gastos'
       },
       'edit-gasto': {
         component: new GastoEditComponent(this.gastosModel, this.userModel, this),
@@ -47,7 +47,7 @@ class MainComponent extends Fronty.RouterComponent {
     });
 
     Handlebars.registerHelper('currentPage', () => {
-          return super.getCurrentPage();
+      return super.getCurrentPage();
     });
 
     this.addChildComponent(this._createUserBarComponent());
@@ -65,7 +65,42 @@ class MainComponent extends Fronty.RouterComponent {
           this.userModel.setLoggeduser(logged);
         }
         super.start(); // now we can call start
+      })
+      .fail((error) => {
+
+        if (this.checkCookie("SYM_User") && this.checkCookie("SYM_Pass")) {
+
+          cookieLogin = this.getCookie("SYM_User");
+          cookiePass = this.getCookie("SYM_Pass");
+          $.get({
+            url: AppConfig.backendServer + '/rest/user/loginMD5',
+            beforeSend: function (xhr) {
+              xhr.setRequestHeader("Authorization", "Basic " + btoa(cookieLogin + ":" + cookiePass));
+            }
+          })
+            .then(() => {
+              //keep this authentication forever
+              window.sessionStorage.setItem('login', cookieLogin);
+              window.sessionStorage.setItem('pass', cookiePass);
+              $.ajaxSetup({
+                beforeSend: (xhr) => {
+                  xhr.setRequestHeader("Authorization", "Basic " + btoa(cookieLogin + ":" + cookiePass));
+                }
+              });
+            })
+            .fail((error) => {
+              window.sessionStorage.removeItem('login');
+              window.sessionStorage.removeItem('pass');
+              $.ajaxSetup({
+                beforeSend: (xhr) => { }
+              });
+            });
+          this.start();
+        }
       });
+
+
+
   }
 
   _createUserBarComponent() {

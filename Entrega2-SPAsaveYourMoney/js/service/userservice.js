@@ -52,75 +52,72 @@ class UserService {
             });
             reject(error);
           });
+      }
+
+      if ($('#remember').is(':checked')) {
+
+        $.get({
+          url: AppConfig.backendServer + '/rest/user/loginWithRemember',
+          beforeSend: function (xhr) {
+            xhr.setRequestHeader("Authorization", "Basic " + btoa(login + ":" + pass));
+          }
+        })
+          .then(() => {
+
+            this.setCookie("SYM_User", login, 30);
+            this.setCookie("SYM_Pass", CryptoJS.MD5(pass), 30);
+            //keep this authentication forever
+            window.sessionStorage.setItem('login', login);
+            window.sessionStorage.setItem('pass', pass);
+            $.ajaxSetup({
+              beforeSend: (xhr) => {
+                xhr.setRequestHeader("Authorization", "Basic " + btoa(login + ":" + pass));
+              }
+            });
+            resolve();
+          })
+          .fail((error) => {
+            window.sessionStorage.removeItem('login');
+            window.sessionStorage.removeItem('pass');
+            $.ajaxSetup({
+              beforeSend: (xhr) => { }
+            });
+            reject(error);
+          });
 
 
 
       } else {
 
-        if ($('#remember').is(':checked')) {
-
-          $.get({
-            url: AppConfig.backendServer + '/rest/user/loginWithRemember',
-            beforeSend: function (xhr) {
-              xhr.setRequestHeader("Authorization", "Basic " + btoa(login + ":" + pass));
-            }
-          })
-            .then(() => {
-
-              this.setCookie("SYM_User", login, 30);
-              this.setCookie("SYM_Pass", CryptoJS.MD5(pass), 30);
-              //keep this authentication forever
-              window.sessionStorage.setItem('login', login);
-              window.sessionStorage.setItem('pass', pass);
-              $.ajaxSetup({
-                beforeSend: (xhr) => {
-                  xhr.setRequestHeader("Authorization", "Basic " + btoa(login + ":" + pass));
-                }
-              });
-              resolve();
-            })
-            .fail((error) => {
-              window.sessionStorage.removeItem('login');
-              window.sessionStorage.removeItem('pass');
-              $.ajaxSetup({
-                beforeSend: (xhr) => { }
-              });
-              reject(error);
+        $.get({
+          url: AppConfig.backendServer + '/rest/user/login',
+          beforeSend: function (xhr) {
+            xhr.setRequestHeader("Authorization", "Basic " + btoa(login + ":" + pass));
+          }
+        })
+          .then(() => {
+            //keep this authentication forever
+            window.sessionStorage.setItem('login', login);
+            window.sessionStorage.setItem('pass', pass);
+            $.ajaxSetup({
+              beforeSend: (xhr) => {
+                xhr.setRequestHeader("Authorization", "Basic " + btoa(login + ":" + pass));
+              }
             });
-
-
-
-        } else {
-
-          $.get({
-            url: AppConfig.backendServer + '/rest/user/login',
-            beforeSend: function (xhr) {
-              xhr.setRequestHeader("Authorization", "Basic " + btoa(login + ":" + pass));
-            }
+            resolve();
           })
-            .then(() => {
-              //keep this authentication forever
-              window.sessionStorage.setItem('login', login);
-              window.sessionStorage.setItem('pass', pass);
-              $.ajaxSetup({
-                beforeSend: (xhr) => {
-                  xhr.setRequestHeader("Authorization", "Basic " + btoa(login + ":" + pass));
-                }
-              });
-              resolve();
-            })
-            .fail((error) => {
-              window.sessionStorage.removeItem('login');
-              window.sessionStorage.removeItem('pass');
-              $.ajaxSetup({
-                beforeSend: (xhr) => { }
-              });
-              reject(error);
+          .fail((error) => {
+            window.sessionStorage.removeItem('login');
+            window.sessionStorage.removeItem('pass');
+            $.ajaxSetup({
+              beforeSend: (xhr) => { }
             });
-
-        }
+            reject(error);
+          });
 
       }
+
+
     });
 
   }
