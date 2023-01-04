@@ -29,10 +29,12 @@ class BaseRest
 	 * $_SERVER['PHP_AUTH_USER'] y $_SERVER['PHP_AUTH_PW'] se reciben como el usuario/contraseña
 	 * que se inserta en la cabecera de autentificación.	
 	 * 
+	 * @param BOOL $md5 -> si es verdadero se hace el md5 de la clave antes de mandarla a la base de datos
+	 * 						si es falso no se hace el md5 (se entiende que se recibe la clave en md5)
 	 *
 	 * @return User the user just authenticated.
 	 */
-	public function authenticateUser()
+	public function authenticateUser($md5)
 	{
 
 		if (!isset($_SERVER['PHP_AUTH_USER'])) {
@@ -41,10 +43,14 @@ class BaseRest
 			die('This operation requires authentication');
 		} else {
 			$userMapper = new UserMapper();
+			$pass = $_SERVER['PHP_AUTH_PW'];
+			if ($md5) {
+				$pass = md5($pass);
+			}
 			if ($userMapper->isValidUser(
 				$_SERVER['PHP_AUTH_USER'],
 				//en el mysql tenemos el hash md5
-				md5($_SERVER['PHP_AUTH_PW'])
+				$pass
 			)) {
 
 				return new User($_SERVER['PHP_AUTH_USER']);

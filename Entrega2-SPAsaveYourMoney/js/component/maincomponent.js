@@ -43,7 +43,7 @@ class MainComponent extends Fronty.RouterComponent {
         component: new LoginComponent(this.userModel, this),
         title: 'Login'
       },
-      defaultRoute: 'login'
+      defaultRoute: 'gastos'
     });
 
     Handlebars.registerHelper('currentPage', () => {
@@ -74,6 +74,7 @@ class MainComponent extends Fronty.RouterComponent {
     userbar.addEventListener('click', '#logoutbutton', () => {
       this.userModel.logout();
       this.userService.logout();
+      super.goToPage('login');
     });
 
     return userbar;

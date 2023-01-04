@@ -11,7 +11,77 @@ class GastosComponent extends Fronty.ModelComponent {
     }
 
     onStart() {
-        this.updateGastos();
+        if (!this.userModel.isLogged) {
+            this.router.goToPage('login');
+        } else {
+            this.updateGastos();
+
+            //scripts para las graficas 
+            document.addEventListener('DOMContentLoaded', function () {
+                const chart = Highcharts.chart('lineGraph', {
+                    title: {
+                        text: ''
+                    },
+                    xAxis: {
+                        // categories: <?= $lineGraphMonths ?>,//Cambiar por una lista de meses a representar en el grafico
+                        title: {
+                            text: 'Meses'
+                        }
+                    },
+                    yAxis: {
+                        title: {
+                            text: 'Euros'
+                        }
+                    },
+                    plotOptions: {
+                        series: {
+                            label: {
+                                connectorAllowed: false
+                            }
+                        }
+                    },
+                    // series: <?= $lineGraphData ?>//Cambiar por una lista de data a representar en el grafico
+
+
+                });
+            });
+            document.addEventListener('DOMContentLoaded', function () {
+                const chart = Highcharts.chart('pieGraph', {
+                    chart: {
+                        plotBackgroundColor: null,
+                        plotBorderWidth: null,
+                        plotShadow: false,
+                        type: 'pie'
+                    },
+                    title: {
+                        text: ''
+                    },
+                    tooltip: {
+                        pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+                    },
+                    accessibility: {
+                        point: {
+                            valueSuffix: '%'
+                        }
+                    },
+                    plotOptions: {
+                        pie: {
+                            allowPointSelect: true,
+                            cursor: 'pointer',
+                            dataLabels: {
+                                enabled: false
+                            },
+                            showInLegend: true
+                        }
+                    },
+                    series: [{
+                        name: 'gastos',
+                        colorByPoint: true,
+                        // data: [<?= $pieGraphData; ?>] //Cambiar por la data a representar
+                    }]
+                });
+            });
+        }
     }
 
     updateGastos() {
