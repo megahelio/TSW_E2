@@ -1,0 +1,30 @@
+<div>
+    <h1>{{i18n 'Gastos'}}</h1>
+<div class="charts">
+    <div id="lineGraph"></div>
+    <div id="pieGraph"></div>
+</div>
+    
+    <div id="gastos-table">
+        <a href='#add-gasto'>{{i18n 'Añadir gasto'}}</a>
+        {{!-- {{#if gastos.length}} --}}
+        <table border="1">
+            <thead>
+                <tr>
+                    <th>{{i18n 'Tipo'}}</th>
+                    <th>{{i18n 'Cantidad'}}</th>
+                    <th>{{i18n 'Fecha'}}</th>
+                    <th>{{i18n 'Descripción'}}</th>
+                    <th>{{i18n 'UUID del fichero'}}</th>
+                    <th>{{i18n 'Acciones'}}</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{#each gastos}}
+                <tr fronty-component="GastoRowComponent" key="{{id}}" model="gastos[{{@index}}]" id="item-{{id}}"></tr>
+                {{/each}}
+            </tbody>
+        </table>
+        {{!-- {{/if}} --}}
+    </div>
+</div>

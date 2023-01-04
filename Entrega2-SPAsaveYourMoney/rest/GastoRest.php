@@ -37,7 +37,7 @@ class GastoRest extends BaseRest
     public function getGastos()
     {
 
-        $currentUser = parent::authenticateUser()->getUsername();
+        $currentUser = parent::authenticateUser(false)->getUsername();
         $gastos = $this->gastoMapper->findGastosByUsername($currentUser);
 
         // json_encode Gasto objects.
@@ -53,7 +53,7 @@ class GastoRest extends BaseRest
                 "tipo" => $gasto["tipo"],
                 "cantidad" => $gasto["cantidad"],
                 "fecha" => $gasto["fecha"],
-                "description" => $gasto["descripcion"],
+                "descripcion" => $gasto["descripcion"],
                 "uuidFichero" => $gasto["fichero"]
             ));
         }
@@ -77,7 +77,7 @@ class GastoRest extends BaseRest
     public function getGasto($data)
     {
         //CurrentUser String
-        $currentUser = parent::authenticateUser()->getUsername();
+        $currentUser = parent::authenticateUser(false)->getUsername();
         // find the Gasto object in the database
         $gasto = $this->gastoMapper->findGastoById($data);
 
@@ -99,7 +99,7 @@ class GastoRest extends BaseRest
             "tipo" => $gasto->getTipo(),
             "cantidad" => $gasto->getCantidad(),
             "fecha" => $gasto->getFecha(),
-            "description" => $gasto->getDescription(),
+            "descripcion" => $gasto->getDescription(),
             "uuidFichero" => $gasto->getUuidFichero()
 
         );
@@ -125,7 +125,7 @@ class GastoRest extends BaseRest
     public function createGasto($data)
     {
 
-        $currentUser = parent::authenticateUser()->getUsername();
+        $currentUser = parent::authenticateUser(false)->getUsername();
 
         //parseamos Parametro a objeto
         $gasto = new Gasto();
@@ -202,7 +202,7 @@ class GastoRest extends BaseRest
                     "tipo" => $gastoSaved->getTipo(),
                     "cantidad" => $gastoSaved->getCantidad(),
                     "fecha" => $gastoSaved->getFecha(),
-                    "description" => $gastoSaved->getDescription(),
+                    "descripcion" => $gastoSaved->getDescription(),
                     "uuidFichero" => $gastoSaved->getUuidFichero()
 
                 )));
@@ -236,7 +236,7 @@ class GastoRest extends BaseRest
     {
 
 
-        $currentUser = parent::authenticateUser()->getUsername();
+        $currentUser = parent::authenticateUser(false)->getUsername();
 
         $gasto = $this->gastoMapper->findGastoById($gastoId);
         if ($gasto == NULL) {
@@ -290,7 +290,7 @@ class GastoRest extends BaseRest
 
         //Campo no obligatorio.
         if (isset($data->uuidfichero)) {
-            if ($data->uuidfichero == "REMOVE") {
+            if ($data->uuidfichero == "") {
                 $gastoUpdate->setUuidFichero(null);
             } else {
                 $gastoUpdate->setUuidFichero($data->uuidfichero);
@@ -314,7 +314,7 @@ class GastoRest extends BaseRest
                     "tipo" => $gastoSaved->getTipo(),
                     "cantidad" => $gastoSaved->getCantidad(),
                     "fecha" => $gastoSaved->getFecha(),
-                    "description" => $gastoSaved->getDescription(),
+                    "descripcion" => $gastoSaved->getDescription(),
                     "uuidFichero" => $gastoSaved->getUuidFichero()
 
                 )));
@@ -344,7 +344,7 @@ class GastoRest extends BaseRest
 
     public function deleteGasto($gastoId)
     {
-        $currentUser = parent::authenticateUser()->getUsername();
+        $currentUser = parent::authenticateUser(false)->getUsername();
         $gasto = $this->gastoMapper->findGastoById($gastoId);
 
         //Si el id no existe

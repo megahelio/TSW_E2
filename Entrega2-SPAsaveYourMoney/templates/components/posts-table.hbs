@@ -1,0 +1,24 @@
+<div>
+<h1>{{i18n 'Posts'}}</h1>
+<div id="posts-table">
+  {{#if posts.length}}
+    <table border="1">
+      <thead>
+      <tr>
+        <th>{{i18n 'Title'}}</th>
+        <th>{{i18n 'Author'}}</th>
+        <th>{{i18n 'Actions'}}</th>
+      </tr>
+      </thead>
+      <tbody>
+      {{#each posts}}
+        <tr fronty-component="PostRowComponent" key="{{id}}" model="posts[{{@index}}]" id="item-{{id}}"></tr>
+      {{/each}}
+    </tbody>
+    </table>
+  {{/if}}
+</div>
+{{#if user.isLogged}}
+  <a href='#add-post'>{{i18n 'Add post'}}</a>
+{{/if}}
+</div>

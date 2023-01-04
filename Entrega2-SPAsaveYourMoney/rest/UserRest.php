@@ -129,7 +129,7 @@ class UserRest extends BaseRest
 	 */
 	public function updateUser($data)
 	{
-		$currentUser = parent::authenticateUser()->getUsername();
+		$currentUser = parent::authenticateUser(true)->getUsername();
 		$userUpdate = new User();
 
 		$user = $this->userMapper->getUserByUsername($currentUser);
@@ -198,7 +198,7 @@ class UserRest extends BaseRest
 
 	public function deleteUser()
 	{
-		$currentUser = parent::authenticateUser()->getUsername();
+		$currentUser = parent::authenticateUser(true)->getUsername();
 
 		$this->userMapper->delete($currentUser);
 
@@ -221,7 +221,42 @@ class UserRest extends BaseRest
 	 */
 	public function login()
 	{
-		$currentUser = parent::authenticateUser();
+
+		$currentUser = parent::authenticateUser(true)->getUsername();
+		header($_SERVER['SERVER_PROTOCOL'] . ' 200 OK');
+		die("Hello " . $currentUser);
+	}
+	/**
+	 * Verifica un par de credenciales (WWW-Authenticate: Basic) dado (Pass En MD5)
+	 * 
+	 * @throws 401 Unauthorized -> Validación Incorrecta
+	 * 
+	 * @return 200 OK -> Validación Correcta
+	 * 
+	 */
+	public function loginMD5()
+	{
+		$currentUser = parent::authenticateUser(false)->getUsername();
+		header($_SERVER['SERVER_PROTOCOL'] . ' 200 OK');
+		die("Hello " . $currentUser);
+	}
+	
+
+
+	/**
+	 * Verifica un par de credenciales (WWW-Authenticate: Basic) dado
+	 * y sobreescribe lastLoginDate con la fecha actual
+	 * 
+	 * @throws 401 Unauthorized -> Validación Incorrecta
+	 * 
+	 * @return 200 OK -> Validación Correcta
+	 * 
+	 */
+	public function loginWithRemember()
+	{
+		$currentUser = parent::authenticateUser(false)->getUsername();
+		$this->userMapper->editLastLoginDate($currentUser, date('Y-m-d'));
+
 		header($_SERVER['SERVER_PROTOCOL'] . ' 200 OK');
 		die("Hello " . $currentUser);
 	}
@@ -231,6 +266,8 @@ class UserRest extends BaseRest
 $userRest = new UserRest();
 URIDispatcher::getInstance()
 	->map("GET",	"/user/login",		array($userRest, "login"))
+	->map("GET",	"/user/loginMD5",		array($userRest, "loginMD5"))
+	->map("GET",	"/user/loginWithRemember",		array($userRest, "loginWithRemember"))
 	->map("POST",	"/user",		array($userRest, "createUser"))
 	->map("PUT",	"/user",		array($userRest, "updateUser"))
 	->map("DELETE",	"/user",		array($userRest, "deleteUser"));

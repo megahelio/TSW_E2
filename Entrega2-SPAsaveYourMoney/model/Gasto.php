@@ -1,6 +1,6 @@
 <?php
 
-require_once(__DIR__ . "/../core/ValidationException.php");
+require_once(__DIR__ . "/ValidationException.php");
 require_once(__DIR__."/Tipos.php");
 
 class Gasto
@@ -10,17 +10,17 @@ class Gasto
     private $tipo;
     private $cantidad;
     private $fecha;
-    private $description;
+    private $descripcion;
     private $uuidFichero;
 
-    public function __construct($id = NULL, $usuario = NULL, $tipo = NULL, $cantidad = NULL, $fecha = NULL, $description = NULL, $uuidFichero = NULL)
+    public function __construct($id = NULL, $usuario = NULL, $tipo = NULL, $cantidad = NULL, $fecha = NULL, $descripcion = NULL, $uuidFichero = NULL)
     {
         $this->id = $id;
         $this->usuario = $usuario;
         $this->tipo = $tipo;
         $this->cantidad = $cantidad;
         $this->fecha = $fecha;
-        $this->description = $description;
+        $this->descripcion = $descripcion;
         $this->uuidFichero = $uuidFichero;
     }
 
@@ -70,13 +70,13 @@ class Gasto
         return $this->fecha;
     }
 
-    public function setDescription($description)
+    public function setDescription($descripcion)
     {
-        $this->description = $description;
+        $this->descripcion = $descripcion;
     }
     public function getDescription()
     {
-        return $this->description;
+        return $this->descripcion;
     }
 
     public function setUuidFichero($uuidFichero)
@@ -127,11 +127,11 @@ class Gasto
         $date = strtotime($this->fecha);
         $date = getDate($date);
 
-        if (checkdate(($date["mday"]), $date["mon"], $date["year"])) {
+        if (!checkdate( $date["mon"], $date["mday"], $date["year"])) {
             $errors["fecha"] = "fecha invalida";
         }
 
-        $descripcion = $this->description;
+        $descripcion = $this->descripcion;
         if (str_contains($descripcion, '<') || str_contains($descripcion, '>') || str_contains($descripcion, '\\')) {
             $errors["descripcion"] = "descripcion invalida";
         }

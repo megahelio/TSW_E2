@@ -29,29 +29,34 @@ class BaseRest
 	 * $_SERVER['PHP_AUTH_USER'] y $_SERVER['PHP_AUTH_PW'] se reciben como el usuario/contraseña
 	 * que se inserta en la cabecera de autentificación.	
 	 * 
+	 * @param BOOL $md5 -> si es verdadero se hace el md5 de la clave antes de mandarla a la base de datos
+	 * 						si es falso no se hace el md5 (se entiende que se recibe la clave en md5)
 	 *
 	 * @return User the user just authenticated.
 	 */
-	public function authenticateUser()
+	public function authenticateUser($md5)
 	{
 
 		if (!isset($_SERVER['PHP_AUTH_USER'])) {
 			header($_SERVER['SERVER_PROTOCOL'] . ' 401 Unauthorized');
-			header('WWW-Authenticate: Basic realm="Rest API of MVCBLOG"');
 			die('This operation requires authentication');
 		} else {
 			$userMapper = new UserMapper();
+			$pass = $_SERVER['PHP_AUTH_PW'];
+			if ($md5) {
+				$pass = md5($pass);
+			}
 			if ($userMapper->isValidUser(
 				$_SERVER['PHP_AUTH_USER'],
 				//en el mysql tenemos el hash md5
-				md5($_SERVER['PHP_AUTH_PW'])
+				$pass
 			)) {
 
 				return new User($_SERVER['PHP_AUTH_USER']);
 			} else {
 				header($_SERVER['SERVER_PROTOCOL'] . ' 401 Unauthorized');
-				header('WWW-Authenticate: Basic realm="Rest API of MVCBLOG"');
 
+				die('The '. $_SERVER['PHP_AUTH_USER'].'/'. $_SERVER['PHP_AUTH_PW'].' is not valid');//NO VÁLIDO PARA PRODUCCIÓN
 				die('The username/password is not valid');
 			}
 		}
