@@ -253,11 +253,8 @@ class UserRest extends BaseRest
 	 */
 	public function loginWithRemember()
 	{
-		$currentUser = parent::authenticateUser(true)->getUsername();
-		$currentDate = getdate();
-		$currentDateStringed = $currentDate["year"] . $currentDate["ymon"] . $currentDate["mday"];
-		print($currentDateStringed);
-		$this->userMapper->editLastLoginDate($currentUser, $currentDateStringed);
+		$currentUser = parent::authenticateUser(false)->getUsername();
+		$this->userMapper->editLastLoginDate($currentUser, date('Y-m-d'));
 		header($_SERVER['SERVER_PROTOCOL'] . ' 200 OK');
 		die("Hello " . $currentUser);
 	}

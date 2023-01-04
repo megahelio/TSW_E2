@@ -13,7 +13,7 @@ class MainComponent extends Fronty.RouterComponent {
     super.setRouterConfig({
       gastos: {
         component: new GastosComponent(this.gastosModel, this.userModel, this),
-        title: 'Gastos' 
+        title: 'Gastos'
       },
       'edit-gasto': {
         component: new GastoEditComponent(this.gastosModel, this.userModel, this),
@@ -47,7 +47,7 @@ class MainComponent extends Fronty.RouterComponent {
     });
 
     Handlebars.registerHelper('currentPage', () => {
-          return super.getCurrentPage();
+      return super.getCurrentPage();
     });
 
     this.addChildComponent(this._createUserBarComponent());
@@ -63,9 +63,16 @@ class MainComponent extends Fronty.RouterComponent {
       .then((logged) => {
         if (logged != null) {
           this.userModel.setLoggeduser(logged);
+          super.goToPage('gastos');
+        } else {
+          this.userService.loginWithCookies()
+            .then(() => {
+              this.start();
+            });
         }
         super.start(); // now we can call start
       });
+
   }
 
   _createUserBarComponent() {
