@@ -221,6 +221,7 @@ class UserRest extends BaseRest
 	 */
 	public function login()
 	{
+
 		$currentUser = parent::authenticateUser(true)->getUsername();
 		header($_SERVER['SERVER_PROTOCOL'] . ' 200 OK');
 		die("Hello " . $currentUser);
@@ -255,6 +256,7 @@ class UserRest extends BaseRest
 	{
 		$currentUser = parent::authenticateUser(false)->getUsername();
 		$this->userMapper->editLastLoginDate($currentUser, date('Y-m-d'));
+
 		header($_SERVER['SERVER_PROTOCOL'] . ' 200 OK');
 		die("Hello " . $currentUser);
 	}
