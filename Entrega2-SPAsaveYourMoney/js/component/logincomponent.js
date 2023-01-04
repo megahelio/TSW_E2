@@ -49,6 +49,13 @@ class LoginComponent extends Fronty.ModelComponent {
           } else {
             alert('an error has occurred during request: ' + statusText + '.' + xhr.responseText);
           }
+        })
+        .then(() => {
+          this.userService.login($('#registerusername').val(), $('#registerpassword').val(), false)
+          .then(() => {
+            this.router.goToPage('gastos');
+            this.userModel.setLoggeduser($('#registerusername').val());
+          })
         });
     });
   }
