@@ -39,14 +39,15 @@ class BaseRest
 
 		if (!isset($_SERVER['PHP_AUTH_USER'])) {
 			header($_SERVER['SERVER_PROTOCOL'] . ' 401 Unauthorized');
-			header('WWW-Authenticate: Basic realm="Rest API of MVCBLOG"');
 			die('This operation requires authentication');
 		} else {
 			$userMapper = new UserMapper();
 			$pass = $_SERVER['PHP_AUTH_PW'];
+
 			if ($md5) {
 				$pass = md5($pass);
 			}
+			
 			if ($userMapper->isValidUser(
 				$_SERVER['PHP_AUTH_USER'],
 				//en el mysql tenemos el hash md5
@@ -56,8 +57,8 @@ class BaseRest
 				return new User($_SERVER['PHP_AUTH_USER']);
 			} else {
 				header($_SERVER['SERVER_PROTOCOL'] . ' 401 Unauthorized');
-				header('WWW-Authenticate: Basic realm="Rest API of MVCBLOG"');
-
+				
+				die("The ".$_SERVER['PHP_AUTH_USER']."/". $_SERVER['PHP_AUTH_PW']. " is not valid");//NOT Valid For production
 				die('The username/password is not valid');
 			}
 		}

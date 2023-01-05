@@ -85,6 +85,7 @@ class User
 			$errors["username"] = "Username contains invalid characters";
 		}
 
+
 		$passwd = $this->passwd;
 		if (strlen($passwd) < 5) {
 			$errors["passwd"] = "Password must be at least 5 characters length";

@@ -21,58 +21,50 @@ class UserService {
     });
   }
 
-  login(login, pass, remember) {
-    var MD5pass =CryptoJS.MD5(pass);
+  loginWithCookies() {
     return new Promise((resolve, reject) => {
       if (this.checkCookie("SYM_User") && this.checkCookie("SYM_Pass")) {
 
-        cookieLogin = this.getCookie("SYM_User");
-        cookiePass = this.getCookie("SYM_Pass");
-        $.get({
-          url: AppConfig.backendServer + '/rest/user/loginMD5',
-          beforeSend: function (xhr) {
-            xhr.setRequestHeader("Authorization", "Basic " + btoa(cookieLogin + ":" + cookiePass));
-          }
-        })
+        var cookieLogin = this.getCookie("SYM_User");
+        var cookiePass = this.getCookie("SYM_Pass");
+        this.login(cookieLogin, cookiePass, true, false)
           .then(() => {
-            //keep this authentication forever
-            window.sessionStorage.setItem('login', cookieLogin);
-            window.sessionStorage.setItem('pass', cookiePass);
-            $.ajaxSetup({
-              beforeSend: (xhr) => {
-                xhr.setRequestHeader("Authorization", "Basic " + btoa(cookieLogin + ":" + cookiePass));
-              }
-            });
-            resolve();
+            resolve(window.sessionStorage.getItem('login'));
           })
-          .fail((error) => {
-            window.sessionStorage.removeItem('login');
-            window.sessionStorage.removeItem('pass');
-            $.ajaxSetup({
-              beforeSend: (xhr) => { }
-            });
-            reject(error);
+          .catch(() => {
+            reject();
           });
+      } else {
+        resolve(null);
       }
+    });
+  }
 
-      if ($('#remember').is(':checked')) {
+  login(login, pass, remember, doMD5) {
+    if (doMD5) {
+      var MD5pass = CryptoJS.MD5(pass);
+    } else {
+      var MD5pass = pass;
+    }
+    return new Promise((resolve, reject) => {
+      if (remember) {
 
         $.get({
           url: AppConfig.backendServer + '/rest/user/loginWithRemember',
           beforeSend: function (xhr) {
-            xhr.setRequestHeader("Authorization", "Basic " + btoa(login + ":" + pass));
+            xhr.setRequestHeader("Authorization", "Basic " + btoa(login + ":" + MD5pass));
           }
         })
           .then(() => {
 
             this.setCookie("SYM_User", login, 30);
-            this.setCookie("SYM_Pass", pass, 30);
+            this.setCookie("SYM_Pass", MD5pass, 30);
             //keep this authentication forever
             window.sessionStorage.setItem('login', login);
-            window.sessionStorage.setItem('pass', pass);
+            window.sessionStorage.setItem('pass', MD5pass);
             $.ajaxSetup({
               beforeSend: (xhr) => {
-                xhr.setRequestHeader("Authorization", "Basic " + btoa(login + ":" + pass));
+                xhr.setRequestHeader("Authorization", "Basic " + btoa(login + ":" + MD5pass));
               }
             });
             resolve();
@@ -93,16 +85,16 @@ class UserService {
         $.get({
           url: AppConfig.backendServer + '/rest/user/loginMD5',
           beforeSend: function (xhr) {
-            xhr.setRequestHeader("Authorization", "Basic " + btoa(login + ":" + pass));
+            xhr.setRequestHeader("Authorization", "Basic " + btoa(login + ":" + MD5pass));
           }
         })
           .then(() => {
             //keep this authentication forever
             window.sessionStorage.setItem('login', login);
-            window.sessionStorage.setItem('pass', pass);
+            window.sessionStorage.setItem('pass', MD5pass);
             $.ajaxSetup({
               beforeSend: (xhr) => {
-                xhr.setRequestHeader("Authorization", "Basic " + btoa(login + ":" + pass));
+                xhr.setRequestHeader("Authorization", "Basic " + btoa(login + ":" + MD5pass));
               }
             });
             resolve();
@@ -157,6 +149,10 @@ class UserService {
   logout() {
     window.sessionStorage.removeItem('login');
     window.sessionStorage.removeItem('pass');
+
+    this.setCookie("SYM_User", "", -1);
+    this.setCookie("SYM_Pass", "", -1);
+
     $.ajaxSetup({
       beforeSend: (xhr) => { }
     });

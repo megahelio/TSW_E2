@@ -5,8 +5,13 @@ class LoginComponent extends Fronty.ModelComponent {
     this.userService = new UserService();
     this.router = router;
 
+    this.userService.loginWithCookies()
+      .then(() => {
+        this.router.goToPage('gastos');
+      });
+
     this.addEventListener('click', '#loginbutton', (event) => {
-      this.userService.login($('#login').val(), $('#password').val(), $('#remember').val())
+      this.userService.login($('#login').val(), $('#password').val(), $('#remember').prop('checked'), true)
         .then(() => {
           this.router.goToPage('gastos');
           this.userModel.setLoggeduser($('#login').val());
@@ -35,11 +40,15 @@ class LoginComponent extends Fronty.ModelComponent {
         email: $('#registeremail').val()
       })
         .then(() => {
-          alert(I18n.translate('User registered! Please login'));
-          this.userModel.set((model) => {
-            model.registerErrors = {};
-            model.registerMode = false;
-          });
+          this.userService.login($('#registerusername').val(), $('#registerpassword').val(), false, true)
+            .then(() => {
+              this.userModel.setLoggeduser($('#registerusername').val());
+              this.userModel.set((model) => {
+                model.registerErrors = {};
+                model.registerMode = false;
+              })
+              this.router.goToPage('gastos');
+            })
         })
         .fail((xhr, errorThrown, statusText) => {
           if (xhr.status == 400) {
@@ -50,13 +59,6 @@ class LoginComponent extends Fronty.ModelComponent {
             alert('an error has occurred during request: ' + statusText + '.' + xhr.responseText);
           }
         })
-        .then(() => {
-          this.userService.login($('#registerusername').val(), $('#registerpassword').val(), false)
-          .then(() => {
-            this.router.goToPage('gastos');
-            this.userModel.setLoggeduser($('#registerusername').val());
-          })
-        });
     });
   }
 }

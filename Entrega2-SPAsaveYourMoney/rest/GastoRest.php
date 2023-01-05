@@ -37,7 +37,7 @@ class GastoRest extends BaseRest
     public function getGastos()
     {
 
-        $currentUser = parent::authenticateUser(true)->getUsername();
+        $currentUser = parent::authenticateUser(false)->getUsername();
         $gastos = $this->gastoMapper->findGastosByUsername($currentUser);
 
         // json_encode Gasto objects.
@@ -77,7 +77,7 @@ class GastoRest extends BaseRest
     public function getGasto($data)
     {
         //CurrentUser String
-        $currentUser = parent::authenticateUser(true)->getUsername();
+        $currentUser = parent::authenticateUser(false)->getUsername();
         // find the Gasto object in the database
         $gasto = $this->gastoMapper->findGastoById($data);
 
@@ -125,7 +125,7 @@ class GastoRest extends BaseRest
     public function createGasto($data)
     {
 
-        $currentUser = parent::authenticateUser(true)->getUsername();
+        $currentUser = parent::authenticateUser(false)->getUsername();
 
         //parseamos Parametro a objeto
         $gasto = new Gasto();
@@ -236,7 +236,7 @@ class GastoRest extends BaseRest
     {
 
 
-        $currentUser = parent::authenticateUser(true)->getUsername();
+        $currentUser = parent::authenticateUser(false)->getUsername();
 
         $gasto = $this->gastoMapper->findGastoById($gastoId);
         if ($gasto == NULL) {
@@ -344,7 +344,7 @@ class GastoRest extends BaseRest
 
     public function deleteGasto($gastoId)
     {
-        $currentUser = parent::authenticateUser(true)->getUsername();
+        $currentUser = parent::authenticateUser(false)->getUsername();
         $gasto = $this->gastoMapper->findGastoById($gastoId);
 
         //Si el id no existe

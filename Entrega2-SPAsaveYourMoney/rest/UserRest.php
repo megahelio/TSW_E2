@@ -109,8 +109,8 @@ class UserRest extends BaseRest
 					die("User might be not created by a server error.");
 				}
 			} else {
-				header($_SERVER['SERVER_PROTOCOL'] . ' 400 Bad request');
-				die("Username " . $user->getUsername() . " already exist");
+				$errors["username"] = "Username already exists";
+				throw new ValidationException($errors, "user is not valid");
 			}
 		} catch (ValidationException $e) {
 			header($_SERVER['SERVER_PROTOCOL'] . ' 400 Bad request');
@@ -198,7 +198,7 @@ class UserRest extends BaseRest
 
 	public function deleteUser()
 	{
-		$currentUser = parent::authenticateUser(true)->getUsername();
+		$currentUser = parent::authenticateUser(false)->getUsername();
 
 		$this->userMapper->delete($currentUser);
 
@@ -211,20 +211,6 @@ class UserRest extends BaseRest
 		}
 	}
 
-	/**
-	 * Verifica un par de credenciales (WWW-Authenticate: Basic) dado
-	 * 
-	 * @throws 401 Unauthorized -> Validación Incorrecta
-	 * 
-	 * @return 200 OK -> Validación Correcta
-	 * 
-	 */
-	public function login()
-	{
-		$currentUser = parent::authenticateUser(true)->getUsername();
-		header($_SERVER['SERVER_PROTOCOL'] . ' 200 OK');
-		die("Hello " . $currentUser);
-	}
 	/**
 	 * Verifica un par de credenciales (WWW-Authenticate: Basic) dado (Pass En MD5)
 	 * 
@@ -239,7 +225,7 @@ class UserRest extends BaseRest
 		header($_SERVER['SERVER_PROTOCOL'] . ' 200 OK');
 		die("Hello " . $currentUser);
 	}
-	
+
 
 
 	/**
@@ -253,7 +239,7 @@ class UserRest extends BaseRest
 	 */
 	public function loginWithRemember()
 	{
-		$currentUser = parent::authenticateUser(true)->getUsername();
+		$currentUser = parent::authenticateUser(false)->getUsername();
 		$currentDate = getdate();
 		$currentDateStringed = $currentDate["year"] . $currentDate["ymon"] . $currentDate["mday"];
 		print($currentDateStringed);
@@ -266,7 +252,6 @@ class UserRest extends BaseRest
 // URI-MAPPING for this Rest endpoint
 $userRest = new UserRest();
 URIDispatcher::getInstance()
-	->map("GET",	"/user/login",		array($userRest, "login"))
 	->map("GET",	"/user/loginMD5",		array($userRest, "loginMD5"))
 	->map("GET",	"/user/loginWithRemember",		array($userRest, "loginWithRemember"))
 	->map("POST",	"/user",		array($userRest, "createUser"))
