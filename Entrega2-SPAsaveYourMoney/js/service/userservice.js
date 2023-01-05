@@ -22,6 +22,7 @@ class UserService {
   }
 
   login(login, pass, remember) {
+    var MD5pass =CryptoJS.MD5(pass);
     return new Promise((resolve, reject) => {
       if (this.checkCookie("SYM_User") && this.checkCookie("SYM_Pass")) {
 
@@ -65,7 +66,7 @@ class UserService {
           .then(() => {
 
             this.setCookie("SYM_User", login, 30);
-            this.setCookie("SYM_Pass", CryptoJS.MD5(pass), 30);
+            this.setCookie("SYM_Pass", pass, 30);
             //keep this authentication forever
             window.sessionStorage.setItem('login', login);
             window.sessionStorage.setItem('pass', pass);
@@ -90,7 +91,7 @@ class UserService {
       } else {
 
         $.get({
-          url: AppConfig.backendServer + '/rest/user/login',
+          url: AppConfig.backendServer + '/rest/user/loginMD5',
           beforeSend: function (xhr) {
             xhr.setRequestHeader("Authorization", "Basic " + btoa(login + ":" + pass));
           }
