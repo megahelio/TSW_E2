@@ -2,6 +2,7 @@
   {{#if isLogged}}
     {{i18n 'Hello'}} {{currentUser}}
     <input type="button" id='logoutbutton' value="{{i18n 'logout'}}"></input>
+    <input type="button" id='deleteaccountbutton' value="{{i18n 'Delete Account'}}"></input>
   {{else}}
     <a href='#login'>{{i18n 'Login'}}</a>
   {{/if}}
