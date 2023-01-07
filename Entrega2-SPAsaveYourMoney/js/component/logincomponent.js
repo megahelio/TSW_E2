@@ -5,11 +5,14 @@ class LoginComponent extends Fronty.ModelComponent {
     this.userService = new UserService();
     this.router = router;
 
+    // En la construcción del componente login verificamos si podemos hacer login con las cookies del Recuerdame
     this.userService.loginWithCookies()
       .then(() => {
+        // si es así -> cargamos el componente de gastos 
         this.router.goToPage('gastos');
       });
 
+    //boton de login
     this.addEventListener('click', '#loginbutton', (event) => {
       this.userService.login($('#login').val(), $('#password').val(), $('#remember').prop('checked'), true)
         .then(() => {
@@ -24,12 +27,14 @@ class LoginComponent extends Fronty.ModelComponent {
         });
     });
 
+    // cambiar visibilidad del formulario de registro
     this.addEventListener('click', '#registerlink', () => {
       this.userModel.set(() => {
         this.userModel.registerMode = true;
       });
     });
 
+    //boton de registro
     this.addEventListener('click', '#registerbutton', () => {
       this.userService.register({
         // username: $('#registerusername').val(),
