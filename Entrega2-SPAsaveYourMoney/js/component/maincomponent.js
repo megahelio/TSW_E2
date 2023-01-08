@@ -77,6 +77,14 @@ class MainComponent extends Fronty.RouterComponent {
       super.goToPage('login');
     });
 
+    userbar.addEventListener('click', '#deleteaccountbutton', () => {
+      if (confirm("Are you sure to delete your account?")) {
+        this.userService.deleteSelfAccount();
+        this.userModel.logout();
+        super.goToPage('login');
+      }
+    });
+
     return userbar;
   }
 

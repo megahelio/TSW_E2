@@ -157,6 +157,13 @@ class UserService {
       beforeSend: (xhr) => { }
     });
   }
+  
+  deleteSelfAccount() {
+    return $.ajax({
+      url: AppConfig.backendServer + '/rest/user',
+      method: 'DELETE'
+    });
+  }
 
   register(user) {
     return $.ajax({

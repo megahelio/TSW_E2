@@ -187,6 +187,7 @@ class UserRest extends BaseRest
 
 	/**
 	 * Elimina el usuario con el username que se pasa como parámetro
+	 * En la base de datos existe una restricción de clave foranea entre el usuario y su gasto definida "ON DELETE CASCADE" por lo que al eliminar un usuario de la base de datos borramos todos sus gastos
 	 * 
 	 * @throws  401 Unauthorized -> no hay usuario logeado
 	 * @throws 500 Internal Server Error -> UserMapper encontró un error en la eliminación
