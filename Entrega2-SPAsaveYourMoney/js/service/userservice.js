@@ -173,4 +173,13 @@ class UserService {
       contentType: 'application/json'
     });
   }
+
+  updateUser(user) {
+    return $.ajax({
+      url: AppConfig.backendServer + '/rest/user',
+      method: 'PUT',
+      data: JSON.stringify(user),
+      contentType: 'application/json'
+    });
+  }
 }

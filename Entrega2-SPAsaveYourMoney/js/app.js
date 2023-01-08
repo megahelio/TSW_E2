@@ -46,7 +46,9 @@ Promise.all([
   loadTextFile('templates/components/gasto-row.hbs').then((source) =>
     Handlebars.templates.gastorow = Handlebars.compile(source)),
   loadTextFile('templates/components/gastos-table.hbs').then((source) =>
-    Handlebars.templates.gastostable = Handlebars.compile(source))
+    Handlebars.templates.gastostable = Handlebars.compile(source)),
+  loadTextFile('templates/components/user-edit.hbs').then((source) =>
+    Handlebars.templates.useredit = Handlebars.compile(source))
 ])
   .then(() => {
     $(() => {

@@ -129,7 +129,7 @@ class UserRest extends BaseRest
 	 */
 	public function updateUser($data)
 	{
-		$currentUser = parent::authenticateUser(true)->getUsername();
+		$currentUser = parent::authenticateUser(false)->getUsername();
 		$userUpdate = new User();
 
 		$user = $this->userMapper->getUserByUsername($currentUser);
@@ -171,7 +171,7 @@ class UserRest extends BaseRest
 					"username" => $userSaved->getUsername(),
 					"email" => $userSaved->getEmail(),
 					"passwd" => $userSaved->getPassword(),
-					"lastLogging" => $userSaved->getLastLogging()
+					"passwdbis" => $userSaved->getPasswordbis()
 				)));
 				//si el gasto no se actualiza correctamente...
 			} else {

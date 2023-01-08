@@ -23,6 +23,10 @@ class MainComponent extends Fronty.RouterComponent {
         component: new GastoAddComponent(this.gastosModel, this.userModel, this),
         title: 'Add Gasto'
       },
+      'user-edit':{
+        component: new UserEditComponent(this.userService, this.userModel, this),
+        title: 'Edit User'
+      },
       posts: {
         component: new PostsComponent(this.postsModel, this.userModel, this),
         title: 'Posts'
@@ -85,8 +89,16 @@ class MainComponent extends Fronty.RouterComponent {
       }
     });
 
+    
+    userbar.addEventListener('click', '#editaccountbutton', () => {
+        super.goToPage('user-edit'); 
+
+    });
+
     return userbar;
   }
+
+  
 
   _createLanguageComponent() {
     var languageComponent = new Fronty.ModelComponent(Handlebars.templates.language, this.routerModel, 'languagecontrol');
