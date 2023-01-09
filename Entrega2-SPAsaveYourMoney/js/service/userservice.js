@@ -8,7 +8,7 @@ class UserService {
     return new Promise((resolve, reject) => {
       if (window.sessionStorage.getItem('login') &&
         window.sessionStorage.getItem('pass')) {
-        self.login(window.sessionStorage.getItem('login'), window.sessionStorage.getItem('pass'), false)
+        self.login(window.sessionStorage.getItem('login'), window.sessionStorage.getItem('pass'), false, false)
           .then(() => {
             resolve(window.sessionStorage.getItem('login'));
           })
@@ -42,7 +42,7 @@ class UserService {
 
   login(login, pass, remember, doMD5) {
     if (doMD5) {
-      var MD5pass = CryptoJS.MD5(pass);
+      var MD5pass = CryptoJS.MD5(pass).toString();
     } else {
       var MD5pass = pass;
     }
@@ -61,7 +61,7 @@ class UserService {
             this.setCookie("SYM_Pass", MD5pass, 30);
             //keep this authentication forever
             window.sessionStorage.setItem('login', login);
-            window.sessionStorage.setItem('pass', MD5pass);
+            window.sessionStorage.setItem('pass', MD5pass.toString());
             $.ajaxSetup({
               beforeSend: (xhr) => {
                 xhr.setRequestHeader("Authorization", "Basic " + btoa(login + ":" + MD5pass));
@@ -92,6 +92,7 @@ class UserService {
             //keep this authentication forever
             window.sessionStorage.setItem('login', login);
             window.sessionStorage.setItem('pass', MD5pass);
+            console.log(login, MD5pass);
             $.ajaxSetup({
               beforeSend: (xhr) => {
                 xhr.setRequestHeader("Authorization", "Basic " + btoa(login + ":" + MD5pass));

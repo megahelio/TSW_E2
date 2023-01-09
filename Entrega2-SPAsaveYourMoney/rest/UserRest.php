@@ -136,27 +136,29 @@ class UserRest extends BaseRest
 		$userUpdate->setUsername($currentUser);
 
 		//Campo obligatorio
-		if (isset($data->email)) {
+		if (isset($data->email) && $data->email != "") {
 			$userUpdate->setEmail($data->email);
 		} else {
 			$userUpdate->setEmail($user->getEmail());
 		}
 		$needMD5 = false;
-		if (isset($data->passwd) && isset($data->passwdbis)) {
-			$userUpdate->setPassword($data->passwd);
-			$userUpdate->setPasswordbis($data->passwdbis);
-			$needMD5 = true;
+		if ((isset($data->passwd) && $data->passwd != "") || (isset($data->passwdbis) && $data->passwdbis != "")) {
+			if (isset($data->passwd)) {
+				$userUpdate->setPassword($data->passwd);
+			} else {
+				$userUpdate->setPassword("");
+			}
+			if (isset($data->passwdbis)) {
+				$userUpdate->setPasswordbis($data->passwdbis);
+			} else {
+				$userUpdate->setPasswordbis("");
+			}
+			$needMD5 = true; //Nueva contraseña, viene en 
 		} else {
 			$userUpdate->setPassword($user->getPassword());
-			$userUpdate->setPasswordbis($user->getPassword());
+			$userUpdate->setPasswordbis($user->getPassword()); //Cargamos la bis para pasar la validación
 		}
 
-		//El formato de la fecha 1999-12-31 funciona
-		if (isset($data->lastLogging)) {
-			$userUpdate->setLastLogging($data->lastLogging);
-		} else {
-			$userUpdate->setLastLogging($user->getLastLogging());
-		}
 		try {
 			$userUpdate->checkIsValidForRegister(); // if it fails, ValidationException
 			if ($needMD5) {
@@ -168,10 +170,8 @@ class UserRest extends BaseRest
 				header($_SERVER['SERVER_PROTOCOL'] . ' 200 Ok');
 				header('Content-Type: application/json');
 				echo (json_encode(array(
-					"username" => $userSaved->getUsername(),
 					"email" => $userSaved->getEmail(),
 					"passwd" => $userSaved->getPassword(),
-					"passwdbis" => $userSaved->getPasswordbis()
 				)));
 				//si el gasto no se actualiza correctamente...
 			} else {
