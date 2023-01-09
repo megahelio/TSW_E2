@@ -227,8 +227,33 @@ class UserRest extends BaseRest
 		die("Hello " . $currentUser);
 	}
 
+	/**
+	 * 
+	 */
+	public function loginWithCookies()
+	{
+		$currentUser = parent::authenticateUser(false)->getUsername();
+		$currentDate = getdate();
+		$currentDateStringed = $currentDate["year"] . "-" . $currentDate["mon"] . "-" . $currentDate["mday"];
+		print($currentDateStringed);
+		if ($this->dateDiff($this->userMapper->readLastLoginDate($currentUser), $currentDateStringed) > 30) {
+			$this->userMapper->updateLastLoginDate($currentUser, $currentDateStringed);
+			header($_SERVER['SERVER_PROTOCOL'] . ' 200 OK');
+			die("Hello " . $currentUser);
+		} else {
+			header($_SERVER['SERVER_PROTOCOL'] . ' 401 Unauthorized');
+			die("You didn't login since more than 30 days. Please login again.");
+		}
+	}
+	private function dateDiff($date1,$date2)
+	{
+		$origin = new DateTimeImmutable($date1);
+		$target = new DateTimeImmutable($date2);
 
-
+		$diff = $origin->diff($target, true);
+		print($origin . "-" . $target . "=" . $diff->days);
+		return $diff->days;
+	}
 	/**
 	 * Verifica un par de credenciales (WWW-Authenticate: Basic) dado
 	 * y sobreescribe lastLoginDate con la fecha actual
@@ -242,9 +267,9 @@ class UserRest extends BaseRest
 	{
 		$currentUser = parent::authenticateUser(false)->getUsername();
 		$currentDate = getdate();
-		$currentDateStringed = $currentDate["year"] . $currentDate["ymon"] . $currentDate["mday"];
+		$currentDateStringed = $currentDate["year"] . "-" . $currentDate["mon"] . "-" . $currentDate["mday"];
 		print($currentDateStringed);
-		$this->userMapper->editLastLoginDate($currentUser, $currentDateStringed);
+		$this->userMapper->updateLastLoginDate($currentUser, $currentDateStringed);
 		header($_SERVER['SERVER_PROTOCOL'] . ' 200 OK');
 		die("Hello " . $currentUser);
 	}

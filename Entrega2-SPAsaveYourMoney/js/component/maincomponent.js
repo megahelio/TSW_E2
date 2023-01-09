@@ -5,7 +5,6 @@ class MainComponent extends Fronty.RouterComponent {
     // models instantiation
     // we can instantiate models at any place
     this.userModel = new UserModel();
-    this.postsModel = new PostsModel();
     this.userService = new UserService();
 
     this.gastosModel = new GastosModel();
@@ -26,22 +25,6 @@ class MainComponent extends Fronty.RouterComponent {
       'user-edit':{
         component: new UserEditComponent(this.userService, this.userModel, this),
         title: 'Edit User'
-      },
-      posts: {
-        component: new PostsComponent(this.postsModel, this.userModel, this),
-        title: 'Posts'
-      },
-      'view-post': {
-        component: new PostViewComponent(this.postsModel, this.userModel, this),
-        title: 'Post'
-      },
-      'edit-post': {
-        component: new PostEditComponent(this.postsModel, this.userModel, this),
-        title: 'Edit Post'
-      },
-      'add-post': {
-        component: new PostAddComponent(this.postsModel, this.userModel, this),
-        title: 'Add Post'
       },
       login: {
         component: new LoginComponent(this.userModel, this),
@@ -64,6 +47,13 @@ class MainComponent extends Fronty.RouterComponent {
     // in sessionStorage, so we try to do a relogin and start the main component
     // only when login is checked
     this.userService.loginWithSessionData()
+      .then((logged) => {
+        if (logged != null) {
+          this.userModel.setLoggeduser(logged);
+        }
+        super.start(); // now we can call start
+      });
+    this.userService.loginWithCookies()
       .then((logged) => {
         if (logged != null) {
           this.userModel.setLoggeduser(logged);

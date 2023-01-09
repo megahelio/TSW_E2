@@ -27,15 +27,36 @@ class UserService {
 
         var cookieLogin = this.getCookie("SYM_User");
         var cookiePass = this.getCookie("SYM_Pass");
-        this.login(cookieLogin, cookiePass, true, false)
+        $.get({
+          url: AppConfig.backendServer + '/rest/user/loginWithRemember',
+          beforeSend: function (xhr) {
+            xhr.setRequestHeader("Authorization", "Basic " + btoa(cookieLogin + ":" + cookiePass));
+          }
+        })
           .then(() => {
-            resolve(window.sessionStorage.getItem('login'));
+            this.setCookie("SYM_User", cookieLogin, 30);
+            this.setCookie("SYM_Pass", cookiePass, 30);
+            //keep this authentication forever
+            window.sessionStorage.setItem('login', cookieLogin);
+            window.sessionStorage.setItem('pass', cookiePass);
+            $.ajaxSetup({
+              beforeSend: (xhr) => {
+                xhr.setRequestHeader("Authorization", "Basic " + btoa(cookieLogin + ":" + cookiePass));
+              }
+            });
+            resolve(cookieLogin);
           })
-          .catch(() => {
-            reject();
+          .fail((error) => {
+            window.sessionStorage.removeItem('login');
+            window.sessionStorage.removeItem('pass');
+            $.ajaxSetup({
+              beforeSend: (xhr) => { }
+            });
+            reject(error);
           });
+
       } else {
-        resolve(null);
+        reject(null);
       }
     });
   }
@@ -158,7 +179,7 @@ class UserService {
       beforeSend: (xhr) => { }
     });
   }
-  
+
   deleteSelfAccount() {
     return $.ajax({
       url: AppConfig.backendServer + '/rest/user',

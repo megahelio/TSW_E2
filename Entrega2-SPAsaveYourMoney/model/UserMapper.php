@@ -92,8 +92,8 @@ class UserMapper
 	}
 
 	public function update($user){
-		$stmt = $this->db->prepare("UPDATE users SET email = ?,passwd = ?,lastLoginDate = ? WHERE username = ?");
-		$stmt->execute(array($user->getEmail(), $user->getPassword(), $user->getLastLogging(), $user->getUsername()));
+		$stmt = $this->db->prepare("UPDATE users SET email = ?,passwd = ? WHERE username = ?");
+		$stmt->execute(array($user->getEmail(), $user->getPassword(), $user->getUsername()));
 	}
 
 	public function readLastLoginDate($username)
@@ -110,7 +110,7 @@ class UserMapper
 
 		return $stmt->fetchColumn();
 	}
-	public function editLastLoginDate($username, $lastLoginDate)
+	public function updateLastLoginDate($username, $lastLoginDate)
 	{
 		$stmt = $this->db->prepare("UPDATE users SET lastLoginDate = ?  WHERE username = ?");
 		$stmt->execute(array($lastLoginDate, $username));
