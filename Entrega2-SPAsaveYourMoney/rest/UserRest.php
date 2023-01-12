@@ -280,6 +280,7 @@ $userRest = new UserRest();
 URIDispatcher::getInstance()
 	->map("GET",	"/user/loginMD5",		array($userRest, "loginMD5"))
 	->map("GET",	"/user/loginWithRemember",		array($userRest, "loginWithRemember"))
+	->map("GET",	"/user/loginWithCookies",		array($userRest, "loginWithCookies"))
 	->map("POST",	"/user",		array($userRest, "createUser"))
 	->map("PUT",	"/user",		array($userRest, "updateUser"))
 	->map("DELETE",	"/user",		array($userRest, "deleteUser"));
