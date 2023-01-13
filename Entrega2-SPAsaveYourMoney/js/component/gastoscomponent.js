@@ -18,35 +18,7 @@ class GastosComponent extends Fronty.ModelComponent {
 
             //console.log("generando graficasss");
 
-            //scripts para las graficas 
-            document.addEventListener('DOMContentLoaded', function () {
-                const chart = Highcharts.chart('lineGraph', {
-                    title: {
-                        text: ''
-                    },
-                    xAxis: {
-                        // categories: <?= $lineGraphMonths ?>,//Cambiar por una lista de meses a representar en el grafico
-                        title: {
-                            text: 'Meses'
-                        }
-                    },
-                    yAxis: {
-                        title: {
-                            text: 'Euros'
-                        }
-                    },
-                    plotOptions: {
-                        series: {
-                            label: {
-                                connectorAllowed: false
-                            }
-                        }
-                    },
-                    // series: <?= $lineGraphData ?>//Cambiar por una lista de data a representar en el grafico
-
-
-                });
-            });
+            
 
             console.log("generando graficass");
             var gastos = this.gastosService.findAllGastos();
@@ -54,74 +26,102 @@ class GastosComponent extends Fronty.ModelComponent {
                 //console.log(data);
                 console.log(getPieGraph(data));
 
-                document.addEventListener('DOMContentLoaded', function () {
 
-                    const chart = Highcharts.chart('pieGraph', {
-                        chart: {
-                            plotBackgroundColor: null,
-                            plotBorderWidth: null,
-                            plotShadow: false,
-                            type: 'pie'
-                        },
-                        title: {
-                            text: 'Porcentaje de cada gasto'
-                        },
-                        tooltip: {
-                            pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
-                        },
-                        accessibility: {
-                            point: {
-                                valueSuffix: '%'
-                            }
-                        },
-                        plotOptions: {
-                            pie: {
-                                allowPointSelect: true,
-                                cursor: 'pointer',
-                                dataLabels: {
-                                    enabled: false
-                                },
-                                showInLegend: true
-                            }
-                        },
-                        series: [{
-                            name: 'gastos',
-                            colorByPoint: true,
-                            data: [{
-                                name: 'Chrome',
-                                y: 70.67,
-                                sliced: true,
-                                selected: true
-                            }, {
-                                name: 'Edge',
-                                y: 14.77
-                            }, {
-                                name: 'Firefox',
-                                y: 4.86
-                            }, {
-                                name: 'Safari',
-                                y: 2.63
-                            }, {
-                                name: 'Internet Explorer',
-                                y: 1.53
-                            }, {
-                                name: 'Opera',
-                                y: 1.40
-                            }, {
-                                name: 'Sogou Explorer',
-                                y: 0.84
-                            }, {
-                                name: 'QQ',
-                                y: 0.51
-                            }, {
-                                name: 'Other',
-                                y: 2.6
-                            }]
-
+                var pieGraph = Highcharts.chart('pieGraph', {
+                    chart: {
+                        plotBackgroundColor: null,
+                        plotBorderWidth: null,
+                        plotShadow: false,
+                        type: 'pie'
+                    },
+                    title: {
+                        text: 'Porcentaje de cada gasto'
+                    },
+                    tooltip: {
+                        pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+                    },
+                    accessibility: {
+                        point: {
+                            valueSuffix: '%'
+                        }
+                    },
+                    plotOptions: {
+                        pie: {
+                            allowPointSelect: true,
+                            cursor: 'pointer',
+                            dataLabels: {
+                                enabled: false
+                            },
+                            showInLegend: true
+                        }
+                    },
+                    series: [{
+                        name: 'gastos',
+                        colorByPoint: true,
+                        data: [{
+                            name: 'Chrome',
+                            y: 70.67,
+                            sliced: true,
+                            selected: true
+                        }, {
+                            name: 'Edge',
+                            y: 14.77
+                        }, {
+                            name: 'Firefox',
+                            y: 4.86
+                        }, {
+                            name: 'Safari',
+                            y: 2.63
+                        }, {
+                            name: 'Internet Explorer',
+                            y: 1.53
+                        }, {
+                            name: 'Opera',
+                            y: 1.40
+                        }, {
+                            name: 'Sogou Explorer',
+                            y: 0.84
+                        }, {
+                            name: 'QQ',
+                            y: 0.51
+                        }, {
+                            name: 'Other',
+                            y: 2.6
                         }]
-                    });
+
+                    }]
                 });
-            });
+            })
+
+            //scripts para las graficas 
+            var lineGraph = Highcharts.chart('lineGraph', {
+                title: {
+                    text: ''
+                },
+                xAxis: {
+                    // categories: <?= $lineGraphMonths ?>,//Cambiar por una lista de meses a representar en el grafico
+                    title: {
+                        text: 'Meses'
+                    }
+                },
+                yAxis: {
+                    title: {
+                        text: 'Euros'
+                    }
+                },
+                plotOptions: {
+                    series: {
+                        label: {
+                            connectorAllowed: false
+                        }
+                    }
+                },
+                // series: <?= $lineGraphData ?>//Cambiar por una lista de data a representar en el grafico
+
+
+            })
+
+
             //getPieGraph(this.gastosService.findAllGastos());
 
 
@@ -159,17 +159,17 @@ function getPieGraph(gastosData) {
     for (item of gastosData) {
         //item.tipo;
         //item.cantidad;
-        
-        var set = false;
-        
-            if(totalEachArray.has(item.tipo)){ 
-                totalEachArray.set(item.tipo,parseFloat(totalEachArray.get(item.tipo))+ parseFloat(item.cantidad));
-                set = true;
-            }
-        
 
-        if(set == false){
-            totalEachArray.set(item.tipo,parseFloat(item.cantidad));
+        var set = false;
+
+        if (totalEachArray.has(item.tipo)) {
+            totalEachArray.set(item.tipo, parseFloat(totalEachArray.get(item.tipo)) + parseFloat(item.cantidad));
+            set = true;
+        }
+
+
+        if (set == false) {
+            totalEachArray.set(item.tipo, parseFloat(item.cantidad));
         }
 
         total += parseFloat(item.cantidad);
@@ -183,30 +183,30 @@ function getPieGraph(gastosData) {
 
     var keys = totalEachArray.keys();
 
-    for(key of keys){
+    for (key of keys) {
         console.log(key);
-        fractionEach.set(key,totalEachArray.get(key)/total);
+        fractionEach.set(key, totalEachArray.get(key) / total);
     }
 
     //console.log(fractionEach);
     let data = "";
     keys = totalEachArray.keys();
 
-    for(key of keys){
+    for (key of keys) {
         data += "{\n";
         data += "name:" + key + ",\n";
-        data += "y:"+ fractionEach.get(key) + "\n";
+        data += "y:" + fractionEach.get(key) + "\n";
         data += "},";
     }
-    
-    data = data.substring(0,data.length-1);
+
+    data = data.substring(0, data.length - 1);
     //console.log(data);
 
     return data;
 
 
     //crear el string con la data
-   
+
     /*let j = 0;
     while (j < tipos.length) {
         data += "{\n";
