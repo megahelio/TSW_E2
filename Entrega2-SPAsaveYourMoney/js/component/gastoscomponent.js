@@ -16,6 +16,8 @@ class GastosComponent extends Fronty.ModelComponent {
         } else {
             this.updateGastos();
 
+            //console.log("generando graficasss");
+
             //scripts para las graficas 
             document.addEventListener('DOMContentLoaded', function () {
                 const chart = Highcharts.chart('lineGraph', {
@@ -45,42 +47,84 @@ class GastosComponent extends Fronty.ModelComponent {
 
                 });
             });
-            document.addEventListener('DOMContentLoaded', function () {
-                const chart = Highcharts.chart('pieGraph', {
-                    chart: {
-                        plotBackgroundColor: null,
-                        plotBorderWidth: null,
-                        plotShadow: false,
-                        type: 'pie'
-                    },
-                    title: {
-                        text: ''
-                    },
-                    tooltip: {
-                        pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
-                    },
-                    accessibility: {
-                        point: {
-                            valueSuffix: '%'
-                        }
-                    },
-                    plotOptions: {
-                        pie: {
-                            allowPointSelect: true,
-                            cursor: 'pointer',
-                            dataLabels: {
-                                enabled: false
-                            },
-                            showInLegend: true
-                        }
-                    },
-                    series: [{
-                        name: 'gastos',
-                        colorByPoint: true,
-                        // data: [<?= $pieGraphData; ?>] //Cambiar por la data a representar
-                    }]
+
+            console.log("generando graficass");
+            var gastos = this.gastosService.findAllGastos();
+            gastos.then((data) => {
+                //console.log(data);
+                console.log(getPieGraph(data));
+
+                document.addEventListener('DOMContentLoaded', function () {
+
+                    const chart = Highcharts.chart('pieGraph', {
+                        chart: {
+                            plotBackgroundColor: null,
+                            plotBorderWidth: null,
+                            plotShadow: false,
+                            type: 'pie'
+                        },
+                        title: {
+                            text: 'Porcentaje de cada gasto'
+                        },
+                        tooltip: {
+                            pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+                        },
+                        accessibility: {
+                            point: {
+                                valueSuffix: '%'
+                            }
+                        },
+                        plotOptions: {
+                            pie: {
+                                allowPointSelect: true,
+                                cursor: 'pointer',
+                                dataLabels: {
+                                    enabled: false
+                                },
+                                showInLegend: true
+                            }
+                        },
+                        series: [{
+                            name: 'gastos',
+                            colorByPoint: true,
+                            data: [{
+                                name: 'Chrome',
+                                y: 70.67,
+                                sliced: true,
+                                selected: true
+                            }, {
+                                name: 'Edge',
+                                y: 14.77
+                            }, {
+                                name: 'Firefox',
+                                y: 4.86
+                            }, {
+                                name: 'Safari',
+                                y: 2.63
+                            }, {
+                                name: 'Internet Explorer',
+                                y: 1.53
+                            }, {
+                                name: 'Opera',
+                                y: 1.40
+                            }, {
+                                name: 'Sogou Explorer',
+                                y: 0.84
+                            }, {
+                                name: 'QQ',
+                                y: 0.51
+                            }, {
+                                name: 'Other',
+                                y: 2.6
+                            }]
+
+                        }]
+                    });
                 });
             });
+            //getPieGraph(this.gastosService.findAllGastos());
+
+
         }
     }
 
@@ -98,6 +142,90 @@ class GastosComponent extends Fronty.ModelComponent {
     createChildModelComponent(className, element, id, modelItem) {
         return new GastoRowComponent(modelItem, this.userModel, this.router, this);
     }
+
+
+}
+
+function getPieGraph(gastosData) {
+    //calcular el total
+    let totalEachArray = new Map();
+    let fractionEach = new Map();
+    let total = 0;
+    let i = 0;
+    let tipos = Object.keys(gastosData);
+
+    //console.log(gastosData);
+
+    for (item of gastosData) {
+        //item.tipo;
+        //item.cantidad;
+        
+        var set = false;
+        
+            if(totalEachArray.has(item.tipo)){ 
+                totalEachArray.set(item.tipo,parseFloat(totalEachArray.get(item.tipo))+ parseFloat(item.cantidad));
+                set = true;
+            }
+        
+
+        if(set == false){
+            totalEachArray.set(item.tipo,parseFloat(item.cantidad));
+        }
+
+        total += parseFloat(item.cantidad);
+
+    }
+
+    //console.log(totalEachArray);
+    //console.log(total);
+
+    if (total == 0) total = 1;
+
+    var keys = totalEachArray.keys();
+
+    for(key of keys){
+        console.log(key);
+        fractionEach.set(key,totalEachArray.get(key)/total);
+    }
+
+    //console.log(fractionEach);
+    let data = "";
+    keys = totalEachArray.keys();
+
+    for(key of keys){
+        data += "{\n";
+        data += "name:" + key + ",\n";
+        data += "y:"+ fractionEach.get(key) + "\n";
+        data += "},";
+    }
+    
+    data = data.substring(0,data.length-1);
+    //console.log(data);
+
+    return data;
+
+
+    //crear el string con la data
+   
+    /*let j = 0;
+    while (j < tipos.length) {
+        data += "{\n";
+        data += `name: '${i18n(tipos[j])}',\n`;
+        data += `y: ${dataFraction[tipos[j]]}\n`;
+        if (tipos[j] == tipoMayor) {
+            data += ",\n";
+            data += "sliced: true,\n selected: true\n";
+        }
+        data += "}";
+
+        if (j != tipos.length - 1) {
+            data += ",";
+        }
+        j++;
+    }
+
+    return data;*/
+
 }
 
 class GastoRowComponent extends Fronty.ModelComponent {
@@ -130,3 +258,4 @@ class GastoRowComponent extends Fronty.ModelComponent {
         });
     }
 }
+
