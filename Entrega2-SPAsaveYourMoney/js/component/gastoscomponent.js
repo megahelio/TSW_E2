@@ -28,13 +28,35 @@ class GastosComponent extends Fronty.ModelComponent {
 
             this.gastosService.findAllGastos()
                 .then((data) => {
+                    console.log(data)
                     this.drawGraphs(data)
                 });
 
         }
     }
-    drawGraphs(data) {
-        var pieData = getPieGraph(data)
+    drawGraphs(originalData) {
+        var pieData = getPieGraphDataFormated(originalData)
+
+        let transformedData = [];
+        let types = new Set();
+        let months = new Set();
+
+        for (let expense of originalData) {
+            types.add(expense["tipo"]);
+            months.add(expense["fecha"].substring(0, 7));
+        }
+
+        for (var type of types) {
+            var data = Array.from({ length: months.size }, () => 0);
+            for (let expense of originalData) {
+                if (expense["tipo"] == type) {
+                    let month = expense["fecha"].substring(0, 7);
+                    let index = Array.from(months).indexOf(month);
+                    data[index] += parseFloat(expense["cantidad"]);
+                }
+            }
+            transformedData.push({ name: type, data });
+        }
 
         Highcharts.chart('pieGraph', {
             chart: {
@@ -77,7 +99,7 @@ class GastosComponent extends Fronty.ModelComponent {
                 text: ''
             },
             xAxis: {
-                // categories: <?= $lineGraphMonths ?>,
+                categories: Array.from(months),
                 title: {
                     text: 'Meses'
                 }
@@ -94,7 +116,7 @@ class GastosComponent extends Fronty.ModelComponent {
                     }
                 }
             },
-            // series: <?= $lineGraphData ?>
+            series: transformedData
 
 
         });
@@ -120,7 +142,7 @@ class GastosComponent extends Fronty.ModelComponent {
 
 
 
-function getPieGraph(gastosData) {
+function getPieGraphDataFormated(gastosData) {
     //calcular el total
     let totalEachArray = new Map();
     let fractionEach = new Map();
