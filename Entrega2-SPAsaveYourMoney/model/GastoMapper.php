@@ -22,18 +22,18 @@ class GastoMapper
         $this->db = PDOConnection::getInstance();
     }
 
-/**
- * Guarda $gasto en la base de datos
- * 
- * 
- * 
- * @return null -> El dato no se guardó correctamente
- * @return Gasto -> El dato se guardó correctamente
- * 
- * 
- * Disclaimer:
- * Si el volumen de peticiones a la base de datos es muy alto es posible que el dato se guarde pero la función devuelva null o incluso un id incorrecto.
- */
+    /**
+     * Guarda $gasto en la base de datos
+     * 
+     * 
+     * 
+     * @return null -> El dato no se guardó correctamente
+     * @return Gasto -> El dato se guardó correctamente
+     * 
+     * 
+     * Disclaimer:
+     * Si el volumen de peticiones a la base de datos es muy alto es posible que el dato se guarde pero la función devuelva null o incluso un id incorrecto.
+     */
     public function save($gasto)
     {
         //Guardamos el gasto en la bd
@@ -42,8 +42,8 @@ class GastoMapper
 
         //Recuperamos el Clave Primaria generada por la bd
         $rs = $this->db->query("SELECT @@identity AS id");
-        $id=$rs->fetch(PDO::FETCH_ASSOC);
-        
+        $id = $rs->fetch(PDO::FETCH_ASSOC);
+
         //Usamos la clave primaria recuperada para recuperar el gasto creado
         $stmt = $this->db->prepare("SELECT * FROM gastos where id=?");
         $stmt->execute(array($id["id"]));
@@ -106,6 +106,17 @@ class GastoMapper
 
         $stmt = $this->db->prepare("SELECT * FROM gastos where usuario=?");
         $stmt->execute(array($user));
+
+        $gastos = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        return $gastos;
+    }
+
+    public function findGastosByUsernameAndDate($user, $lowDate, $highDate)
+    {
+
+        $stmt = $this->db->prepare("SELECT * FROM gastos where usuario=? and fecha>=? and fecha<=? ORDER BY fecha");
+        $stmt->execute(array($user, $lowDate , $highDate));
 
         $gastos = $stmt->fetchAll(PDO::FETCH_ASSOC);
 

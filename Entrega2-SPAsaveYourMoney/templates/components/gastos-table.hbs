@@ -8,6 +8,11 @@
     <div id="gastos-table">
         <a href='#add-gasto'>{{i18n 'Añadir gasto'}}</a>
         {{!-- {{#if gastos.length}} --}}
+        <form>
+            {{i18n 'Low Date'}}: <input type="date" id="lowdate">
+            {{i18n 'Hight Date'}}: <input type="date" id="highdate">
+            <input type="submit" id='daterefresh' value="{{i18n 'Refresh'}}">
+        </form>
         <table border="1">
             <thead>
                 <tr>

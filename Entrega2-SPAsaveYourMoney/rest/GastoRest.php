@@ -303,8 +303,8 @@ class GastoRest extends BaseRest
             // validate Gasto object
             $gastoUpdate->checkIsValidForAdd(); // if it fails, ValidationException
             $this->gastoMapper->update($gastoUpdate);
-            $gastoSaved = $this->gastoMapper->findGastoById($gastoId);//recuperamos el gasto editado
-            
+            $gastoSaved = $this->gastoMapper->findGastoById($gastoId); //recuperamos el gasto editado
+
             if (isset($gastoSaved)) {
                 header($_SERVER['SERVER_PROTOCOL'] . ' 200 Ok');
                 header('Content-Type: application/json');
@@ -323,7 +323,6 @@ class GastoRest extends BaseRest
                 header($_SERVER['SERVER_PROTOCOL'] . ' 500 Internal Server Error');
                 die("Gasto might be not updated by a server error.");
             }
-
         } catch (ValidationException $e) {
             header($_SERVER['SERVER_PROTOCOL'] . ' 400 Bad request');
             header('Content-Type: application/json');
@@ -363,6 +362,33 @@ class GastoRest extends BaseRest
 
         header($_SERVER['SERVER_PROTOCOL'] . ' 204 No Content');
     }
+    public function getGastoByDate($lowDate, $highDate)
+    {
+        $currentUser = parent::authenticateUser(false)->getUsername();
+        $gastos = $this->gastoMapper->findGastosByUsernameAndDate($currentUser, $lowDate, $highDate);
+
+        // json_encode Gasto objects.
+        // since Gasto objects have private fields, the PHP json_encode will not
+        // encode them, so we will create an intermediate array using getters and
+        // encode it finally
+        $gastos_array = array();
+        foreach ($gastos as $gasto) {
+
+            array_push($gastos_array, array(
+                "id" => $gasto["id"],
+                "usuario" => $gasto["usuario"],
+                "tipo" => $gasto["tipo"],
+                "cantidad" => $gasto["cantidad"],
+                "fecha" => $gasto["fecha"],
+                "descripcion" => $gasto["descripcion"],
+                "uuidFichero" => $gasto["fichero"]
+            ));
+        }
+
+        header($_SERVER['SERVER_PROTOCOL'] . ' 200 Ok');
+        header('Content-Type: application/json');
+        echo (json_encode($gastos_array));
+    }
 }
 
 // URI-MAPPING for this Rest endpoint
@@ -370,6 +396,7 @@ $gastoRest = new GastoRest();
 URIDispatcher::getInstance()
     ->map("GET",    "/gasto", array($gastoRest, "getGastos"))
     ->map("GET",    "/gasto/$1", array($gastoRest, "getGasto"))
+    ->map("GET",    "/gasto/$1/$2", array($gastoRest, "getGastoByDate"))
     ->map("POST", "/gasto", array($gastoRest, "createGasto"))
     ->map("PUT",    "/gasto/$1", array($gastoRest, "updateGasto"))
     ->map("DELETE", "/gasto/$1", array($gastoRest, "deleteGasto"));

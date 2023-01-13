@@ -2,7 +2,9 @@ class GastosService {
     constructor() {
 
     }
-
+    findGastosByDate(lowDate, highDate) {
+        return $.get(AppConfig.backendServer + '/rest/gasto/' + lowDate +'/'+ highDate);
+    }
     findAllGastos() {
         return $.get(AppConfig.backendServer + '/rest/gasto');
     }
