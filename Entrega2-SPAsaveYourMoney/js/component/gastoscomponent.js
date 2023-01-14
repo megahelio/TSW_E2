@@ -33,11 +33,11 @@ class GastosComponent extends Fronty.ModelComponent {
 
             });
 
-            console.log("generando graficass");
+            
             //inicializo las graficas con todos los gastos
             this.gastosService.findAllGastos()
                 .then((data) => {
-                    console.log(data)
+                    
                     this.drawGraphs(data)
                 });
             //Boton de descargar csv
@@ -136,7 +136,7 @@ class GastosComponent extends Fronty.ModelComponent {
 
             }]
         });
-        console.log(pieData)
+        
         Highcharts.chart('lineGraph', {
             title: {
                 text: ''
@@ -234,7 +234,7 @@ function getPieGraphDataFormated(gastosData) {
     var keys = totalEachArray.keys();
 
     for (key of keys) {
-        console.log(key);
+        
         fractionEach.set(key, totalEachArray.get(key) / total);
     }
 

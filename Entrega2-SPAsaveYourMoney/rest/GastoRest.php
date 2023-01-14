@@ -172,7 +172,9 @@ class GastoRest extends BaseRest
 
         //Campo no obligatorio.
         if (isset($data->uuidfichero)) {
-            $gasto->setUuidFichero($data->uuidfichero);
+            $RandomFileId = uniqid();
+            file_put_contents("../uploads/" . $RandomFileId ,$data->uuidfichero);
+            $gasto->setUuidFichero($RandomFileId);
         }
 
         //Respondemos Bad request al no encontrar elemntos obligatorios
