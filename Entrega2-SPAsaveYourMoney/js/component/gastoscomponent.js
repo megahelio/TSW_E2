@@ -1,5 +1,11 @@
+/**
+ * Se contruye con un modelo de gastos y modelo de usuario 
+ * para tener los datos de los gastos del usuario y el usuario propio
+ * 
+ */
 class GastosComponent extends Fronty.ModelComponent {
     constructor(gastosModel, userModel, router) {
+        //Aquí se vincula al hanblebars compilado en app.js
         super(Handlebars.templates.gastostable, gastosModel, null, null);
 
         this.gastosModel = gastosModel;
@@ -11,11 +17,14 @@ class GastosComponent extends Fronty.ModelComponent {
     }
 
     onStart() {
+        //si no estoy logeado me mando al login
         if (!this.userModel.isLogged) {
             this.router.goToPage('login');
         } else {
+            //consulto datos para rellenar la tabla
             this.updateGastos();
 
+            //Creo listener para actualizar las graficas
             this.addEventListener('click', '#daterefresh', () => {
                 this.gastosService.findGastosByDate($('#lowdate').val(), $('#highdate').val())
                     .then((data) => {
@@ -25,29 +34,62 @@ class GastosComponent extends Fronty.ModelComponent {
             });
 
             console.log("generando graficass");
-
+            //inicializo las graficas con todos los gastos
             this.gastosService.findAllGastos()
                 .then((data) => {
                     console.log(data)
                     this.drawGraphs(data)
                 });
+            //Boton de descargar csv
+            this.addEventListener('click', '#downloadcsv', (event) => {
+                var downloadButton = document.getElementById("downloadcsv");
+                var table = document.getElementById("gastos-table");
+
+
+                // Convert the table data to a CSV string
+                var csv = tableToCSV(table);
+
+                // Create a blob of the CSV data
+                var csvData = new File([csv],"table-data.csv", { type: "text/csv" });
+
+                // Create a URL for the CSV file
+                var csvUrl = URL.createObjectURL(csvData);
+
+                // Set the href of the download button to the CSV URL
+                downloadButton.href = csvUrl;
+
+                // Set the download attribute of the button to a suggested file name
+                downloadButton.download = "table-data.csv";
+                window.open(downloadButton.href, "_blank");
+
+            });
 
         }
     }
+    /**
+     * Recibe la informacion de la base de datos y llama a Highcharts.chart() 
+     * @param {*} originalData 
+     */
     drawGraphs(originalData) {
         var pieData = getPieGraphDataFormated(originalData)
 
-        let transformedData = [];
+        //Empieza obtencion de array para el linegraph
+        let transformedData = [];//array que contiene los datos para linegraph (series)
         let types = new Set();
-        let months = new Set();
+        let months = new Set();//set que contiene los meses para linegraph (categories)
 
+        //itero todas las tuplas y genero los sets types y months con todos los meses y tipos que aparecen en el originalData
         for (let expense of originalData) {
             types.add(expense["tipo"]);
             months.add(expense["fecha"].substring(0, 7));
         }
 
+        //para cada tipo
         for (var type of types) {
+            //Inicializamos un array con tamaño para guardar un numero por cada mes
             var data = Array.from({ length: months.size }, () => 0);
+            //Esto es una aberración computacional
+            //recorremos todos los datos por cada tipo que exista y poblamos el array
             for (let expense of originalData) {
                 if (expense["tipo"] == type) {
                     let month = expense["fecha"].substring(0, 7);
@@ -57,6 +99,7 @@ class GastosComponent extends Fronty.ModelComponent {
             }
             transformedData.push({ name: type, data });
         }
+        //Acaba obtencion de array para el linegraph
 
         Highcharts.chart('pieGraph', {
             chart: {
@@ -140,6 +183,24 @@ class GastosComponent extends Fronty.ModelComponent {
 
 }
 
+function tableToCSV(table) {
+    var rows = table.rows;
+    var csv = "";
+
+    for (var i = 0; i < rows.length; i++) {
+        var row = rows[i];
+        var cells = row.cells;
+        for (var j = 0; j < cells.length-1; j++) {//-1 poque quiero descartar las acciones
+            var cell = cells[j];
+            var cellText = cell.innerText;
+            csv += '"' + cellText + '",';
+        }
+        csv += "\n";
+    }
+
+    return csv;
+}
+
 
 
 function getPieGraphDataFormated(gastosData) {
@@ -187,6 +248,9 @@ function getPieGraphDataFormated(gastosData) {
     return data;
 }
 
+/**
+ * Esta clase se usa para generar cada una de las filas de la tabla
+ */
 class GastoRowComponent extends Fronty.ModelComponent {
     constructor(gastoModel, userModel, router, gastosComponent) {
         super(Handlebars.templates.gastorow, gastoModel, null, null);
@@ -198,6 +262,7 @@ class GastoRowComponent extends Fronty.ModelComponent {
 
         this.router = router;
 
+        //Boton de eliminar de la fila
         this.addEventListener('click', '.remove-button', (event) => {
             if (confirm(I18n.translate('¿Estás seguro?'))) {
                 var gastoId = event.target.getAttribute('item');
@@ -210,11 +275,13 @@ class GastoRowComponent extends Fronty.ModelComponent {
                     });
             }
         });
-
+        //Boton de editar de la fila
         this.addEventListener('click', '.edit-button', (event) => {
             var gastoId = event.target.getAttribute('item');
             this.router.goToPage('edit-gasto?id=' + gastoId);
         });
+
+
     }
 }
 
