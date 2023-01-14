@@ -293,8 +293,8 @@ class GastoRowComponent extends Fronty.ModelComponent {
             var gastoId = event.target.getAttribute('item');
             this.router.goToPage('edit-gasto?id=' + gastoId)
                 .fail(() => {
-                    this.router.goToPage('gastos');
                     alert("That expense do not exist.")
+                    this.router.goToPage('gastos');
                 })
         });
 
