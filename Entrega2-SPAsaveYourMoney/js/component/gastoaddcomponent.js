@@ -24,7 +24,6 @@ class GastoAddComponent extends Fronty.ModelComponent {
       xhr.open("GET", fileUrl, false);
       xhr.send();
 
-
       //console.log(xhr.responseText);
       newGasto.uuidfichero = xhr.responseText;
       this.gastosService.addGasto(newGasto)
