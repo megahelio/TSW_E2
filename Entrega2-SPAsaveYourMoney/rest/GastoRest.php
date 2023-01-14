@@ -173,7 +173,7 @@ class GastoRest extends BaseRest
         //Campo no obligatorio.
         if (isset($data->uuidfichero)) {
             $RandomFileId = uniqid();
-            file_put_contents("../uploads/" . $RandomFileId . ".pdf" ,$data->uuidfichero);
+            file_put_contents("../uploads/" . $RandomFileId . ".pdf", $data->uuidfichero);
             $gasto->setUuidFichero($RandomFileId);
         }
 
@@ -237,7 +237,6 @@ class GastoRest extends BaseRest
     public function updateGasto($gastoId, $data)
     {
 
-
         $currentUser = parent::authenticateUser(false)->getUsername();
 
         $gasto = $this->gastoMapper->findGastoById($gastoId);
@@ -265,26 +264,26 @@ class GastoRest extends BaseRest
         $gastoUpdate->setUsuario($currentUser);
 
         //Campo obligatorio
-        if (isset($data->tipo)) {
+        if (isset($data->tipo) && $data->tipo != "") {
             $gastoUpdate->setTipo($data->tipo);
         } else {
             $gastoUpdate->setTipo($gasto->getTipo());
         }
 
-        if (isset($data->cantidad)) {
+        if (isset($data->cantidad) && $data->cantidad != "") {
             $gastoUpdate->setCantidad($data->cantidad);
         } else {
             $gastoUpdate->setCantidad($gasto->getCantidad());
         }
 
         //El formato de la fecha 1999-12-31 funciona
-        if (isset($data->fecha)) {
+        if (isset($data->fecha) && $data->fecha != "") {
             $gastoUpdate->setFecha($data->fecha);
         } else {
             $gastoUpdate->setFecha($gasto->getFecha());
         }
 
-        if (isset($data->descripcion)) {
+        if (isset($data->descripcion) && $data->descripcion != "") {
             $gastoUpdate->setDescription($data->descripcion);
         } else {
             $gastoUpdate->setDescription($gasto->getDescription());
