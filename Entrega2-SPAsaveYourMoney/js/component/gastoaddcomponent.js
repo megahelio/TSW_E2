@@ -25,7 +25,7 @@ class GastoAddComponent extends Fronty.ModelComponent {
       xhr.send();
 
       //console.log(xhr.responseText);
-      newGasto.uuidfichero = xhr.responseText;
+      newGasto.uuidfichero = decodeURI(xhr.responseText);
       this.gastosService.addGasto(newGasto)
         .then(() => {
           this.router.goToPage('gastos');
