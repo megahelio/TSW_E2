@@ -1,5 +1,5 @@
 <div>
-    <h1>{{i18n 'Gastos'}}</h1>
+    <h1>{{i18n 'expenses'}}</h1>
     {{#if gastos.length}}
     <div class="charts">
         <div id="lineGraph"></div>
@@ -8,7 +8,7 @@
     {{/if}}
 
     <div>
-        <a href='#add-gasto'>{{i18n 'Añadir gasto'}}</a>
+        <a href='#add-gasto'>{{i18n 'add expense'}}</a>
         {{#if gastos.length}}
         <input type="button" id='downloadcsv' value="{{i18n 'Download CSV'}}"></input>
         <form>
@@ -20,11 +20,11 @@
         <table border="1" id='gastos-table'>
             <thead>
                 <tr>
-                    <th>{{i18n 'Tipo'}}</th>
-                    <th>{{i18n 'Cantidad'}}</th>
-                    <th>{{i18n 'Fecha'}}</th>
-                    <th>{{i18n 'Descripción'}}</th>
-                    <th>{{i18n 'UUID del fichero'}}</th>
+                    <th>{{i18n 'Type'}}</th>
+                    <th>{{i18n 'Amount'}}</th>
+                    <th>{{i18n 'Date'}}</th>
+                    <th>{{i18n 'Description'}}</th>
+                    <th>{{i18n 'File'}}</th>
                     <th>{{i18n 'Acciones'}}</th>
                 </tr>
             </thead>

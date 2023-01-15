@@ -31,6 +31,26 @@ I18n.translations = {
   'logout': 'cerrar sesión',
   'Login': 'Iniciar sesión',
   'Username': 'Usuario',
+  'Type': 'Tipo',
+  'Amount': 'cantidad',
+  'Date': 'Fecha',
+  'Description': 'Descripción',
+  'File': 'Archivo',
+  'expenses': 'gastos',
+  'add expense': 'añadir gasto',
+  'Low Date': 'Desde',
+  'Hight Date': 'Hasta',
+  'Download CSV': 'Descargar CSV',
+  'Remember me': 'Recordarme',
+  'Confirm password': 'Confirmar contraseña',
+  'Email': 'Correo electrónico',
+
+  
+  
+
+
+
+
   'The username/password is not valid': 'El nombre de usuario/contraseña no son válidos'
 
 }
