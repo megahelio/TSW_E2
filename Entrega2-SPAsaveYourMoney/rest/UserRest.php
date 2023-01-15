@@ -213,9 +213,8 @@ class UserRest extends BaseRest
 	}
 
 	/**
-	 * 
 	 * Verifica un par de credenciales (WWW-Authenticate: Basic) dado (Pass En MD5)
-	 * DEPRECATED Usamos loginWithRemember(), esta función solo se usará para depuración
+	 * 
 	 * @throws 401 Unauthorized -> Validación Incorrecta
 	 * 
 	 * @return 200 OK -> Validación Correcta
@@ -236,7 +235,8 @@ class UserRest extends BaseRest
 		$currentUser = parent::authenticateUser(false)->getUsername();
 		$currentDate = getdate();
 		$currentDateStringed = $currentDate["year"] . "-" . $currentDate["mon"] . "-" . $currentDate["mday"];
-		if ($this->dateDiff($this->userMapper->readLastLoginDate($currentUser), $currentDateStringed) <= 30) {
+		print($currentDateStringed);
+		if ($this->dateDiff($this->userMapper->readLastLoginDate($currentUser), $currentDateStringed) > 30) {
 			$this->userMapper->updateLastLoginDate($currentUser, $currentDateStringed);
 			header($_SERVER['SERVER_PROTOCOL'] . ' 200 OK');
 			die("Hello " . $currentUser);
@@ -245,13 +245,13 @@ class UserRest extends BaseRest
 			die("You didn't login since more than 30 days. Please login again.");
 		}
 	}
-	private function dateDiff($date1, $date2)
+	private function dateDiff($date1,$date2)
 	{
-		$origin = new DateTime($date1);
-		$target = new DateTime($date2);
+		$origin = new DateTimeImmutable($date1);
+		$target = new DateTimeImmutable($date2);
 
 		$diff = $origin->diff($target, true);
-		print($origin->format("Y-m-d") . "-" . $target->format("Y-m-d") . "=" . $diff->days);
+		print($origin . "-" . $target . "=" . $diff->days);
 		return $diff->days;
 	}
 	/**
@@ -268,7 +268,7 @@ class UserRest extends BaseRest
 		$currentUser = parent::authenticateUser(false)->getUsername();
 		$currentDate = getdate();
 		$currentDateStringed = $currentDate["year"] . "-" . $currentDate["mon"] . "-" . $currentDate["mday"];
-		//print($currentDateStringed);
+		print($currentDateStringed);
 		$this->userMapper->updateLastLoginDate($currentUser, $currentDateStringed);
 		header($_SERVER['SERVER_PROTOCOL'] . ' 200 OK');
 		die("Hello " . $currentUser);

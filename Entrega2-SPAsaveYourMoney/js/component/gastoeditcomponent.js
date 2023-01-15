@@ -26,10 +26,8 @@ class GastoEditComponent extends Fronty.ModelComponent {
                         this.gastosModel.set((model) => {
                             model.errors = xhr.responseJSON;
                         });
-                        this.router.goToPage('gastos');
                     } else {
                         alert('an error has occurred during request: ' + statusText + '.' + xhr.responseText);
-                        this.router.goToPage('gastos');
                     }
                 });
 

@@ -33,12 +33,11 @@ class GastosComponent extends Fronty.ModelComponent {
 
             });
 
-            var currentDate = new Date().toISOString().slice(0, 10)
-            var lowDate = getDate12MonthsAgo()
-            //inicializo las graficas con todos los gastos de los últimos 12 meses
-            this.gastosService.findGastosByDate(lowDate, currentDate)
+            
+            //inicializo las graficas con todos los gastos
+            this.gastosService.findAllGastos()
                 .then((data) => {
-
+                    
                     this.drawGraphs(data)
                 });
             //Boton de descargar csv
@@ -51,7 +50,7 @@ class GastosComponent extends Fronty.ModelComponent {
                 var csv = tableToCSV(table);
 
                 // Create a blob of the CSV data
-                var csvData = new File([csv], "table-data.csv", { type: "text/csv" });
+                var csvData = new File([csv],"table-data.csv", { type: "text/csv" });
 
                 // Create a URL for the CSV file
                 var csvUrl = URL.createObjectURL(csvData);
@@ -67,8 +66,6 @@ class GastosComponent extends Fronty.ModelComponent {
 
         }
     }
-
-
     /**
      * Recibe la informacion de la base de datos y llama a Highcharts.chart() 
      * @param {*} originalData 
@@ -139,7 +136,7 @@ class GastosComponent extends Fronty.ModelComponent {
 
             }]
         });
-
+        
         Highcharts.chart('lineGraph', {
             title: {
                 text: ''
@@ -186,16 +183,6 @@ class GastosComponent extends Fronty.ModelComponent {
 
 }
 
-function getDate12MonthsAgo() {
-    var fecha_anterior = new Date();
-    fecha_anterior.setMonth(fecha_anterior.getMonth() - 12);
-    var anio = fecha_anterior.getFullYear();
-    var mes = (fecha_anterior.getMonth() + 1) < 10 ? '0' + (fecha_anterior.getMonth() + 1) : (fecha_anterior.getMonth() + 1);
-    var dia = fecha_anterior.getDate() < 10 ? '0' + fecha_anterior.getDate() : fecha_anterior.getDate();
-    fecha_anterior = anio + '-' + mes + '-' + dia;
-    return fecha_anterior;
-}
-
 function tableToCSV(table) {
     var rows = table.rows;
     var csv = "";
@@ -203,7 +190,7 @@ function tableToCSV(table) {
     for (var i = 0; i < rows.length; i++) {
         var row = rows[i];
         var cells = row.cells;
-        for (var j = 0; j < cells.length - 1; j++) {//-1 poque quiero descartar las acciones
+        for (var j = 0; j < cells.length-1; j++) {//-1 poque quiero descartar las acciones
             var cell = cells[j];
             var cellText = cell.innerText;
             csv += '"' + cellText + '",';
@@ -247,7 +234,7 @@ function getPieGraphDataFormated(gastosData) {
     var keys = totalEachArray.keys();
 
     for (key of keys) {
-
+        
         fractionEach.set(key, totalEachArray.get(key) / total);
     }
 
@@ -291,11 +278,7 @@ class GastoRowComponent extends Fronty.ModelComponent {
         //Boton de editar de la fila
         this.addEventListener('click', '.edit-button', (event) => {
             var gastoId = event.target.getAttribute('item');
-            this.router.goToPage('edit-gasto?id=' + gastoId)
-                .fail(() => {
-                    alert("That expense do not exist.")
-                    this.router.goToPage('gastos');
-                })
+            this.router.goToPage('edit-gasto?id=' + gastoId);
         });
 
 
