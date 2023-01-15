@@ -390,14 +390,7 @@ class GastoRest extends BaseRest
         header('Content-Type: application/json');
         echo (json_encode($gastos_array));
     }
-
-    public function uploadFile($file,$data){
-        print_r($data);
-        print_r($file);
-    }
 }
-
-
 
 // URI-MAPPING for this Rest endpoint
 $gastoRest = new GastoRest();
@@ -407,5 +400,4 @@ URIDispatcher::getInstance()
     ->map("GET",    "/gasto/$1/$2", array($gastoRest, "getGastoByDate"))
     ->map("POST", "/gasto", array($gastoRest, "createGasto"))
     ->map("PUT",    "/gasto/$1", array($gastoRest, "updateGasto"))
-    ->map("POST", "/file/$1", array($gastoRest, "uploadFile"))
     ->map("DELETE", "/gasto/$1", array($gastoRest, "deleteGasto"));
