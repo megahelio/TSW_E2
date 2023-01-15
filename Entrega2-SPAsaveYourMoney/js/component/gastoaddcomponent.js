@@ -16,43 +16,19 @@ class GastoAddComponent extends Fronty.ModelComponent {
       newGasto.fecha = $('#fecha').val();
       newGasto.descripcion = $('#descripcion').val();
 
-
-
-
+      let reader = new FileReader();
       var file = document.getElementById("uuidFichero").files[0];
-      var formData = new FormData();
-      formData.append("file", file);
 
-
-      var xhr = new XMLHttpRequest();
-      xhr.open("POST", "http://localhost/Entrega2-SPAsaveYourMoney/rest/file/111", true);
-      xhr.onload = function () {
-        if (xhr.status === 200) {
-          console.log("File uploaded successfully");
-        } else {
-          console.error("Error uploading file");
-        }
-      };
-      xhr.send(file);
-
-
-      /*fetch("http://localhost/Entrega2-SPAsaveYourMoney/rest/file/1", {
-        method: "POST",
-        body: formData
-      })
-        .then(response => response.json())
-        .then(data => {
-          console.log("Success:", data);
-        })
-        .catch(error => {
-          console.error("Error:", error);
-        });*/
+      let fileUrl = URL.createObjectURL(file);
+      let xhr = new XMLHttpRequest();
+      xhr.open("GET", fileUrl, false);
+      xhr.send();
 
       //console.log(xhr.responseText);
-      newGasto.uuidfichero = dsads1;
+      newGasto.uuidfichero = decodeURI(xhr.responseText);
       this.gastosService.addGasto(newGasto)
         .then(() => {
-          //this.router.goToPage('gastos');
+          this.router.goToPage('gastos');
         })
         .fail((xhr, errorThrown, statusText) => {
           if (xhr.status == 400) {
