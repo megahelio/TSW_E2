@@ -28,7 +28,7 @@ class UserService {
         var cookieLogin = this.getCookie("SYM_User");
         var cookiePass = this.getCookie("SYM_Pass");
         $.get({
-          url: AppConfig.backendServer + '/rest/user/loginWithCookies',
+          url: AppConfig.backendServer + '/rest/user/loginWithRemember',
           beforeSend: function (xhr) {
             xhr.setRequestHeader("Authorization", "Basic " + btoa(cookieLogin + ":" + cookiePass));
           }
@@ -68,36 +68,70 @@ class UserService {
       var MD5pass = pass;
     }
     return new Promise((resolve, reject) => {
+      if (remember) {
 
-      $.get({
-        url: AppConfig.backendServer + '/rest/user/loginWithRemember',
-        beforeSend: function (xhr) {
-          xhr.setRequestHeader("Authorization", "Basic " + btoa(login + ":" + MD5pass));
-        }
-      })
-        .then(() => {
-          if (remember) {
+        $.get({
+          url: AppConfig.backendServer + '/rest/user/loginWithRemember',
+          beforeSend: function (xhr) {
+            xhr.setRequestHeader("Authorization", "Basic " + btoa(login + ":" + MD5pass));
+          }
+        })
+          .then(() => {
+
             this.setCookie("SYM_User", login, 30);
             this.setCookie("SYM_Pass", MD5pass, 30);
+            //keep this authentication forever
+            window.sessionStorage.setItem('login', login);
+            window.sessionStorage.setItem('pass', MD5pass.toString());
+            $.ajaxSetup({
+              beforeSend: (xhr) => {
+                xhr.setRequestHeader("Authorization", "Basic " + btoa(login + ":" + MD5pass));
+              }
+            });
+            resolve();
+          })
+          .fail((error) => {
+            window.sessionStorage.removeItem('login');
+            window.sessionStorage.removeItem('pass');
+            $.ajaxSetup({
+              beforeSend: (xhr) => { }
+            });
+            reject(error);
+          });
+
+
+
+      } else {
+
+        $.get({
+          url: AppConfig.backendServer + '/rest/user/loginMD5',
+          beforeSend: function (xhr) {
+            xhr.setRequestHeader("Authorization", "Basic " + btoa(login + ":" + MD5pass));
           }
-          //keep this authentication forever
-          window.sessionStorage.setItem('login', login);
-          window.sessionStorage.setItem('pass', MD5pass.toString());
-          $.ajaxSetup({
-            beforeSend: (xhr) => {
-              xhr.setRequestHeader("Authorization", "Basic " + btoa(login + ":" + MD5pass));
-            }
-          });
-          resolve();
         })
-        .fail((error) => {
-          window.sessionStorage.removeItem('login');
-          window.sessionStorage.removeItem('pass');
-          $.ajaxSetup({
-            beforeSend: (xhr) => { }
+          .then(() => {
+            //keep this authentication forever
+            window.sessionStorage.setItem('login', login);
+            window.sessionStorage.setItem('pass', MD5pass);
+            console.log(login, MD5pass);
+            $.ajaxSetup({
+              beforeSend: (xhr) => {
+                xhr.setRequestHeader("Authorization", "Basic " + btoa(login + ":" + MD5pass));
+              }
+            });
+            resolve();
+          })
+          .fail((error) => {
+            window.sessionStorage.removeItem('login');
+            window.sessionStorage.removeItem('pass');
+            $.ajaxSetup({
+              beforeSend: (xhr) => { }
+            });
+            reject(error);
           });
-          reject(error);
-        });
+
+      }
+
 
     });
 
