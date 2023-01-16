@@ -44,13 +44,10 @@ I18n.translations = {
   'Remember me': 'Recordarme',
   'Confirm password': 'Confirmar contraseña',
   'Email': 'Correo electrónico',
-
-  
-  
-
-
-
-
+  'Refresh':'Actualizar',
+  'bills':'facturas',
+  'fuel':'combustible',
+  'food':'comida',
+  'rent':'renta',
   'The username/password is not valid': 'El nombre de usuario/contraseña no son válidos'
-
 }
