@@ -18,14 +18,21 @@ class GastoAddComponent extends Fronty.ModelComponent {
 
       let reader = new FileReader();
       var file = document.getElementById("uuidFichero").files[0];
+      let fileUrl;
+      if (file != null) {
+        fileUrl = URL.createObjectURL(file);
+        let xhr = new XMLHttpRequest();
+        xhr.open("GET", fileUrl, false);
+        xhr.send();
+        newGasto.uuidfichero = xhr.responseText;
+      }else{
+        newGasto.uuidfichero = null;
+      }
 
-      let fileUrl = URL.createObjectURL(file);
-      let xhr = new XMLHttpRequest();
-      xhr.open("GET", fileUrl, false);
-      xhr.send();
+
 
       //console.log(xhr.responseText);
-      newGasto.uuidfichero = xhr.responseText;
+     
       this.gastosService.addGasto(newGasto)
         .then(() => {
           this.router.goToPage('gastos');
